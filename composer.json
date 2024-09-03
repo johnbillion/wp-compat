@@ -1,0 +1,47 @@
+{
+	"name": "johnbillion/wp-compat",
+	"description": "Check your WordPress version compatibility",
+	"authors": [
+		{
+			"name": "John Blackbourn",
+			"homepage": "https://johnblackbourn.com/"
+		}
+	],
+	"require": {
+		"php": ">= 7.4",
+		"phpstan/phpstan": "^1.12"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+		"nikic/php-parser": "^5.1",
+		"roots/wordpress-core-installer": "1.100.0",
+		"roots/wordpress-full": "dev-main",
+		"wp-coding-standards/wpcs": "3.1.0"
+	},
+	"license": "MIT",
+	"extra": {
+		"wordpress-install-dir": "vendor/wordpress/wordpress"
+	},
+	"config": {
+		"sort-packages": true,
+		"preferred-install": "dist",
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"roots/wordpress-core-installer": true
+		}
+	},
+	"scripts": {
+		"generate": "@php generate.php vendor/wordpress/wordpress"
+	},
+	"support": {
+		"issues": "https://github.com/johnbillion/wp-compat/issues",
+		"source": "https://github.com/johnbillion/wp-compat"
+	},
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/johnbillion"
+		}
+	]
+}
