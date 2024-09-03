@@ -20,8 +20,19 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 				__DIR__ . '/data/SinceVersionRule.php',
 			],
 			[
-				// @TODO
-			]
+				[
+					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
+					9,
+				],
+				[
+					'WP_Object_Cache::flush_group() is only available since version 6.1.0.',
+					13,
+				],
+				[
+					'get_template_hierarchy() is only available since version 6.1.0.',
+					16,
+				],
+			],
 		);
 	}
 }
