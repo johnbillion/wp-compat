@@ -168,6 +168,8 @@ foreach ($files as $file) {
 	}
 }
 
+ksort($results);
+
 echo 'Scanning complete, writing data.' . PHP_EOL;
 
 // Write the results to the output file
