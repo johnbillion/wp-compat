@@ -1,0 +1,30 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"required": [
+		"$schema",
+		"symbols"
+	],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"format": "uri"
+		},
+		"symbols": {
+			"type": "object",
+			"additionalProperties": {
+				"type": "object",
+				"required": [
+					"since"
+				],
+				"properties": {
+					"since": {
+						"type": "string"
+					}
+				},
+				"additionalProperties": false
+			}
+		}
+	},
+	"additionalProperties": false
+}
