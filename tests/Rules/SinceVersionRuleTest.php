@@ -29,8 +29,12 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					13,
 				],
 				[
+					'WP_Object_Cache::flush_group() is only available since version 6.1.0.',
+					18,
+				],
+				[
 					'get_template_hierarchy() is only available since version 6.1.0.',
-					16,
+					22,
 				],
 			],
 		);
