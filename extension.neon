@@ -1,0 +1,2 @@
+rules:
+    - WPCompat\PHPStan\Rules\SinceVersionRule

@@ -7,10 +7,27 @@ Please don't open PRs or issues just yet, this is a brand new repo.
 ## Installation
 
 ```shell
-composer require johnbillion/wp-compat
+composer require --dev johnbillion/wp-compat
 ```
 
+If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) then you're all set!
+
+<details>
+  <summary>Manual installation</summary>
+
+If you don't want to use `phpstan/extension-installer`, include rules.neon in your project's PHPStan config:
+
+```
+includes:
+    - vendor/johnbillion/wp-compat/rules.neon
+```
+</details>
+
 ## Tools
+
+### PHPStan extension
+
+A PHPStan extension which determines if your code is compatible with any given version of WordPress based on the symbols that it uses.
 
 ### symbols.json
 
@@ -23,11 +40,6 @@ composer generate
 ```
 
 The JSON schema for the file can be found in [schemas/symbols.json](schemas/symbols.json).
-
-## Coming soon
-
-* A PHPStan extension which determines if your code is compatible with any given version of WordPress based on the symbols that it uses.
-* Possibly the same but for function and method parameter usage. Don't hold your breath though.
 
 ## License
 

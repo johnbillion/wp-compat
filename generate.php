@@ -1,7 +1,7 @@
 <?php
 #!/usr/bin/env php
 
-namespace WP_Compat;
+namespace WPCompat;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Error;

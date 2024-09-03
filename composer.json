@@ -1,6 +1,7 @@
 {
 	"name": "johnbillion/wp-compat",
 	"description": "Check your WordPress version compatibility",
+	"type": "phpstan-extension",
 	"authors": [
 		{
 			"name": "John Blackbourn",
@@ -14,13 +15,29 @@
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"nikic/php-parser": "^5.1",
 		"phpstan/phpstan": "^1.12",
+		"phpunit/phpunit": "^9.0",
 		"roots/wordpress-core-installer": "1.100.0",
 		"roots/wordpress-full": "dev-main",
 		"wp-coding-standards/wpcs": "3.1.0"
 	},
 	"license": "MIT",
+	"autoload": {
+		"psr-4": {
+			"WPCompat\\PHPStan\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/"
+		]
+	},
 	"extra": {
-		"wordpress-install-dir": "vendor/wordpress/wordpress"
+		"wordpress-install-dir": "vendor/wordpress/wordpress",
+		"phpstan": {
+			"includes": [
+				"extension.neon"
+			]
+		}
 	},
 	"config": {
 		"sort-packages": true,
@@ -32,7 +49,11 @@
 		}
 	},
 	"scripts": {
-		"generate": "@php generate.php vendor/wordpress/wordpress"
+		"generate": "@php generate.php vendor/wordpress/wordpress",
+		"test": [
+			"@test:phpunit"
+		],
+		"test:phpunit": "phpunit"
 	},
 	"support": {
 		"issues": "https://github.com/johnbillion/wp-compat/issues",
