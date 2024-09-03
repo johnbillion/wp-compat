@@ -8,12 +8,12 @@
 		}
 	],
 	"require": {
-		"php": ">= 7.4",
-		"phpstan/phpstan": "^1.12"
+		"php": ">= 7.4"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"nikic/php-parser": "^5.1",
+		"phpstan/phpstan": "^1.12",
 		"roots/wordpress-core-installer": "1.100.0",
 		"roots/wordpress-full": "dev-main",
 		"wp-coding-standards/wpcs": "3.1.0"
