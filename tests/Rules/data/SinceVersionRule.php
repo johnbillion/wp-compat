@@ -30,6 +30,13 @@ $query->sanitize_relation( 'AND' );
 // Static method introduced in a subsequent major (6.5.0)
 $registry = WP_Block_Bindings_Registry::get_instance();
 
+// Second call to a function introduced in a subsequent major (6.1.0) after an earlier guard that does not apply to the second call
+if ( function_exists( 'get_template_hierarchy' ) ) {
+	get_template_hierarchy( 'foo' );
+}
+get_template_hierarchy( 'foo' );
+
+
 // ============= //
 // Passing usage //
 // ============= //

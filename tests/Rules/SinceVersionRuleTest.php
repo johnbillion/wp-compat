@@ -46,6 +46,10 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'WP_Block_Bindings_Registry::get_instance() is only available since version 6.5.0.',
 					31,
 				],
+				[
+					'get_template_hierarchy() is only available since version 6.1.0.',
+					37,
+				],
 			],
 		);
 	}

@@ -68,6 +68,10 @@ final class SinceVersionRule implements Rule {
 	private function processFuncCall( FuncCall $node, Scope $scope ): array {
 		$name = self::getFunctionName( $node );
 
+		if ( $scope->isInFunctionExists( $name ) ) {
+			return [];
+		}
+
 		if ( ! isset( $this->symbols[ $name ] ) ) {
 			return [];
 		}
@@ -127,14 +131,18 @@ final class SinceVersionRule implements Rule {
 			);
 
 			if ( isset( $this->symbols[ $name ] ) ) {
-				return $this->processBoop( $name, $this->symbols[ $name ] );
+				return $this->processMethodVersion( $name, $this->symbols[ $name ] );
 			}
 		}
 
 		return [];
 	}
 
-	private function processBoop( string $name, array $symbol ): array {
+	/**
+	 * @param array{since: string} $symbol
+	 * @return list<RuleError>
+	 */
+	private function processMethodVersion( string $name, array $symbol ): array {
 		$since = $symbol['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
