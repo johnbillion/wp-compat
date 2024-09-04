@@ -27,9 +27,8 @@ class Best_Date_Query extends My_Date_Query {}
 $query = new Best_Date_Query( [] );
 $query->sanitize_relation( 'AND' );
 
-// @TODO need static method call tests
-
-
+// Static method introduced in a subsequent major (6.5.0)
+$registry = WP_Block_Bindings_Registry::get_instance();
 
 // ============= //
 // Passing usage //
@@ -72,3 +71,6 @@ $debug->get_mysql_var( 'foo' );
 
 // Function introduced in a prior major (5.8.0)
 get_adjacent_image_link();
+
+// Static method introduced in a prior major (3.7.0)
+$should_upgrade = Core_Upgrader::should_update_to_version( 'foo' );

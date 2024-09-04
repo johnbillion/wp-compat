@@ -42,6 +42,10 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
 					28,
 				],
+				[
+					'WP_Block_Bindings_Registry::get_instance() is only available since version 6.5.0.',
+					31,
+				],
 			],
 		);
 	}
