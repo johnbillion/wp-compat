@@ -2,23 +2,36 @@
 
 namespace WPCompat\PHPStan\Rules;
 
-use PHPStan\Rules\Rule;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
-use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 
+/**
+ * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Expr\CallLike>
+ */
 class SinceVersionRule implements Rule {
+	/**
+	 * @var array<string, array{since: string}>
+	 */
 	private array $symbols;
 
 	private string $minVersion;
 
 	public function __construct() {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
-		$this->symbols = json_decode( file_get_contents( $symbolsFilePath ), true )['symbols'];
+		$contents = file_get_contents( $symbolsFilePath );
+
+		if ( $contents === false ) {
+			throw new \RuntimeException( 'Failed to read symbols.json' );
+		}
+
+		$this->symbols = json_decode( $contents, true )['symbols'];
 		$this->minVersion = '6.0';
 	}
 
@@ -27,7 +40,6 @@ class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @param CallLike $node
 	 * @return list<RuleError>
 	 */
 	public function processNode( Node $node, Scope $scope ): array {
