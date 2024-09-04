@@ -21,6 +21,11 @@ if ( class_exists( 'WP_Object_Cache' ) ) {
 // Function introduced in a subsequent major (6.1.0)
 get_template_hierarchy( 'foo' );
 
+// Inherited method introduced in a subsequent major (6.1.0)
+class My_Date_Query extends WP_Date_Query {}
+$query = new My_Date_Query( [] );
+$query->sanitize_relation( 'AND' );
+
 // @TODO need static method call tests
 
 

@@ -36,6 +36,10 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'get_template_hierarchy() is only available since version 6.1.0.',
 					22,
 				],
+				[
+					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
+					27,
+				],
 			],
 		);
 	}
