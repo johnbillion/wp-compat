@@ -65,15 +65,22 @@ foreach ( $files as $file ) {
 
 		try {
 			// Parse the PHP file
-			$stmts = $parser->parse( file_get_contents( $file ) );
+			$contents = file_get_contents( $file );
+
+			if ( $contents === false ) {
+				throw new \Exception( 'Failed to read file ' . $file );
+			}
+
+			$stmts = $parser->parse( $contents );
+
+			if ( ! is_array( $stmts ) ) {
+				throw new \Exception( 'Failed to parse file ' . $file );
+			}
 
 			// Find all function and method nodes
 			// Create a new FindingVisitor instance
 			$visitor = new FindingVisitor(
-				function ( Node $node ) {
-					return $node instanceof Node\Stmt\Function_
-					|| $node instanceof Node\Stmt\ClassMethod;
-				}
+				fn ( Node $node ) => ( $node instanceof Node\Stmt\Function_ || $node instanceof Node\Stmt\ClassMethod )
 			);
 
 			// Traverse the AST and find all function and method nodes
@@ -83,6 +90,7 @@ foreach ( $files as $file ) {
 			$traverser->traverse( $stmts );
 
 			// Get the found functions and methods
+			/** @var list<Node\Stmt\Function_|Node\Stmt\ClassMethod> $functions */
 			$functions = $visitor->getFoundNodes();
 
 			// Extract the function and method names along with their @since values
@@ -92,7 +100,7 @@ foreach ( $files as $file ) {
 
 				if ( $function instanceof Node\Stmt\ClassMethod ) {
 					$class = $function->getAttribute( 'parent' );
-					if ( $class instanceof Node\Stmt\Class_ ) {
+					if ( ( $class instanceof Node\Stmt\Class_ ) && ( $class->name instanceof Node\Identifier ) ) {
 						$function_name = $class->name->toString() . '::' . $function_name;
 					}
 				}
@@ -105,51 +113,40 @@ foreach ( $files as $file ) {
 					continue;
 				}
 
-				if ( $doc_comment !== null ) {
-					if ( $doc_comment instanceof Doc ) {
-						$comment_text = $doc_comment->getText();
-						if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) ) {
-							$since = $matches[1];
+				if ( $doc_comment instanceof Doc ) {
+					$comment_text = $doc_comment->getText();
+					if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) ) {
+						$since = $matches[1];
 
-							if ( $since === 'MU' ) {
-								$since = '3.0.0';
-							}
+						if ( $since === 'MU' ) {
+							$since = '3.0.0';
+						}
 
-							if ( ! preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) ) {
-								$message = sprintf(
-									'Invalid @since value of "%s" for %s() in %s:%d',
-									$since,
-									$function_name,
-									$file_path,
-									$function->getStartLine(),
-								);
-
-								throw new \Exception( $message );
-							}
-
-							$results[ $function_name ] = array(
-								'since' => $since,
-								// 'file' => $relative_path,
-							);
-						} else {
+						if ( ! preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) ) {
 							$message = sprintf(
-								'@since tag missing for %s() in %s:%d',
+								'Invalid @since value of "%s" for %s() in %s:%d',
+								$since,
 								$function_name,
 								$file_path,
 								$function->getStartLine(),
 							);
 
-							// echo $message . PHP_EOL;
+							throw new \Exception( $message );
 						}
+
+						$results[ $function_name ] = array(
+							'since' => $since,
+							// 'file' => $relative_path,
+						);
 					} else {
 						$message = sprintf(
-							'Invalid doc comment for %s() in %s:%d',
+							'@since tag missing for %s() in %s:%d',
 							$function_name,
 							$file_path,
 							$function->getStartLine(),
 						);
 
-						throw new \Exception( $message );
+						// echo $message . PHP_EOL;
 					}
 				} else {
 					$message = sprintf(
