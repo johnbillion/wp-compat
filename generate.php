@@ -85,6 +85,8 @@ foreach ($files as $file) {
 
 			// Extract the function and method names along with their @since values
 			foreach ($functions as $function) {
+				/** @var \PhpParser\Node\Stmt\Function_|\PhpParser\Node\Stmt\ClassMethod $function */
+
 				$docComment = $function->getDocComment();
 				$functionName = $function->name->toString();
 
