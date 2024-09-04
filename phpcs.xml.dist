@@ -14,5 +14,10 @@
 
 		<!-- Use Yoda condition checks, you may or may not. -->
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
+
+		<!-- Sanity: -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+		<exclude name="WordPress.Files.FileName" />
+		<exclude name="WordPress.NamingConventions" />
 	</rule>
 </ruleset>
