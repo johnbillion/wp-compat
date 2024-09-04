@@ -7,7 +7,11 @@ use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Broker\ClassNotFoundException;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -15,7 +19,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 /**
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Expr\CallLike>
  */
-class SinceVersionRule implements Rule {
+final class SinceVersionRule implements Rule {
 	/**
 	 * @var array<string, array{since: string}>
 	 */
@@ -23,7 +27,9 @@ class SinceVersionRule implements Rule {
 
 	private string $minVersion;
 
-	public function __construct() {
+	private ReflectionProvider $reflectionProvider;
+
+	public function __construct( ReflectionProvider $reflectionProvider ) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
 		$contents = file_get_contents( $symbolsFilePath );
 
@@ -32,7 +38,8 @@ class SinceVersionRule implements Rule {
 		}
 
 		$this->symbols = json_decode( $contents, true )['symbols'];
-		$this->minVersion = '6.0';
+		$this->minVersion = '6.0.0';
+		$this->reflectionProvider = $reflectionProvider;
 	}
 
 	public function getNodeType(): string {
@@ -43,13 +50,25 @@ class SinceVersionRule implements Rule {
 	 * @return list<RuleError>
 	 */
 	public function processNode( Node $node, Scope $scope ): array {
-		if ( ( ! $node instanceof FuncCall ) && ( ! $node instanceof MethodCall ) && ( ! $node instanceof StaticCall ) ) {
-			return [];
+		if ( $node instanceof FuncCall ) {
+			return $this->processFuncCall( $node, $scope );
 		}
 
-		$name = self::getNodeName( $node );
+		// @TODO null-safe method calls
+		if ( ( $node instanceof MethodCall ) || ( $node instanceof StaticCall ) ) {
+			return $this->processMethodCall( $node, $scope );
+		}
 
-		if ( ! is_string( $name ) || ! isset( $this->symbols[ $name ] ) ) {
+		return [];
+	}
+
+	/**
+	 * @return list<RuleError>
+	 */
+	private function processFuncCall( FuncCall $node, Scope $scope ): array {
+		$name = self::getFunctionName( $node );
+
+		if ( ! isset( $this->symbols[ $name ] ) ) {
 			return [];
 		}
 
@@ -70,19 +89,86 @@ class SinceVersionRule implements Rule {
 		];
 	}
 
-	private static function getNodeName( Node $node ): ?string {
-		if ( $node instanceof FuncCall ) {
-			return (string) $node->name;
+	/**
+	 * @param MethodCall|StaticCall $node
+	 * @return list<RuleError>
+	 */
+	private function processMethodCall( CallLike $node, Scope $scope ): array {
+		$methodCalledOnType = $scope->getType( $node->var );
+		$classNames = $methodCalledOnType->getObjectClassNames();
+		$allClassNames = $classNames;
+
+		// determine the names of all the classes that this class extends from:
+		foreach ( $classNames as $className ) {
+			try {
+				$classReflection = $this->reflectionProvider->getClass( $className );
+			} catch ( ClassNotFoundException $e ) {
+				// ?
+				continue;
+			}
+
+			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
-		if ( $node instanceof MethodCall ) {
-			return (string) $node->name;
+		// var_dump( '$allClassNames', $allClassNames );
+
+		foreach ( $allClassNames as $className ) {
+			$name = sprintf(
+				'%s::%s',
+				$className,
+				self::getMethodName( $node ),
+			);
+
+			if ( isset( $this->symbols[ $name ] ) ) {
+				return $this->processBoop( $name, $this->symbols[ $name ] );
+			}
 		}
 
-		if ( $node instanceof StaticCall ) {
-			return (string) $node->name;
+		return [];
+	}
+
+	private function processBoop( string $name, array $symbol ): array {
+		$since = $symbol['since'];
+
+		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
+			return [];
 		}
 
-		return null;
+		$message = sprintf(
+			'%s() is only available since version %s.',
+			$name,
+			$since,
+		);
+
+		return [
+			RuleErrorBuilder::message( $message )->identifier( 'WPCompat.nope' )->build(),
+		];
+	}
+
+	/**
+	 * @throws \RuntimeException
+	 */
+	private static function getFunctionName( FuncCall $node ): string {
+		if ( $node->name instanceof Name ) {
+			return $node->name->toString();
+		}
+
+		throw new \RuntimeException( 'Failed to get function name' );
+	}
+
+	/**
+	 * @param MethodCall|StaticCall $node
+	 * @throws \RuntimeException
+	 */
+	private static function getMethodName( CallLike $node ): string {
+		if ( ( $node instanceof MethodCall ) && ( $node->name instanceof Identifier ) ) {
+			return $node->name->toString();
+		}
+
+		if ( ( $node instanceof StaticCall ) && ( $node->name instanceof Identifier ) ) {
+			return $node->name->toString();
+		}
+
+		throw new \RuntimeException( 'Failed to get method name' );
 	}
 }

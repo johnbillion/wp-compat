@@ -11,7 +11,9 @@ use WPCompat\PHPStan\Rules\SinceVersionRule;
  */
 class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
-		return new SinceVersionRule();
+		return new SinceVersionRule(
+			$this->createReflectionProvider()
+		);
 	}
 
 	public function testRule(): void{
@@ -38,9 +40,18 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 				],
 				[
 					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
-					27,
+					28,
 				],
 			],
 		);
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	public static function getAdditionalConfigFiles(): array {
+		return [
+			dirname( __DIR__ ) . '/tests.neon',
+		];
 	}
 }
