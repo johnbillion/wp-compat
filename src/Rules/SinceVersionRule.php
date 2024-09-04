@@ -94,8 +94,17 @@ final class SinceVersionRule implements Rule {
 	 * @return list<RuleError>
 	 */
 	private function processMethodCall( CallLike $node, Scope $scope ): array {
-		$methodCalledOnType = $scope->getType( $node->var );
-		$classNames = $methodCalledOnType->getObjectClassNames();
+		if ( $node instanceof MethodCall ) {
+			$methodCalledOnType = $scope->getType( $node->var );
+			$classNames = $methodCalledOnType->getObjectClassNames();
+		} elseif ( $node->class instanceof Name ) {
+			$classNames = [
+				$node->class->toString(),
+			];
+		} else {
+			return [];
+		}
+
 		$allClassNames = $classNames;
 
 		// determine the names of all the classes that this class extends from:
