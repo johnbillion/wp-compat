@@ -119,8 +119,6 @@ final class SinceVersionRule implements Rule {
 			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
-		// var_dump( '$allClassNames', $allClassNames );
-
 		foreach ( $allClassNames as $className ) {
 			$name = sprintf(
 				'%s::%s',
