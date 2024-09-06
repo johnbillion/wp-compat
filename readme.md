@@ -2,15 +2,17 @@
 
 WPCompat is a PHPStan extension which helps verify that your PHP code is compatible with a given version of WordPress. You can use it to help ensure that your plugin or theme remains compatible with its "Requires at least" version.
 
-It works by checking the `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1. If the code is guarded with a `function_exists( 'get_template_hierarchy' )` check then an error won't be triggered.
+It works by checking that the declared `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
+
+If your code is correctly guarded with a valid `function_exists()` check then an error won't be triggered. The extension doesn't yet support the same for `method_exists()` when calling methods, but it's on the todo list.
 
 ## Status
 
-WPCompat is a brand new extension and is far from exhaustive in its checks. It can be used but you'll almost certainly get some false positives, particularly around method usage.
+WPCompat is a brand new extension and not yet exhaustive in its checks. Version 1.0 will be released once it's stable.
 
 ## Requirements
 
-* PHPStan 12 or higher
+* PHPStan 1.12 or higher
 * PHP 7.4 or higher (tested up to PHP 8.4)
 
 ## Installation
@@ -26,19 +28,36 @@ If you also install [phpstan/extension-installer](https://github.com/phpstan/ext
 
 If you don't want to use `phpstan/extension-installer`, include extension.neon in your project's PHPStan config:
 
-```
+```neon
 includes:
     - vendor/johnbillion/wp-compat/extension.neon
 ```
 </details>
 
-## Tools
+### Configuration
 
-### PHPStan extension
+Add the minimum supported WordPress version number to the parameters in your PHPStan config file:
 
-A PHPStan extension which determines if your code is compatible with any given version of WordPress based on the symbols that it uses.
+```neon
+parameters:
+    WPCompat:
+        requiresAtLeast: 6.0
+```
 
-### symbols.json
+Any version number in `major.minor` or `major.minor.patch` format is accepted.
+
+## Ignoring errors
+
+You can ignore an error from this extension by using its `WPCompat.notAvailable` error identifier. For full information, see [the PHPStan guide on ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
+
+```php
+// @phpstan-ignore WPCompat.notAvailable
+wp_foo();
+```
+
+## Technical details
+
+This extension does not scan your project in order to detect the `@since` versions of WordPress functions and methods. This information is included in the [symbols.json](symbols.json) file that's included in the extension.
 
 The [symbols.json](symbols.json) file contains a dictionary of all functions and methods in WordPress along with the version of WordPress in which they were introduced.
 
