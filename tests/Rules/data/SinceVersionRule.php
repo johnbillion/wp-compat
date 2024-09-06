@@ -81,3 +81,13 @@ get_adjacent_image_link();
 
 // Static method introduced in a prior major (3.7.0)
 $should_upgrade = Core_Upgrader::should_update_to_version( 'foo' );
+
+function boop(): void {
+	if ( ! function_exists( 'get_adjacent_image_link' ) ) {
+		return;
+	}
+
+	// Function introduced in a prior major (5.8.0) but guarded by a return
+	get_adjacent_image_link();
+}
+boop();
