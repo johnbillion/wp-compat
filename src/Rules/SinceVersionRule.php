@@ -20,6 +20,8 @@ use PHPStan\Rules\RuleErrorBuilder;
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Expr\CallLike>
  */
 final class SinceVersionRule implements Rule {
+	private static string $identifier = 'WPCompat.notAvailable';
+
 	/**
 	 * @var array<string, array{since: string}>
 	 */
@@ -90,7 +92,7 @@ final class SinceVersionRule implements Rule {
 		);
 
 		return [
-			RuleErrorBuilder::message( $message )->identifier( 'WPCompat.nope' )->build(),
+			RuleErrorBuilder::message( $message )->identifier( self::$identifier )->build(),
 		];
 	}
 
@@ -158,7 +160,7 @@ final class SinceVersionRule implements Rule {
 		);
 
 		return [
-			RuleErrorBuilder::message( $message )->identifier( 'WPCompat.notAvailable' )->build(),
+			RuleErrorBuilder::message( $message )->identifier( self::$identifier )->build(),
 		];
 	}
 
