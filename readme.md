@@ -4,6 +4,11 @@ This work-in-progress repo will contain a collection of tools for checking and m
 
 Please don't open PRs or issues just yet, this is a brand new repo.
 
+## Requirements
+
+* PHPStan 12 or higher
+* PHP 7.4 or higher (tested up to PHP 8.4)
+
 ## Installation
 
 ```shell
