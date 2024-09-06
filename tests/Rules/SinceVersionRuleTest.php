@@ -23,31 +23,31 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 			],
 			[
 				[
-					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
+					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
 					9,
 				],
 				[
-					'WP_Object_Cache::flush_group() is only available since version 6.1.0.',
+					'WP_Object_Cache::flush_group() is only available since WordPress version 6.1.0.',
 					13,
 				],
 				[
-					'WP_Object_Cache::flush_group() is only available since version 6.1.0.',
+					'WP_Object_Cache::flush_group() is only available since WordPress version 6.1.0.',
 					18,
 				],
 				[
-					'get_template_hierarchy() is only available since version 6.1.0.',
+					'get_template_hierarchy() is only available since WordPress version 6.1.0.',
 					22,
 				],
 				[
-					'WP_Date_Query::sanitize_relation() is only available since version 6.0.3.',
+					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
 					28,
 				],
 				[
-					'WP_Block_Bindings_Registry::get_instance() is only available since version 6.5.0.',
+					'WP_Block_Bindings_Registry::get_instance() is only available since WordPress version 6.5.0.',
 					31,
 				],
 				[
-					'get_template_hierarchy() is only available since version 6.1.0.',
+					'get_template_hierarchy() is only available since WordPress version 6.1.0.',
 					37,
 				],
 			],

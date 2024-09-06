@@ -83,8 +83,9 @@ final class SinceVersionRule implements Rule {
 		}
 
 		$message = sprintf(
-			'%s() is only available since version %s.',
+			'%s() is only available since %s version %s.',
 			$name,
+			'WordPress',
 			$since,
 		);
 
@@ -150,8 +151,9 @@ final class SinceVersionRule implements Rule {
 		}
 
 		$message = sprintf(
-			'%s() is only available since version %s.',
+			'%s() is only available since %s version %s.',
 			$name,
+			'WordPress',
 			$since,
 		);
 
