@@ -68,7 +68,7 @@
 			"phpcbf -np --colors --basepath='./' ."
 		],
 		"test:phpstan": [
-			"phpstan analyze --memory-limit=1024M"
+			"phpstan analyze -v --memory-limit=1024M"
 		],
 		"generate": "@php generate.php vendor/wordpress/wordpress"
 	},
