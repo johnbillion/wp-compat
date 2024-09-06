@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WP-Compat">
+<ruleset name="WPCompat">
 	<arg name="cache" value="tests/cache/phpcs.json"/>
 
 	<arg name="extensions" value="php"/>

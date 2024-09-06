@@ -1,4 +1,4 @@
-# wp-compat
+# WPCompat
 
 This work-in-progress repo will contain a collection of tools for checking and managing the WordPress version compatibility of plugins, themes, and other WordPress tooling.
 
