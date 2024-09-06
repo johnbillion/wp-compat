@@ -31,7 +31,10 @@ final class SinceVersionRule implements Rule {
 
 	private ReflectionProvider $reflectionProvider;
 
-	public function __construct( ReflectionProvider $reflectionProvider ) {
+	public function __construct(
+		?string $requiresAtLeast,
+		ReflectionProvider $reflectionProvider,
+	) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
 		$contents = file_get_contents( $symbolsFilePath );
 
@@ -39,8 +42,14 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
 		}
 
+		if ( ! is_string( $requiresAtLeast ) ) {
+			throw new \RuntimeException(
+				'Minimum supported WordPress version number must be provided in the WPCompat.requiresAtLeast parameter.'
+			);
+		}
+
+		$this->minVersion = $requiresAtLeast;
 		$this->symbols = json_decode( $contents, true )['symbols'];
-		$this->minVersion = '6.0.0';
 		$this->reflectionProvider = $reflectionProvider;
 	}
 

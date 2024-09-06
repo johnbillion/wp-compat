@@ -12,7 +12,8 @@ use WPCompat\PHPStan\Rules\SinceVersionRule;
 class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
 		return new SinceVersionRule(
-			$this->createReflectionProvider()
+			'6.0.0',
+			$this->createReflectionProvider(),
 		);
 	}
 
