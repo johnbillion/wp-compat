@@ -156,7 +156,7 @@ final class SinceVersionRule implements Rule {
 		);
 
 		return [
-			RuleErrorBuilder::message( $message )->identifier( 'WPCompat.nope' )->build(),
+			RuleErrorBuilder::message( $message )->identifier( 'WPCompat.notAvailable' )->build(),
 		];
 	}
 
