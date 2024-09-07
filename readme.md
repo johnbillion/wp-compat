@@ -48,7 +48,7 @@ Any version number in `major.minor` or `major.minor.patch` format is accepted.
 
 ## Ignoring errors
 
-You can ignore an error from this extension by using its error identifiers. For full information, see [the PHPStan guide on ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
+You can ignore an error from this extension by using its error identifiers. For full information, see [the PHPStan guide to ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
 
 ```php
 // @phpstan-ignore WPCompat.functionNotAvailable
