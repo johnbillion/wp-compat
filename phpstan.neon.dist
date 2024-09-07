@@ -1,5 +1,6 @@
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- extension.neon
 parameters:
 	level: 8
 	paths:
@@ -10,3 +11,5 @@ parameters:
 		analyse:
 			- tests/*/data/*
 	tmpDir: ./tests/cache
+	WPCompat:
+		requiresAtLeast: '0.71'
