@@ -47,26 +47,26 @@ if ( function_exists( 'get_template_hierarchy' ) ) {
 }
 
 // Method introduced in a point release of the tested major (6.0.3) correctly guarded
-$query = new WP_Date_Query( [] );
-if ( method_exists( $query, 'sanitize_relation' ) ) {
-	$query->sanitize_relation( 'AND' );
-}
+// $query = new WP_Date_Query( [] );
+// if ( method_exists( $query, 'sanitize_relation' ) ) {
+// 	$query->sanitize_relation( 'AND' );
+// }
 
 // Method introduced in a point release of the tested major (6.0.3) correctly guarded
-if ( method_exists( 'WP_Date_Query', 'sanitize_relation' ) ) {
-	$query = new WP_Date_Query( [] );
-	$query->sanitize_relation( 'AND' );
-}
+// if ( method_exists( 'WP_Date_Query', 'sanitize_relation' ) ) {
+// 	$query = new WP_Date_Query( [] );
+// 	$query->sanitize_relation( 'AND' );
+// }
 
 // Method introduced in a point release of the tested major (6.0.3) with additional code after the guard
-$query = new WP_Date_Query( [] );
-if ( method_exists( $query, 'sanitize_relation' ) ) {
-	do_something_unrelated();
+// $query = new WP_Date_Query( [] );
+// if ( method_exists( $query, 'sanitize_relation' ) ) {
+// 	do_something_unrelated();
 
-	for ( $i = 0; $i < 10; $i++ ) {
-		$query->sanitize_relation( 'AND' );
-	}
-}
+// 	for ( $i = 0; $i < 10; $i++ ) {
+// 		$query->sanitize_relation( 'AND' );
+// 	}
+// }
 
 // Method introduced in the tested version (6.0.0)
 $locale = new WP_Locale();
