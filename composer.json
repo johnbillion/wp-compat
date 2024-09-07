@@ -1,12 +1,16 @@
 {
 	"name": "johnbillion/wp-compat",
-	"description": "Check your WordPress version compatibility",
+	"description": "PHPStan extension to help verify that your PHP code is compatible with a given version of WordPress",
 	"type": "phpstan-extension",
 	"authors": [
 		{
 			"name": "John Blackbourn",
 			"homepage": "https://johnblackbourn.com/"
 		}
+	],
+	"keywords": [
+		"phpstan",
+		"wordpress"
 	],
 	"require": {
 		"php": ">= 7.4",

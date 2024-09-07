@@ -34,7 +34,7 @@ includes:
 ```
 </details>
 
-### Configuration
+## Configuration
 
 Add the minimum supported WordPress version number to the parameters in your PHPStan config file. Note that this must be a string so it must be wrapped in quote marks.
 
