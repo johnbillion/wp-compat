@@ -13,7 +13,7 @@ WPCompat is a brand new extension and not yet exhaustive in its checks. Version 
 ## Requirements
 
 * PHPStan 1.12 or higher
-* PHP 7.4 or higher (tested up to PHP 8.4)
+* PHP 7.4 or higher (tested up to PHP 8.3)
 
 ## Installation
 
