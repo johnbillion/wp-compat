@@ -33,7 +33,7 @@ final class SinceVersionRule implements Rule {
 
 	public function __construct(
 		string $requiresAtLeast,
-		ReflectionProvider $reflectionProvider,
+		ReflectionProvider $reflectionProvider
 	) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
 		$contents = file_get_contents( $symbolsFilePath );
