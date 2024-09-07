@@ -36,12 +36,12 @@ includes:
 
 ### Configuration
 
-Add the minimum supported WordPress version number to the parameters in your PHPStan config file:
+Add the minimum supported WordPress version number to the parameters in your PHPStan config file. Note that this must be a string so it must be wrapped in quote marks.
 
 ```neon
 parameters:
     WPCompat:
-        requiresAtLeast: 6.0
+        requiresAtLeast: '6.0'
 ```
 
 Any version number in `major.minor` or `major.minor.patch` format is accepted.

@@ -21,6 +21,7 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class SinceVersionRule implements Rule {
 	private static string $identifier = 'WPCompat.notAvailable';
+	private static string $parameter = 'WPCompat › requiresAtLeast';
 
 	/**
 	 * @var array<string, array{since: string}>
@@ -44,7 +45,10 @@ final class SinceVersionRule implements Rule {
 
 		if ( ! is_string( $requiresAtLeast ) ) {
 			throw new \RuntimeException(
-				'Minimum supported WordPress version number must be provided in the WPCompat.requiresAtLeast parameter.'
+				sprintf(
+					"Minimum supported WordPress version number must be provided in the '%s' parameter",
+					self::$parameter,
+				)
 			);
 		}
 
