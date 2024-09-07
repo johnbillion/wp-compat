@@ -116,14 +116,14 @@ foreach ( $files as $file ) {
 
 				if ( $doc_comment instanceof Doc ) {
 					$comment_text = $doc_comment->getText();
-					if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) ) {
+					if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) === 1 ) {
 						$since = $matches[1];
 
 						if ( $since === 'MU' ) {
 							$since = '3.0.0';
 						}
 
-						if ( ! preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) ) {
+						if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) !== 1 ) {
 							$message = sprintf(
 								'Invalid @since value of "%s" for %s() in %s:%d',
 								$since,
