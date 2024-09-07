@@ -1,17 +1,17 @@
 rules:
-    - WPCompat\PHPStan\Rules\SinceVersionRule
+	- WPCompat\PHPStan\Rules\SinceVersionRule
 
 parameters:
-    WPCompat:
-        requiresAtLeast: null
+	WPCompat:
+		requiresAtLeast: null
 
 services:
-    -
-        class: WPCompat\PHPStan\Rules\SinceVersionRule
-        arguments:
-            requiresAtLeast: %WPCompat.requiresAtLeast%
+	-
+		class: WPCompat\PHPStan\Rules\SinceVersionRule
+		arguments:
+			requiresAtLeast: %WPCompat.requiresAtLeast%
 
 parametersSchema:
-    WPCompat: structure([
-        requiresAtLeast: schema(string(), nullable())
-    ])
+	WPCompat: structure([
+		requiresAtLeast: schema(string(), nullable())
+	])
