@@ -1,6 +1,3 @@
-rules:
-	- WPCompat\PHPStan\Rules\SinceVersionRule
-
 parameters:
 	WPCompat:
 		requiresAtLeast: null
@@ -10,8 +7,10 @@ services:
 		class: WPCompat\PHPStan\Rules\SinceVersionRule
 		arguments:
 			requiresAtLeast: %WPCompat.requiresAtLeast%
+		tags:
+			- phpstan.rules.rule
 
 parametersSchema:
 	WPCompat: structure([
-		requiresAtLeast: schema(string(), nullable())
+		requiresAtLeast: string(),
 	])

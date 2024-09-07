@@ -21,7 +21,6 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class SinceVersionRule implements Rule {
 	private static string $identifier = 'WPCompat.notAvailable';
-	private static string $parameter = 'WPCompat › requiresAtLeast';
 
 	/**
 	 * @var array<string, array{since: string}>
@@ -33,7 +32,7 @@ final class SinceVersionRule implements Rule {
 	private ReflectionProvider $reflectionProvider;
 
 	public function __construct(
-		?string $requiresAtLeast,
+		string $requiresAtLeast,
 		ReflectionProvider $reflectionProvider,
 	) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
@@ -41,15 +40,6 @@ final class SinceVersionRule implements Rule {
 
 		if ( $contents === false ) {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
-		}
-
-		if ( ! is_string( $requiresAtLeast ) ) {
-			throw new \RuntimeException(
-				sprintf(
-					"Minimum supported WordPress version number must be provided in the '%s' parameter",
-					self::$parameter,
-				)
-			);
 		}
 
 		$this->minVersion = $requiresAtLeast;
