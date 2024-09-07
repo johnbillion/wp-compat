@@ -9,7 +9,7 @@ use WPCompat\PHPStan\Rules\SinceVersionRule;
 /**
  * @extends \PHPStan\Testing\RuleTestCase<\WPCompat\Rules\SinceVersionRule>
  */
-class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
+class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
 		return new SinceVersionRule(
 			'6.0.0',
@@ -20,7 +20,7 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 	public function testRule(): void{
 		$this->analyse(
 			[
-				__DIR__ . '/data/SinceVersionRule.php',
+				__DIR__ . '/data/SinceVersion.php',
 			],
 			[
 				[
