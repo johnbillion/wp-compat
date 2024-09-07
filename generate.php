@@ -45,6 +45,7 @@ $excluded_paths = array(
 	'wp-includes/sodium_compat/',
 	'wp-includes/atomlib.php',
 	'wp-includes/class-json.php',
+	'wp-includes/compat.php',
 );
 
 echo 'Scanning and collating symbols...' . PHP_EOL;

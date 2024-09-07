@@ -10927,9 +10927,6 @@
         "_get_wptexturize_split_regex": {
             "since": "4.4.0"
         },
-        "_hash_hmac": {
-            "since": "3.2.0"
-        },
         "_http_build_query": {
             "since": "3.2.0"
         },
@@ -10941,9 +10938,6 @@
         },
         "_inject_theme_attribute_in_template_part_block": {
             "since": "6.4.0"
-        },
-        "_is_utf8_charset": {
-            "since": "6.6.1"
         },
         "_is_valid_nav_menu_item": {
             "since": "3.2.0"
@@ -11001,12 +10995,6 @@
         },
         "_maybe_update_themes": {
             "since": "2.7.0"
-        },
-        "_mb_strlen": {
-            "since": "4.2.0"
-        },
-        "_mb_substr": {
-            "since": "3.2.0"
         },
         "_mce_set_direction": {
             "since": "2.1.0"
@@ -11337,9 +11325,6 @@
         },
         "_wp_call_all_hook": {
             "since": "2.5.0"
-        },
-        "_wp_can_use_pcre_u": {
-            "since": "4.2.2"
         },
         "_wp_check_alternate_file_names": {
             "since": "5.8.1"
@@ -11946,15 +11931,6 @@
         },
         "apply_shortcodes": {
             "since": "5.4.0"
-        },
-        "array_is_list": {
-            "since": "6.5.0"
-        },
-        "array_key_first": {
-            "since": "5.9.0"
-        },
-        "array_key_last": {
-            "since": "5.9.0"
         },
         "atom_enclosure": {
             "since": "2.2.0"
@@ -14845,12 +14821,6 @@
         "has_term_meta": {
             "since": "4.9.0"
         },
-        "hash_equals": {
-            "since": "3.9.2"
-        },
-        "hash_hmac": {
-            "since": "3.2.0"
-        },
         "have_comments": {
             "since": "2.2.0"
         },
@@ -15084,9 +15054,6 @@
         },
         "is_comments_popup": {
             "since": "1.5.0"
-        },
-        "is_countable": {
-            "since": "4.9.6"
         },
         "is_customize_preview": {
             "since": "4.0.0"
@@ -15543,12 +15510,6 @@
         },
         "maybe_unserialize": {
             "since": "2.0.0"
-        },
-        "mb_strlen": {
-            "since": "4.2.0"
-        },
-        "mb_substr": {
-            "since": "3.2.0"
         },
         "mbstring_binary_safe_encoding": {
             "since": "3.7.0"
@@ -17280,15 +17241,6 @@
         },
         "sticky_class": {
             "since": "2.7.0"
-        },
-        "str_contains": {
-            "since": "5.9.0"
-        },
-        "str_ends_with": {
-            "since": "5.9.0"
-        },
-        "str_starts_with": {
-            "since": "5.9.0"
         },
         "stream_preview_image": {
             "since": "2.9.0"
