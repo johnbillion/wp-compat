@@ -7,6 +7,7 @@ use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -92,6 +93,10 @@ final class SinceVersionRule implements Rule {
 			];
 		}
 
+		if ( ! is_string( $name ) ) {
+			return [];
+		}
+
 		if ( $scope->isInFunctionExists( $name ) ) {
 			return [];
 		}
@@ -157,6 +162,10 @@ final class SinceVersionRule implements Rule {
 				];
 			}
 
+			if ( ! is_string( $methodName ) ) {
+				continue;
+			}
+
 			$name = sprintf(
 				'%s::%s',
 				$className,
@@ -197,14 +206,18 @@ final class SinceVersionRule implements Rule {
 	/**
 	 * @throws \RuntimeException
 	 */
-	private static function getFunctionName( FuncCall $node, Scope $scope ): string {
+	private static function getFunctionName( FuncCall $node, Scope $scope ): ?string {
 		if ( $node->name instanceof Name ) {
 			return $node->name->toString();
 		}
 
+		if ( $node->name instanceof Variable ) {
+			return null;
+		}
+
 		throw new \RuntimeException(
 			self::error(
-				'Failed to get function name from %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
+				'Failed to get function name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
 				$node,
 				$scope,
 			)
@@ -215,30 +228,34 @@ final class SinceVersionRule implements Rule {
 	 * @param MethodCall|StaticCall $node
 	 * @throws \RuntimeException
 	 */
-	private static function getMethodName( CallLike $node, Scope $scope ): string {
-		if ( ( $node instanceof MethodCall ) && ( $node->name instanceof Identifier ) ) {
+	private static function getMethodName( CallLike $node, Scope $scope ): ?string {
+		if ( $node->name instanceof Identifier ) {
 			return $node->name->toString();
 		}
 
-		if ( ( $node instanceof StaticCall ) && ( $node->name instanceof Identifier ) ) {
-			return $node->name->toString();
+		if ( $node->name instanceof Variable ) {
+			return null;
 		}
 
 		throw new \RuntimeException(
 			self::error(
-				'Failed to get method name from %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
+				'Failed to get method name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
 				$node,
 				$scope,
 			)
 		);
 	}
 
-	private static function error( string $message, Node $node, Scope $scope ): string {
+	/**
+	 * @param FuncCall|MethodCall|StaticCall $node
+	 */
+	private static function error( string $message, CallLike $node, Scope $scope ): string {
 		$filename = $scope->getFile();
 		$filename = str_replace( getcwd() . '/', '', $filename );
 
 		return sprintf(
 			$message,
+			$node->name::class,
 			$filename,
 			$node->getStartLine(),
 		);
