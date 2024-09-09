@@ -16,9 +16,6 @@
         "Automatic_Upgrader_Skin::request_filesystem_credentials": {
             "since": "3.7.0"
         },
-        "Basic::__construct": {
-            "since": "2.0"
-        },
         "Bulk_Plugin_Upgrader_Skin::add_strings": {
             "since": "3.0.0"
         },
@@ -90,9 +87,6 @@
         },
         "Core_Upgrader::upgrade_strings": {
             "since": "2.8.0"
-        },
-        "Curl::stream_body": {
-            "since": "1.6.1"
         },
         "Custom_Background::__construct": {
             "since": "3.0.0"
@@ -229,45 +223,6 @@
         "File_Upload_Upgrader::cleanup": {
             "since": "3.2.2"
         },
-        "Gettext_Translations::gettext_select_plural_form": {
-            "since": "2.8.0"
-        },
-        "Gettext_Translations::make_headers": {
-            "since": "2.8.0"
-        },
-        "Gettext_Translations::make_plural_form_function": {
-            "since": "2.8.0"
-        },
-        "Gettext_Translations::nplurals_and_expression_from_header": {
-            "since": "2.8.0"
-        },
-        "Gettext_Translations::parenthesize_plural_exression": {
-            "since": "2.8.0"
-        },
-        "Gettext_Translations::set_header": {
-            "since": "2.8.0"
-        },
-        "Http::__construct": {
-            "since": "1.6"
-        },
-        "Http::curl_before_send": {
-            "since": "1.6"
-        },
-        "Http::fsockopen_header": {
-            "since": "1.6"
-        },
-        "Http::fsockopen_remote_host_path": {
-            "since": "1.6"
-        },
-        "Http::fsockopen_remote_socket": {
-            "since": "1.6"
-        },
-        "Http::get_auth_string": {
-            "since": "1.6"
-        },
-        "Http::register": {
-            "since": "1.6"
-        },
         "Language_Pack_Upgrader::async_upgrade": {
             "since": "3.7.0"
         },
@@ -303,33 +258,6 @@
         },
         "Language_Pack_Upgrader_Skin::error": {
             "since": "3.7.0"
-        },
-        "NOOP_Translations::get_header": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::get_plural_forms_count": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::merge_with": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::select_plural_form": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::set_header": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::set_headers": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::translate": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::translate_entry": {
-            "since": "2.8.0"
-        },
-        "NOOP_Translations::translate_plural": {
-            "since": "2.8.0"
         },
         "Plugin_Installer_Skin::__construct": {
             "since": "2.8.0"
@@ -384,21 +312,6 @@
         },
         "Plugin_Upgrader_Skin::after": {
             "since": "2.8.0"
-        },
-        "Plural_Forms::__construct": {
-            "since": "4.9.0"
-        },
-        "Plural_Forms::execute": {
-            "since": "4.9.0"
-        },
-        "Plural_Forms::get": {
-            "since": "4.9.0"
-        },
-        "Plural_Forms::parse": {
-            "since": "4.9.0"
-        },
-        "Requests::compatible_gzinflate": {
-            "since": "1.6.0"
         },
         "Theme_Installer_Skin::__construct": {
             "since": "2.8.0"
@@ -455,51 +368,6 @@
             "since": "2.8.0"
         },
         "Theme_Upgrader_Skin::after": {
-            "since": "2.8.0"
-        },
-        "Translation_Entry::Translation_Entry": {
-            "since": "2.8.0"
-        },
-        "Translation_Entry::key": {
-            "since": "2.8.0"
-        },
-        "Translation_Entry::merge_with": {
-            "since": "2.8.0"
-        },
-        "Translations::add_entry": {
-            "since": "2.8.0"
-        },
-        "Translations::add_entry_or_merge": {
-            "since": "2.8.0"
-        },
-        "Translations::get_header": {
-            "since": "2.8.0"
-        },
-        "Translations::get_plural_forms_count": {
-            "since": "2.8.0"
-        },
-        "Translations::merge_originals_with": {
-            "since": "2.8.0"
-        },
-        "Translations::merge_with": {
-            "since": "2.8.0"
-        },
-        "Translations::select_plural_form": {
-            "since": "2.8.0"
-        },
-        "Translations::set_header": {
-            "since": "2.8.0"
-        },
-        "Translations::set_headers": {
-            "since": "2.8.0"
-        },
-        "Translations::translate": {
-            "since": "2.8.0"
-        },
-        "Translations::translate_entry": {
-            "since": "2.8.0"
-        },
-        "Translations::translate_plural": {
             "since": "2.8.0"
         },
         "WP::add_query_var": {
