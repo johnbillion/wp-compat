@@ -45,6 +45,10 @@ class Another_Date_Query extends WP_Date_Query {
 $query = new Another_Date_Query( [] );
 $query->foo();
 
+// Temporary test while we look for all the weird ways to call a function:
+$function_name = $_GET['foo'];
+$function_name();
+
 
 // ============= //
 // Passing usage //

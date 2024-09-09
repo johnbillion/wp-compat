@@ -55,6 +55,10 @@ class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
 					42,
 				],
+				[
+					'Failed to get function name from tests/Rules/data/SinceVersion.php:50. Please report this to https://github.com/johnbillion/wp-compat/issues.',
+					50,
+				],
 			],
 		);
 	}
