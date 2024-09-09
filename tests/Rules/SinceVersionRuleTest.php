@@ -51,6 +51,10 @@ class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 					'get_template_hierarchy() is only available since WordPress version 6.1.0.',
 					37,
 				],
+				[
+					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
+					42,
+				],
 			],
 		);
 	}

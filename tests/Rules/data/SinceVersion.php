@@ -36,6 +36,15 @@ if ( function_exists( 'get_template_hierarchy' ) ) {
 }
 get_template_hierarchy( 'foo' );
 
+class Another_Date_Query extends WP_Date_Query {
+	public function foo() {
+		// Calling a method on this instance introduced in a subsequent major (6.1.0)
+		$this->sanitize_relation( 'AND' );
+	}
+}
+$query = new Another_Date_Query( [] );
+$query->foo();
+
 
 // ============= //
 // Passing usage //
