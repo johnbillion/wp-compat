@@ -255,7 +255,7 @@ final class SinceVersionRule implements Rule {
 
 		return sprintf(
 			$message,
-			$node->name::class,
+			get_class( $node->name ),
 			$filename,
 			$node->getStartLine(),
 		);
