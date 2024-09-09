@@ -43,9 +43,20 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
 		}
 
-		$this->minVersion = $requiresAtLeast;
+		$this->minVersion = self::normaliseVersion( $requiresAtLeast );
 		$this->symbols = json_decode( $contents, true )['symbols'];
 		$this->reflectionProvider = $reflectionProvider;
+	}
+
+	private static function normaliseVersion( string $minVersion ): string {
+		// Convert a major.minor or major.minor.patch string to a major.minor.patch string:
+		$parts = explode( '.', $minVersion );
+
+		if ( count( $parts ) === 2 ) {
+			$parts[] = '0';
+		}
+
+		return implode( '.', $parts );
 	}
 
 	public function getNodeType(): string {
