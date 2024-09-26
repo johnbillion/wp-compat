@@ -68,10 +68,10 @@
 			"@php -d memory_limit=1024M vendor/bin/phpunit"
 		],
 		"test:phpcs": [
-			"phpcs -nps --colors --report-code --report-summary --report-width=80 --cache=tests/cache/phpcs.json --basepath='./' ."
+			"phpcs -ps --colors --report-code --report-summary --report-width=80 --cache=tests/cache/phpcs.json --basepath='./' ."
 		],
 		"test:phpcbf": [
-			"phpcbf -np --colors --basepath='./' ."
+			"phpcbf -p --colors --basepath='./' ."
 		],
 		"test:phpstan": [
 			"phpstan analyze -v --memory-limit=1024M"

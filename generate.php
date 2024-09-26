@@ -140,7 +140,6 @@ foreach ( $files as $file ) {
 
 						$results[ $function_name ] = array(
 							'since' => $since,
-							// 'file' => $relative_path,
 						);
 					} else {
 						$message = sprintf(
