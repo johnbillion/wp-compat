@@ -13,6 +13,7 @@ class CompatTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
 		return new SinceVersionRule(
 			'1.0',
+			null,
 			self::createReflectionProvider(),
 		);
 	}

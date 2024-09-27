@@ -35,7 +35,8 @@ final class SinceVersionRule implements Rule {
 	private ReflectionProvider $reflectionProvider;
 
 	public function __construct(
-		string $requiresAtLeast,
+		?string $requiresAtLeast,
+		?string $pluginFile,
 		ReflectionProvider $reflectionProvider
 	) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
@@ -45,9 +46,77 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
 		}
 
-		$this->minVersion = self::normaliseVersion( $requiresAtLeast );
+		$minVersion = $requiresAtLeast ?? self::getRequiresAtLeastValue( $pluginFile );
+
+		$this->minVersion = self::normaliseVersion( $minVersion );
 		$this->symbols = json_decode( $contents, true )['symbols'];
 		$this->reflectionProvider = $reflectionProvider;
+	}
+
+	private static function getRequiresAtLeastValue( ?string $pluginFile ): string {
+		$files = [];
+		$cwd = getcwd();
+
+		if ( is_string( $pluginFile ) ) {
+			$files[] = $pluginFile;
+		} elseif ( is_string( $cwd ) ) {
+			$base = basename( $cwd );
+			$files[] = "{$cwd}/{$base}.php";
+			$files[] = "{$cwd}/plugin.php";
+			$files[] = "{$cwd}/style.css";
+		}
+
+		foreach ( $files as $file ) {
+			$path = self::realPath( $file );
+
+			if ( ! is_string( $path ) || ! file_exists( $path ) ) {
+				continue;
+			}
+
+			// Pull only the first 8 KB of the file in.
+			$file_data = file_get_contents( $path, false, null, 0, 8 * 1024 );
+
+			if ( false === $file_data ) {
+				throw new \RuntimeException(
+					sprintf(
+						'Could not read file %s',
+						$file,
+					)
+				);
+			}
+
+			// Make sure we catch CR-only line endings.
+			$file_data = str_replace( "\r", "\n", $file_data );
+
+			// Look for the Requires at least: line.
+			$matched = preg_match( '/^[ \t\/*#@]*Requires at least:(.*)$/mi', $file_data, $match );
+
+			if ( $matched === 1 && $match[1] !== '' ) {
+				return (string) preg_replace( '#[^0-9\.]#', '', $match[1] );
+			}
+
+			throw new \RuntimeException(
+				sprintf(
+					'Could not read "Requires at least" value from file %s',
+					$file,
+				)
+			);
+		}
+
+		throw new \RuntimeException( 'No plugin or theme file found' );
+	}
+
+	/**
+	 * @return string|false
+	 */
+	private static function realPath( string $file ) {
+		$path = realpath( $file );
+
+		if ( is_string( $path ) ) {
+			return $path;
+		}
+
+		return realpath( getcwd() . DIRECTORY_SEPARATOR . $file );
 	}
 
 	private static function normaliseVersion( string $minVersion ): string {
@@ -259,5 +328,9 @@ final class SinceVersionRule implements Rule {
 			$filename,
 			$node->getStartLine(),
 		);
+	}
+
+	public function getMinVersion(): string {
+		return $this->minVersion;
 	}
 }
