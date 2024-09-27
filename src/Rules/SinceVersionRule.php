@@ -73,37 +73,46 @@ final class SinceVersionRule implements Rule {
 				continue;
 			}
 
-			// Pull only the first 8 KB of the file in.
-			$file_data = file_get_contents( $path, false, null, 0, 8 * 1024 );
+			return self::getRequiresAtLeastHeader( $path );
+		}
 
-			if ( false === $file_data ) {
-				throw new \RuntimeException(
-					sprintf(
-						'Could not read file %s',
-						$file,
-					)
-				);
-			}
+		throw new \RuntimeException( 'No plugin or theme file found' );
+	}
 
-			// Make sure we catch CR-only line endings.
-			$file_data = str_replace( "\r", "\n", $file_data );
+	/**
+	 * The logic in this method matches the logic in WordPress core's get_plugin_data() function.
+	 */
+	private static function getRequiresAtLeastHeader( string $pluginFile ): string {
+		$contents = file_get_contents( $pluginFile );
 
-			// Look for the Requires at least: line.
-			$matched = preg_match( '/^[ \t\/*#@]*Requires at least:(.*)$/mi', $file_data, $match );
-
-			if ( $matched === 1 && $match[1] !== '' ) {
-				return (string) preg_replace( '#[^0-9\.]#', '', $match[1] );
-			}
-
+		if ( ! is_string( $contents ) ) {
 			throw new \RuntimeException(
 				sprintf(
-					'Could not read "Requires at least" value from file %s',
-					$file,
+					'Failed to read file %s',
+					$pluginFile,
 				)
 			);
 		}
 
-		throw new \RuntimeException( 'No plugin or theme file found' );
+		// Pull only the first 8 KB of the file in.
+		$file_data = substr( $contents, 0, 8 * 1024 );
+
+		// Make sure we catch CR-only line endings.
+		$file_data = str_replace( "\r", "\n", $file_data );
+
+		// Look for the Requires at least: line.
+		$matched = preg_match( '/^[ \t\/*#@]*Requires at least:(.*)$/mi', $file_data, $match );
+
+		if ( $matched === 1 && $match[1] !== '' ) {
+			return (string) preg_replace( '#[^0-9\.]#', '', $match[1] );
+		}
+
+		throw new \RuntimeException(
+			sprintf(
+				'Could not read "Requires at least" value from file %s',
+				$pluginFile,
+			)
+		);
 	}
 
 	/**
