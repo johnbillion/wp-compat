@@ -3,6 +3,7 @@
 namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -312,6 +313,10 @@ final class SinceVersionRule implements Rule {
 		}
 
 		if ( $node->name instanceof Variable ) {
+			return null;
+		}
+
+		if ( $node->name instanceof Concat ) {
 			return null;
 		}
 
