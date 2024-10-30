@@ -207,7 +207,7 @@ final class SinceVersionRule implements Rule {
 			return false;
 		}
 
-		$methodName = self::getMethodName( $node );
+		$methodName = self::getMethodName( $node, $scope );
 
 		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME, [] );
 		foreach ( $inMethodExists as [$objectOrClass, $method] ) {
@@ -270,7 +270,7 @@ final class SinceVersionRule implements Rule {
 			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
-		$methodName = self::getMethodName( $node );
+		$methodName = self::getMethodName( $node, $scope );
 		foreach ( $allClassNames as $className ) {
 			try {
 				$methodName = self::getMethodName( $node, $scope );
