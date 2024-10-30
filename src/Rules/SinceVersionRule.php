@@ -100,6 +100,40 @@ final class SinceVersionRule implements Rule {
 		];
 	}
 
+	private function isInMethodExists( CallLike $node, Scope $scope ): bool {
+		if ( ! $node instanceof MethodCall ) {
+			return false;
+		}
+
+		$methodName = self::getMethodName( $node );
+
+		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME );
+		foreach ( $inMethodExists as [$objectOrClass, $method] ) {
+			if ( $methodName !== $method->value ) {
+				continue;
+			}
+
+			if (
+				$objectOrClass instanceof Node\Expr\Variable
+				&& $node->var instanceof Node\Expr\Variable
+			) {
+				if ( $node->var->name === $objectOrClass->name ) {
+					return true;
+				}
+			}
+
+			$classNames = $scope->getType( $node->var )->getObjectClassNames();
+			if (
+				$objectOrClass instanceof Node\Scalar\String_
+				&& in_array( $objectOrClass->value, $classNames, true )
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * @param MethodCall|StaticCall $node
 	 * @return list<RuleError>
@@ -113,6 +147,10 @@ final class SinceVersionRule implements Rule {
 				$node->class->toString(),
 			];
 		} else {
+			return [];
+		}
+
+		if ( $this->isInMethodExists( $node, $scope ) ) {
 			return [];
 		}
 
@@ -130,11 +168,12 @@ final class SinceVersionRule implements Rule {
 			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
+		$methodName = self::getMethodName( $node );
 		foreach ( $allClassNames as $className ) {
 			$name = sprintf(
 				'%s::%s',
 				$className,
-				self::getMethodName( $node ),
+				$methodName,
 			);
 
 			if ( isset( $this->symbols[ $name ] ) ) {

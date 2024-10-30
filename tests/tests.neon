@@ -1,3 +1,9 @@
 parameters:
 	bootstrapFiles:
 		- ../vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+
+services:
+	-
+		class: WPCompat\PHPStan\Rules\MethodExistsVisitor
+		tags:
+			- phpstan.parser.richParserNodeVisitor

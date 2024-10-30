@@ -10,6 +10,11 @@ services:
 		tags:
 			- phpstan.rules.rule
 
+	-
+		class: WPCompat\PHPStan\Rules\MethodExistsVisitor
+		tags:
+			- phpstan.parser.richParserNodeVisitor
+
 parametersSchema:
 	WPCompat: structure([
 		requiresAtLeast: string(),
