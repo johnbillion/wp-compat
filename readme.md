@@ -4,7 +4,7 @@ WPCompat is a PHPStan extension which helps verify that your PHP code is compati
 
 It works by checking that the declared `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin or theme supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
 
-If your code is correctly guarded with a valid `function_exists()` check then an error won't be triggered. The extension doesn't yet support the same for `method_exists()` when calling methods, but it's on the todo list.
+If your code is correctly guarded with a valid `function_exists()` or `method_exists()` check then an error won't be triggered.
 
 ## Status
 
