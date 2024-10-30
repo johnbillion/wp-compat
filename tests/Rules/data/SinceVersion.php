@@ -118,6 +118,11 @@ $concat = $_GET['foo'];
 TestClass::{'template_args_' . $concat}();
 $test_instance->{'template_args_' . $concat}();
 
+// Encapsed string method name:
+$foo = $_GET['foo'];
+TestClass::{"template_args_$foo"}();
+$test_instance->{"template_args_$foo"}();
+
 // Closure:
 $my_closure = function() {};
 $my_closure();

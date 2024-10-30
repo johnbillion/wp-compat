@@ -312,21 +312,7 @@ final class SinceVersionRule implements Rule {
 			return $node->name->toString();
 		}
 
-		if ( $node->name instanceof Variable ) {
-			return null;
-		}
-
-		if ( $node->name instanceof Concat ) {
-			return null;
-		}
-
-		throw new \RuntimeException(
-			self::error(
-				'Failed to get method name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
-				$node,
-				$scope,
-			)
-		);
+		return null;
 	}
 
 	/**
