@@ -3,10 +3,12 @@
 namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -22,6 +24,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 final class SinceVersionRule implements Rule {
 	private static string $functionIdentifier = 'WPCompat.functionNotAvailable';
 	private static string $methodIdentifier = 'WPCompat.methodNotAvailable';
+	private static string $errorIdentifier = 'WPCompat.error';
 
 	/**
 	 * @var array<string, array{since: string}>
@@ -33,7 +36,8 @@ final class SinceVersionRule implements Rule {
 	private ReflectionProvider $reflectionProvider;
 
 	public function __construct(
-		string $requiresAtLeast,
+		?string $requiresAtLeast,
+		?string $pluginFile,
 		ReflectionProvider $reflectionProvider
 	) {
 		$symbolsFilePath = dirname( __DIR__, 2 ) . '/symbols.json';
@@ -43,9 +47,97 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
 		}
 
-		$this->minVersion = $requiresAtLeast;
+		$minVersion = $requiresAtLeast ?? self::getRequiresAtLeastValue( $pluginFile );
+
+		$this->minVersion = self::normaliseVersion( $minVersion );
 		$this->symbols = json_decode( $contents, true )['symbols'];
 		$this->reflectionProvider = $reflectionProvider;
+	}
+
+	private static function getRequiresAtLeastValue( ?string $pluginFile ): string {
+		$files = [];
+		$cwd = getcwd();
+
+		if ( is_string( $pluginFile ) ) {
+			$files[] = $pluginFile;
+		} elseif ( is_string( $cwd ) ) {
+			$base = basename( $cwd );
+			$files[] = "{$cwd}/{$base}.php";
+			$files[] = "{$cwd}/plugin.php";
+			$files[] = "{$cwd}/style.css";
+		}
+
+		foreach ( $files as $file ) {
+			$path = self::realPath( $file );
+
+			if ( ! is_string( $path ) || ! file_exists( $path ) ) {
+				continue;
+			}
+
+			return self::getRequiresAtLeastHeader( $path );
+		}
+
+		throw new \RuntimeException( 'No plugin or theme file found' );
+	}
+
+	/**
+	 * The logic in this method matches the logic in WordPress core's get_plugin_data() function.
+	 */
+	private static function getRequiresAtLeastHeader( string $pluginFile ): string {
+		$contents = file_get_contents( $pluginFile );
+
+		if ( ! is_string( $contents ) ) {
+			throw new \RuntimeException(
+				sprintf(
+					'Failed to read file %s',
+					$pluginFile,
+				)
+			);
+		}
+
+		// Pull only the first 8 KB of the file in.
+		$file_data = substr( $contents, 0, 8 * 1024 );
+
+		// Make sure we catch CR-only line endings.
+		$file_data = str_replace( "\r", "\n", $file_data );
+
+		// Look for the Requires at least: line.
+		$matched = preg_match( '/^[ \t\/*#@]*Requires at least:(.*)$/mi', $file_data, $match );
+
+		if ( $matched === 1 && $match[1] !== '' ) {
+			return (string) preg_replace( '#[^0-9\.]#', '', $match[1] );
+		}
+
+		throw new \RuntimeException(
+			sprintf(
+				'Could not read "Requires at least" value from file %s',
+				$pluginFile,
+			)
+		);
+	}
+
+	/**
+	 * @return string|false
+	 */
+	private static function realPath( string $file ) {
+		$path = realpath( $file );
+
+		if ( is_string( $path ) ) {
+			return $path;
+		}
+
+		return realpath( getcwd() . DIRECTORY_SEPARATOR . $file );
+	}
+
+	private static function normaliseVersion( string $minVersion ): string {
+		// Convert a major.minor or major.minor.patch string to a major.minor.patch string:
+		$parts = explode( '.', $minVersion );
+
+		if ( count( $parts ) === 2 ) {
+			$parts[] = '0';
+		}
+
+		return implode( '.', $parts );
 	}
 
 	public function getNodeType(): string {
@@ -72,7 +164,17 @@ final class SinceVersionRule implements Rule {
 	 * @return list<RuleError>
 	 */
 	private function processFuncCall( FuncCall $node, Scope $scope ): array {
-		$name = self::getFunctionName( $node );
+		try {
+			$name = self::getFunctionName( $node, $scope );
+		} catch ( \RuntimeException $e ) {
+			return [
+				RuleErrorBuilder::message( $e->getMessage() )->identifier( self::$errorIdentifier )->build(),
+			];
+		}
+
+		if ( ! is_string( $name ) ) {
+			return [];
+		}
 
 		if ( $scope->isInFunctionExists( $name ) ) {
 			return [];
@@ -170,6 +272,18 @@ final class SinceVersionRule implements Rule {
 
 		$methodName = self::getMethodName( $node );
 		foreach ( $allClassNames as $className ) {
+			try {
+				$methodName = self::getMethodName( $node, $scope );
+			} catch ( \RuntimeException $e ) {
+				return [
+					RuleErrorBuilder::message( $e->getMessage() )->identifier( self::$errorIdentifier )->build(),
+				];
+			}
+
+			if ( ! is_string( $methodName ) ) {
+				continue;
+			}
+
 			$name = sprintf(
 				'%s::%s',
 				$className,
@@ -210,27 +324,66 @@ final class SinceVersionRule implements Rule {
 	/**
 	 * @throws \RuntimeException
 	 */
-	private static function getFunctionName( FuncCall $node ): string {
+	private static function getFunctionName( FuncCall $node, Scope $scope ): ?string {
 		if ( $node->name instanceof Name ) {
 			return $node->name->toString();
 		}
 
-		throw new \RuntimeException( 'Failed to get function name' );
+		if ( $node->name instanceof Variable ) {
+			return null;
+		}
+
+		throw new \RuntimeException(
+			self::error(
+				'Failed to get function name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
+				$node,
+				$scope,
+			)
+		);
 	}
 
 	/**
 	 * @param MethodCall|StaticCall $node
 	 * @throws \RuntimeException
 	 */
-	private static function getMethodName( CallLike $node ): string {
-		if ( ( $node instanceof MethodCall ) && ( $node->name instanceof Identifier ) ) {
+	private static function getMethodName( CallLike $node, Scope $scope ): ?string {
+		if ( $node->name instanceof Identifier ) {
 			return $node->name->toString();
 		}
 
-		if ( ( $node instanceof StaticCall ) && ( $node->name instanceof Identifier ) ) {
-			return $node->name->toString();
+		if ( $node->name instanceof Variable ) {
+			return null;
 		}
 
-		throw new \RuntimeException( 'Failed to get method name' );
+		if ( $node->name instanceof Concat ) {
+			return null;
+		}
+
+		throw new \RuntimeException(
+			self::error(
+				'Failed to get method name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
+				$node,
+				$scope,
+			)
+		);
+	}
+
+	/**
+	 * @param FuncCall|MethodCall|StaticCall $node
+	 */
+	private static function error( string $message, CallLike $node, Scope $scope ): string {
+		$filename = $scope->getFile();
+		$filename = str_replace( getcwd() . '/', '', $filename );
+
+		return sprintf(
+			$message,
+			get_class( $node->name ),
+			$filename,
+			$node->getStartLine(),
+		);
+	}
+
+	public function getMinVersion(): string {
+		return $this->minVersion;
 	}
 }

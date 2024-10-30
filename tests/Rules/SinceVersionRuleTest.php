@@ -7,17 +7,18 @@ namespace WPCompat\PHPStan\Tests;
 use WPCompat\PHPStan\Rules\SinceVersionRule;
 
 /**
- * @extends \PHPStan\Testing\RuleTestCase<\WPCompat\Rules\SinceVersionRule>
+ * @extends \PHPStan\Testing\RuleTestCase<\WPCompat\PHPStan\Rules\SinceVersionRule>
  */
 class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
 		return new SinceVersionRule(
-			'6.0.0',
-			$this->createReflectionProvider(),
+			'6.0',
+			null,
+			self::createReflectionProvider(),
 		);
 	}
 
-	public function testRule(): void{
+	public function testRule(): void {
 		$this->analyse(
 			[
 				__DIR__ . '/data/SinceVersion.php',
@@ -50,6 +51,10 @@ class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 				[
 					'get_template_hierarchy() is only available since WordPress version 6.1.0.',
 					37,
+				],
+				[
+					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
+					42,
 				],
 			],
 		);

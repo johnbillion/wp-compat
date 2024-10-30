@@ -21,5 +21,7 @@
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
 		<exclude name="WordPress.Files.FileName" />
 		<exclude name="WordPress.NamingConventions" />
+		<exclude name="WordPress.WP.AlternativeFunctions" />
+		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
 	</rule>
 </ruleset>

@@ -1,11 +1,13 @@
 parameters:
 	WPCompat:
+		pluginFile: null
 		requiresAtLeast: null
 
 services:
 	-
 		class: WPCompat\PHPStan\Rules\SinceVersionRule
 		arguments:
+			pluginFile: %WPCompat.pluginFile%
 			requiresAtLeast: %WPCompat.requiresAtLeast%
 		tags:
 			- phpstan.rules.rule
@@ -17,5 +19,6 @@ services:
 
 parametersSchema:
 	WPCompat: structure([
-		requiresAtLeast: string(),
+		pluginFile: schema(string(), nullable()),
+		requiresAtLeast: schema(string(), nullable()),
 	])

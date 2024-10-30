@@ -7,17 +7,18 @@ namespace WPCompat\PHPStan\Tests;
 use WPCompat\PHPStan\Rules\SinceVersionRule;
 
 /**
- * @extends \PHPStan\Testing\RuleTestCase<\WPCompat\Rules\SinceVersionRule>
+ * @extends \PHPStan\Testing\RuleTestCase<\WPCompat\PHPStan\Rules\SinceVersionRule>
  */
 class CompatTest extends \PHPStan\Testing\RuleTestCase {
 	protected function getRule(): \PHPStan\Rules\Rule {
 		return new SinceVersionRule(
-			'1.0.0',
-			$this->createReflectionProvider(),
+			'1.0',
+			null,
+			self::createReflectionProvider(),
 		);
 	}
 
-	public function testRule(): void{
+	public function testRule(): void {
 		$this->analyse(
 			[
 				__DIR__ . '/data/Compat.php',

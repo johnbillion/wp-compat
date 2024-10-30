@@ -2,7 +2,7 @@
 
 WPCompat is a PHPStan extension which helps verify that your PHP code is compatible with a given version of WordPress. You can use it to help ensure that your plugin or theme remains compatible with its "Requires at least" version.
 
-It works by checking that the declared `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
+It works by checking that the declared `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin or theme supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
 
 If your code is correctly guarded with a valid `function_exists()` check then an error won't be triggered. The extension doesn't yet support the same for `method_exists()` when calling methods, but it's on the todo list.
 
@@ -34,9 +34,27 @@ includes:
 ```
 </details>
 
-### Configuration
+## Configuration
 
-Add the minimum supported WordPress version number to the parameters in your PHPStan config file. Note that this must be a string so it must be wrapped in quote marks.
+### Themes
+
+If your style.css file contains a "Requires at least" header then wp-compat will read this header and use its value as the minimum supported WordPress version. There is no need for any additional config.
+
+### Plugins
+
+If the name of your main plugin file matches its parent directory -- for example `my-plugin/my-plugin.php` -- then wp-compat will read the "Requires at least" header from this file and use its value as the minimum supported WordPress version. There is no need for any additional config.
+
+If your main plugin file is named otherwise or located elsewhere, you can specify its name in your PHPStan config file:
+
+```neon
+parameters:
+    WPCompat:
+        pluginFile: my-plugin.php
+```
+
+### Manual config
+
+Alternatively you can specify the minimum supported WordPress version number of your plugin or theme directly in your PHPStan config file. Note that this must be a string so it must be wrapped in quote marks.
 
 ```neon
 parameters:

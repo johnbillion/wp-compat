@@ -40,10 +40,13 @@ $excluded_paths = array(
 	'wp-includes/ID3/',
 	'wp-includes/IXR/',
 	'wp-includes/PHPMailer/',
+	'wp-includes/pomo/',
+	'wp-includes/Requests/',
 	'wp-includes/SimplePie/',
 	'wp-includes/Text/',
 	'wp-includes/sodium_compat/',
 	'wp-includes/atomlib.php',
+	'wp-includes/class-avif-info.php',
 	'wp-includes/class-json.php',
 	'wp-includes/compat.php',
 );
@@ -137,7 +140,6 @@ foreach ( $files as $file ) {
 
 						$results[ $function_name ] = array(
 							'since' => $since,
-							// 'file' => $relative_path,
 						);
 					} else {
 						$message = sprintf(

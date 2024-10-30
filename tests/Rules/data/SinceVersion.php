@@ -36,10 +36,22 @@ if ( function_exists( 'get_template_hierarchy' ) ) {
 }
 get_template_hierarchy( 'foo' );
 
+class Another_Date_Query extends WP_Date_Query {
+	public function foo() {
+		// Calling a method on this instance introduced in a subsequent major (6.1.0)
+		$this->sanitize_relation( 'AND' );
+	}
+}
+$query = new Another_Date_Query( [] );
+$query->foo();
+
 
 // ============= //
 // Passing usage //
 // ============= //
+
+class TestClass {}
+$test_instance = new TestClass();
 
 // Function introduced in a subsequent major (6.1.0) correctly guarded
 if ( function_exists( 'get_template_hierarchy' ) ) {
@@ -91,3 +103,21 @@ function boop(): void {
 	get_adjacent_image_link();
 }
 boop();
+
+// Variable function name:
+$function_name = $_GET['foo'];
+$function_name();
+
+// Variable method name:
+$method_name = $_GET['foo'];
+TestClass::$method_name();
+$test_instance->$method_name();
+
+// Concatenated method name:
+$concat = $_GET['foo'];
+TestClass::{'template_args_' . $concat}();
+$test_instance->{'template_args_' . $concat}();
+
+// Closure:
+$my_closure = function() {};
+$my_closure();
