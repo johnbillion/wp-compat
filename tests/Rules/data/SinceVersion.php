@@ -80,6 +80,12 @@ if ( method_exists( $query, 'sanitize_relation' ) ) {
 	}
 }
 
+// Inherited method introduced in a subsequent major (6.1.0) correctly guarded
+if ( method_exists( 'Best_Date_Query', 'sanitize_relation' ) ) {
+	$query = new Best_Date_Query( [] );
+	$query->sanitize_relation( 'AND' );
+}
+
 // Method introduced in the tested version (6.0.0)
 $locale = new WP_Locale();
 $locale->get_list_item_separator();
