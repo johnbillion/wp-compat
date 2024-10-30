@@ -101,14 +101,27 @@ get_adjacent_image_link();
 $should_upgrade = Core_Upgrader::should_update_to_version( 'foo' );
 
 function boop(): void {
-	if ( ! function_exists( 'get_adjacent_image_link' ) ) {
+	if ( ! function_exists( 'get_template_hierarchy' ) ) {
 		return;
 	}
 
-	// Function introduced in a prior major (5.8.0) but guarded by a return
-	get_adjacent_image_link();
+	// Function introduced in a subsequent major (6.1.0) correctly guarded
+	get_template_hierarchy( 'foo' );
 }
 boop();
+
+function beep(): void {
+	if ( ! method_exists( 'Best_Date_Query', 'sanitize_relation' ) ) {
+		return;
+	}
+
+	// Method introduced in a subsequent major (6.1.0) but guarded by a return
+	if ( method_exists( 'WP_Date_Query', 'sanitize_relation' ) ) {
+		$query = new WP_Date_Query( [] );
+		$query->sanitize_relation( 'AND' );
+	}
+}
+beep();
 
 // Variable function name:
 $function_name = $_GET['foo'];
