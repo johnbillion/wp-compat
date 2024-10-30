@@ -35,7 +35,9 @@ final class MethodExistsVisitor extends NodeVisitorAbstract {
 					count( $args ) >= 2
 					&& $args[1]->value instanceof Node\Scalar\String_
 				) {
-					$this->inMethodExists[ count( $this->ifStack ) ] ?? [];
+					if ( ! array_key_exists( count( $this->ifStack ), $this->inMethodExists ) ) {
+						$this->inMethodExists[ count( $this->ifStack ) ] = [];
+					}
 					$this->inMethodExists[ count( $this->ifStack ) ][] = [ $args[0]->value, $args[1]->value ];
 				}
 			}
