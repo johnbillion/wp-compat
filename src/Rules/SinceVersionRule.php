@@ -107,7 +107,7 @@ final class SinceVersionRule implements Rule {
 
 		$methodName = self::getMethodName( $node );
 
-		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME );
+		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME, [] );
 		foreach ( $inMethodExists as [$objectOrClass, $method] ) {
 			if ( $methodName !== $method->value ) {
 				continue;

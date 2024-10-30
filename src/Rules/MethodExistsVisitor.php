@@ -35,11 +35,12 @@ final class MethodExistsVisitor extends NodeVisitorAbstract {
 					count( $args ) >= 2
 					&& $args[1]->value instanceof Node\Scalar\String_
 				) {
-					$this->inMethodExists[ count( $this->ifStack ) ] = [ $args[0]->value, $args[1]->value ];
+					$this->inMethodExists[ count( $this->ifStack ) ] ?? [];
+					$this->inMethodExists[ count( $this->ifStack ) ][] = [ $args[0]->value, $args[1]->value ];
 				}
 			}
-		} elseif ( $node instanceof Node\Expr\CallLike ) {
-			$node->setAttribute( self::ATTRIBUTE_NAME, $this->inMethodExists );
+		} elseif ( $node instanceof Node\Expr\CallLike && count( $this->inMethodExists ) > 0 ) {
+			$node->setAttribute( self::ATTRIBUTE_NAME, $this->inMethodExists[ count( $this->ifStack ) ] );
 		}
 
 		return null;
