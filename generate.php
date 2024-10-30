@@ -109,10 +109,17 @@ foreach ( $files as $file ) {
 					}
 				}
 
+				// Ignore private methods.
+				if ( $function instanceof Node\Stmt\ClassMethod && $function->isPrivate() ) {
+					continue;
+				}
+
+				// This is a function defined within a function and is just plain messed up.
 				if ( $function_name === 'wp_handle_upload_error' ) {
 					continue;
 				}
 
+				// These are all stubs now.
 				if ( str_starts_with( $function_name, 'WP_Internal_Pointers::pointer_wp' ) ) {
 					continue;
 				}
