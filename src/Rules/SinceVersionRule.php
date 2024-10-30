@@ -3,7 +3,6 @@
 namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;

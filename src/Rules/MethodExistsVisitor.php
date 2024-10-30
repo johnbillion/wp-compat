@@ -4,7 +4,6 @@ namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
-use PHPStan\Node\Printer\ExprPrinter;
 use function count;
 
 final class MethodExistsVisitor extends NodeVisitorAbstract {
