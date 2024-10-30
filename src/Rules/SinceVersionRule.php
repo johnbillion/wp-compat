@@ -207,7 +207,7 @@ final class SinceVersionRule implements Rule {
 			return false;
 		}
 
-		$methodName = self::getMethodName( $node, $scope );
+		$methodName = self::getMethodName( $node );
 
 		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME, [] );
 		foreach ( $inMethodExists as [$objectOrClass, $method] ) {
@@ -270,10 +270,10 @@ final class SinceVersionRule implements Rule {
 			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
-		$methodName = self::getMethodName( $node, $scope );
+		$methodName = self::getMethodName( $node );
 		foreach ( $allClassNames as $className ) {
 			try {
-				$methodName = self::getMethodName( $node, $scope );
+				$methodName = self::getMethodName( $node );
 			} catch ( \RuntimeException $e ) {
 				return [
 					RuleErrorBuilder::message( $e->getMessage() )->identifier( self::$errorIdentifier )->build(),
@@ -346,7 +346,7 @@ final class SinceVersionRule implements Rule {
 	 * @param MethodCall|StaticCall $node
 	 * @throws \RuntimeException
 	 */
-	private static function getMethodName( CallLike $node, Scope $scope ): ?string {
+	private static function getMethodName( CallLike $node ): ?string {
 		if ( $node->name instanceof Identifier ) {
 			return $node->name->toString();
 		}
