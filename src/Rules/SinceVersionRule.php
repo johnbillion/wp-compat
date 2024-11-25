@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
@@ -144,7 +144,7 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 */
 	public function processNode( Node $node, Scope $scope ): array {
 		if ( $node instanceof FuncCall ) {
@@ -160,7 +160,7 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 */
 	private function processFuncCall( FuncCall $node, Scope $scope ): array {
 		try {
@@ -237,7 +237,7 @@ final class SinceVersionRule implements Rule {
 
 	/**
 	 * @param MethodCall|StaticCall $node
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 */
 	private function processMethodCall( CallLike $node, Scope $scope ): array {
 		if ( $node instanceof MethodCall ) {
@@ -299,7 +299,7 @@ final class SinceVersionRule implements Rule {
 
 	/**
 	 * @param array{since: string} $symbol
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 */
 	private function processMethodVersion( string $name, array $symbol ): array {
 		$since = $symbol['since'];
