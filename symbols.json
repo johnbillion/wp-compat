@@ -17875,6 +17875,9 @@
         "wp_check_browser_version": {
             "since": "3.2.0"
         },
+        "wp_check_comment_data": {
+            "since": "6.7.0"
+        },
         "wp_check_comment_data_max_lengths": {
             "since": "4.7.0"
         },
@@ -19243,6 +19246,9 @@
         "wp_is_file_mod_allowed": {
             "since": "4.8.0"
         },
+        "wp_is_heic_image_mime_type": {
+            "since": "6.7.0"
+        },
         "wp_is_home_url_using_https": {
             "since": "5.7.0"
         },
@@ -19899,6 +19905,9 @@
         },
         "wp_print_admin_notice_templates": {
             "since": "4.6.0"
+        },
+        "wp_print_auto_sizes_contain_css_fix": {
+            "since": "6.7.1"
         },
         "wp_print_community_events_markup": {
             "since": "4.8.0"

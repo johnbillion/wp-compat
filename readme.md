@@ -10,7 +10,7 @@ If your code is correctly guarded with a valid `function_exists()` or `method_ex
 
 WPCompat is a relatively new extension and may not yet be exhaustive in its checks.
 
-Version information for functions and methods was last updated for WordPress 6.7 (RC1).
+Version information for functions and methods was last updated for WordPress 6.7.
 
 ## Requirements
 
