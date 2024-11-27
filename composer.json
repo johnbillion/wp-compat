@@ -26,7 +26,7 @@
 		"phpstan/phpstan-deprecation-rules": "1.2.0",
 		"phpunit/phpunit": "^9.0",
 		"roots/wordpress-core-installer": "1.100.0",
-		"roots/wordpress-full": "6.7-RC1",
+		"roots/wordpress-full": "^6.7.0",
 		"wp-coding-standards/wpcs": "3.1.0"
 	},
 	"license": "MIT",
