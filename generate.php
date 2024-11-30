@@ -53,6 +53,56 @@ $excluded_paths = array(
 
 echo 'Scanning and collating symbols...' . PHP_EOL;
 
+class MissingDocException extends \Exception {}
+
+class MissingSinceException extends \Exception {}
+
+class InvalidSinceException extends \Exception {}
+
+function getSinceFromDocs( ?Doc $class_doc, ?Doc $symbol_doc ): string {
+	try {
+		$class_since = getSinceFromDoc( $class_doc );
+	} catch ( \Exception $e ) {
+		$class_since = null;
+	}
+
+	try {
+		$symbol_since = getSinceFromDoc( $symbol_doc );
+	} catch ( \Exception $e ) {
+		if ( is_string( $class_since ) ) {
+			return $class_since;
+		}
+
+		throw $e;
+	}
+
+	return $symbol_since;
+}
+
+function getSinceFromDoc( ?Doc $doc ): string {
+	if ( ! $doc instanceof Doc ) {
+		throw new MissingDocException();
+	}
+
+	$comment_text = $doc->getText();
+
+	if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) !== 1 ) {
+		throw new MissingSinceException();
+	}
+
+	$since = $matches[1];
+
+	if ( $since === 'MU' ) {
+		$since = '3.0.0';
+	}
+
+	if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) !== 1 ) {
+		throw new InvalidSinceException();
+	}
+
+	return $since;
+}
+
 // Iterate each PHP file in the directory
 $files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $directory ) );
 foreach ( $files as $file ) {
@@ -101,11 +151,13 @@ foreach ( $files as $file ) {
 			foreach ( $functions as $function ) {
 				$doc_comment = $function->getDocComment();
 				$function_name = $function->name->toString();
+				$class_doc_comment = null;
 
 				if ( $function instanceof Node\Stmt\ClassMethod ) {
 					$class = $function->getAttribute( 'parent' );
 					if ( ( $class instanceof Node\Stmt\Class_ ) && ( $class->name instanceof Node\Identifier ) ) {
 						$function_name = $class->name->toString() . '::' . $function_name;
+						$class_doc_comment = $class->getDocComment();
 					}
 				}
 
@@ -124,50 +176,30 @@ foreach ( $files as $file ) {
 					continue;
 				}
 
-				if ( $doc_comment instanceof Doc ) {
-					$comment_text = $doc_comment->getText();
-					if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) === 1 ) {
-						$since = $matches[1];
-
-						if ( $since === 'MU' ) {
-							$since = '3.0.0';
-						}
-
-						if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) !== 1 ) {
-							$message = sprintf(
-								'Invalid @since value of "%s" for %s() in %s:%d',
-								$since,
-								$function_name,
-								$file_path,
-								$function->getStartLine(),
-							);
-
-							throw new \Exception( $message );
-						}
-
-						$results[ $function_name ] = array(
-							'since' => $since,
-						);
-					} else {
-						$message = sprintf(
-							'@since tag missing for %s() in %s:%d',
-							$function_name,
-							$file_path,
-							$function->getStartLine(),
-						);
-
-						// echo $message . PHP_EOL;
-					}
-				} else {
-					$message = sprintf(
-						'Doc comment missing for %s() in %s:%d',
+				try {
+					$since = getSinceFromDocs( $class_doc_comment, $doc_comment );
+				} catch ( MissingDocException|MissingSinceException $e ) {
+					printf(
+						'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
 						$function_name,
 						$file_path,
 						$function->getStartLine(),
 					);
-
-					// echo $message . PHP_EOL;
+					continue;
+				} catch ( InvalidSinceException $e ) {
+					printf(
+						'ℹ️ Invalid @since value of "%s" for %s() in %s:%d' . PHP_EOL,
+						$since,
+						$function_name,
+						$file_path,
+						$function->getStartLine(),
+					);
+					continue;
 				}
+
+				$results[ $function_name ] = array(
+					'since' => $since,
+				);
 			}
 		} catch ( Error $e ) {
 			// Handle parsing errors
