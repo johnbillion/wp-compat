@@ -80,6 +80,7 @@
 	},
 	"suggest": {
 		"phpstan/phpstan-deprecation-rules": "PHPStan rules for detecting usage of deprecated symbols",
+		"swissspidy/phpstan-no-private": "PHPStan rules for detecting usage of pseudo-private functions, classes, and methods",
 		"szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
 	},
 	"support": {
