@@ -3184,9 +3184,6 @@
         "WP_HTML_Processor::create_fragment": {
             "since": "6.4.0"
         },
-        "WP_HTML_Processor::create_fragment_at_current_node": {
-            "since": "6.4.0"
-        },
         "WP_HTML_Processor::create_full_parser": {
             "since": "6.4.0"
         },
@@ -20689,9 +20686,6 @@
         "wp_nav_menu_manage_columns": {
             "since": "3.0.0"
         },
-        "wp_nav_menu_max_depth": {
-            "since": "3.0.0"
-        },
         "wp_nav_menu_post_type_meta_boxes": {
             "since": "3.0.0"
         },
@@ -21255,9 +21249,6 @@
         },
         "wp_render_elements_support_styles": {
             "since": "6.0.0"
-        },
-        "wp_render_empty_block_template_warning": {
-            "since": "6.8.0"
         },
         "wp_render_layout_support_flag": {
             "since": "5.8.0"
