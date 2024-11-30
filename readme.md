@@ -80,7 +80,7 @@ WP::foo();
 
 ## Technical details
 
-This extension does not scan your project in order to detect the `@since` versions of WordPress functions and methods. This information is included in the [symbols.json](symbols.json) file that's included in the extension.
+This extension does not scan your project in order to detect the `@since` versions of WordPress functions and methods. This information is included in the [symbols.json](symbols.json) file that's included in the extension. This approach ensures that your code is always tested against the most up to date and most accurate `@since` documentation, regardless of the version of WordPress that your tests are using.
 
 The [symbols.json](symbols.json) file contains a dictionary of all functions and methods in WordPress along with the version of WordPress in which they were introduced.
 
