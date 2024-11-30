@@ -1,7 +1,7 @@
 <?php
 #!/usr/bin/env php
 
-namespace WPCompat;
+namespace WPCompat\PHPStan;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Error;
@@ -10,6 +10,9 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\FindingVisitor;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use PhpParser\ParserFactory;
+use WPCompat\PHPStan\Generator\MissingDocException;
+use WPCompat\PHPStan\Generator\MissingTagException;
+use WPCompat\PHPStan\Generator\InvalidTagException;
 
 require 'vendor/autoload.php';
 
@@ -61,12 +64,6 @@ $excluded_paths = array(
 );
 
 echo 'Scanning and collating symbols...' . PHP_EOL;
-
-class MissingDocException extends \Exception {}
-
-class MissingTagException extends \Exception {}
-
-class InvalidTagException extends \Exception {}
 
 function getSinceFromDocs( ?Doc $class_doc, ?Doc $symbol_doc ): string {
 	try {
@@ -211,7 +208,7 @@ foreach ( $files as $file ) {
 
 				try {
 					$since = getSinceFromDocs( $class_doc_comment, $doc_comment );
-				} catch ( MissingDocException|MissingTagException $e ) {
+				} catch ( MissingDocException | MissingTagException $e ) {
 					if ( $deprecated === null ) {
 						printf(
 							'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
@@ -268,4 +265,3 @@ if ( $written === false ) {
 }
 
 echo '✅ Symbols written to symbols.json.' . PHP_EOL;
-
