@@ -63,9 +63,9 @@ echo 'Scanning and collating symbols...' . PHP_EOL;
 
 class MissingDocException extends \Exception {}
 
-class MissingSinceException extends \Exception {}
+class MissingTagException extends \Exception {}
 
-class InvalidSinceException extends \Exception {}
+class InvalidTagException extends \Exception {}
 
 function getSinceFromDocs( ?Doc $class_doc, ?Doc $symbol_doc ): string {
 	try {
@@ -95,7 +95,7 @@ function getSinceFromDoc( ?Doc $doc ): string {
 	$comment_text = $doc->getText();
 
 	if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) !== 1 ) {
-		throw new MissingSinceException();
+		throw new MissingTagException();
 	}
 
 	$since = $matches[1];
@@ -105,7 +105,7 @@ function getSinceFromDoc( ?Doc $doc ): string {
 	}
 
 	if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) !== 1 ) {
-		throw new InvalidSinceException();
+		throw new InvalidTagException();
 	}
 
 	return $since;
@@ -186,7 +186,7 @@ foreach ( $files as $file ) {
 
 				try {
 					$since = getSinceFromDocs( $class_doc_comment, $doc_comment );
-				} catch ( MissingDocException|MissingSinceException $e ) {
+				} catch ( MissingDocException|MissingTagException $e ) {
 					printf(
 						'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
 						$function_name,
@@ -194,7 +194,7 @@ foreach ( $files as $file ) {
 						$function->getStartLine(),
 					);
 					continue;
-				} catch ( InvalidSinceException $e ) {
+				} catch ( InvalidTagException $e ) {
 					printf(
 						'ℹ️ Invalid @since value of "%s" for %s() in %s:%d' . PHP_EOL,
 						$since,
