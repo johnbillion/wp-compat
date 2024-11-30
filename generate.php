@@ -111,6 +111,24 @@ function getSinceFromDoc( ?Doc $doc ): string {
 	return $since;
 }
 
+function getDeprecatedFromDoc( ?Doc $doc ): string {
+	if ( ! $doc instanceof Doc ) {
+		throw new MissingDocException();
+	}
+
+	$comment_text = $doc->getText();
+
+	if ( preg_match( '/@deprecated\s+([\w.-]+)/', $comment_text, $matches ) !== 1 ) {
+		throw new MissingTagException();
+	}
+
+	if ( preg_match( '/^\d+\.\d+(\.\d+)?/', $matches[1], $since ) !== 1 ) {
+		throw new InvalidTagException();
+	}
+
+	return $since[0];
+}
+
 // Iterate each PHP file in the directory
 $files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $directory ) );
 foreach ( $files as $file ) {
@@ -185,29 +203,43 @@ foreach ( $files as $file ) {
 				}
 
 				try {
+					$deprecated = getDeprecatedFromDoc( $doc_comment );
+				} catch ( \Exception $e ) {
+					$deprecated = null;
+				}
+
+				try {
 					$since = getSinceFromDocs( $class_doc_comment, $doc_comment );
 				} catch ( MissingDocException|MissingTagException $e ) {
-					printf(
-						'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
-						$function_name,
-						$file_path,
-						$function->getStartLine(),
-					);
+					if ( $deprecated === null ) {
+						printf(
+							'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
+							$function_name,
+							$file_path,
+							$function->getStartLine(),
+						);
+					}
 					continue;
 				} catch ( InvalidTagException $e ) {
-					printf(
-						'ℹ️ Invalid @since value of "%s" for %s() in %s:%d' . PHP_EOL,
-						$since,
-						$function_name,
-						$file_path,
-						$function->getStartLine(),
-					);
+					if ( $deprecated === null ) {
+						printf(
+							'ℹ️ Invalid @since value for %s() in %s:%d' . PHP_EOL,
+							$function_name,
+							$file_path,
+							$function->getStartLine(),
+						);
+					}
 					continue;
 				}
 
-				$results[ $function_name ] = array(
-					'since' => $since,
-				);
+				$result = [];
+
+				if ( $deprecated !== null ) {
+					$result['deprecated'] = $deprecated;
+				}
+
+				$result['since'] = $since;
+				$results[ $function_name ] = $result;
 			}
 		} catch ( Error $e ) {
 			// Handle parsing errors

@@ -18,6 +18,9 @@
 					"since"
 				],
 				"properties": {
+					"deprecated": {
+						"type": "string"
+					},
 					"since": {
 						"type": "string"
 					}

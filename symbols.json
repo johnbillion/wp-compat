@@ -101,9 +101,11 @@
             "since": "4.1.0"
         },
         "Custom_Background::attachment_fields_to_edit": {
+            "deprecated": "3.5.0",
             "since": "3.4.0"
         },
         "Custom_Background::filter_upload_tabs": {
+            "deprecated": "3.5.0",
             "since": "3.4.0"
         },
         "Custom_Background::handle_upload": {
@@ -116,6 +118,7 @@
             "since": "3.0.0"
         },
         "Custom_Background::wp_set_background_image": {
+            "deprecated": "3.5.0",
             "since": "3.4.0"
         },
         "Custom_Image_Header::__construct": {
@@ -137,6 +140,7 @@
             "since": "3.4.0"
         },
         "Custom_Image_Header::create_attachment_object": {
+            "deprecated": "6.5.0",
             "since": "3.9.0"
         },
         "Custom_Image_Header::css_includes": {
@@ -473,6 +477,7 @@
             "since": "3.1.0"
         },
         "WP_Admin_Bar::recursive_render": {
+            "deprecated": "3.3.0",
             "since": "3.1.0"
         },
         "WP_Admin_Bar::remove_menu": {
@@ -1016,6 +1021,7 @@
             "since": "4.8.0"
         },
         "WP_Community_Events::format_event_data_time": {
+            "deprecated": "5.6.0",
             "since": "4.8.0"
         },
         "WP_Community_Events::get_cached_events": {
@@ -1034,6 +1040,7 @@
             "since": "4.8.0"
         },
         "WP_Community_Events::maybe_log_events_response": {
+            "deprecated": "4.9.0",
             "since": "4.8.0"
         },
         "WP_Community_Events::trim_events": {
@@ -1199,21 +1206,26 @@
             "since": "3.4.0"
         },
         "WP_Customize_Image_Control::add_tab": {
+            "deprecated": "4.1.0",
             "since": "3.4.0"
         },
         "WP_Customize_Image_Control::prepare_control": {
+            "deprecated": "4.1.0",
             "since": "3.4.2"
         },
         "WP_Customize_Image_Control::print_tab_image": {
+            "deprecated": "4.1.0",
             "since": "3.4.0"
         },
         "WP_Customize_Image_Control::remove_tab": {
+            "deprecated": "4.1.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::__construct": {
             "since": "3.4.0"
         },
         "WP_Customize_Manager::_cmp_priority": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::_filter_revision_post_has_changed": {
@@ -1298,9 +1310,11 @@
             "since": "4.4.0"
         },
         "WP_Customize_Manager::customize_preview_base": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::customize_preview_html5": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::customize_preview_init": {
@@ -1310,12 +1324,14 @@
             "since": "4.2.0"
         },
         "WP_Customize_Manager::customize_preview_override_404_status": {
+            "deprecated": "4.7.0",
             "since": "4.0.0"
         },
         "WP_Customize_Manager::customize_preview_settings": {
             "since": "3.4.0"
         },
         "WP_Customize_Manager::customize_preview_signature": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::dismiss_user_auto_draft_changesets": {
@@ -1478,6 +1494,7 @@
             "since": "4.0.0"
         },
         "WP_Customize_Manager::remove_preview_signature": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::remove_section": {
@@ -1553,12 +1570,14 @@
             "since": "3.4.0"
         },
         "WP_Customize_Manager::wp_die_handler": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Manager::wp_loaded": {
             "since": "3.4.0"
         },
         "WP_Customize_Manager::wp_redirect_status": {
+            "deprecated": "4.7.0",
             "since": "3.4.0"
         },
         "WP_Customize_Media_Control::__construct": {
@@ -1670,6 +1689,7 @@
             "since": "4.3.0"
         },
         "WP_Customize_Nav_Menu_Setting::_sort_menus_by_orderby": {
+            "deprecated": "4.7.0",
             "since": "4.3.0"
         },
         "WP_Customize_Nav_Menu_Setting::amend_customize_save_response": {
@@ -1796,18 +1816,23 @@
             "since": "4.3.0"
         },
         "WP_Customize_Nav_Menus_Panel::wp_nav_menu_manage_columns": {
+            "deprecated": "4.5.0",
             "since": "4.3.0"
         },
         "WP_Customize_New_Menu_Control::__construct": {
+            "deprecated": "4.9.0",
             "since": "4.9.0"
         },
         "WP_Customize_New_Menu_Control::render_content": {
+            "deprecated": "4.9.0",
             "since": "4.3.0"
         },
         "WP_Customize_New_Menu_Section::__construct": {
+            "deprecated": "4.9.0",
             "since": "4.9.0"
         },
         "WP_Customize_New_Menu_Section::render": {
+            "deprecated": "4.9.0",
             "since": "4.3.0"
         },
         "WP_Customize_Panel::__construct": {
@@ -1943,9 +1968,11 @@
             "since": "3.4.0"
         },
         "WP_Customize_Setting::_update_option": {
+            "deprecated": "4.4.0",
             "since": "3.4.0"
         },
         "WP_Customize_Setting::_update_theme_mod": {
+            "deprecated": "4.4.0",
             "since": "3.4.0"
         },
         "WP_Customize_Setting::aggregate_multidimensional": {
@@ -2174,9 +2201,11 @@
             "since": "3.9.0"
         },
         "WP_Customize_Widgets::prepreview_added_sidebars_widgets": {
+            "deprecated": "4.2.0",
             "since": "3.9.0"
         },
         "WP_Customize_Widgets::prepreview_added_widget_instance": {
+            "deprecated": "4.2.0",
             "since": "3.9.0"
         },
         "WP_Customize_Widgets::preview_sidebars_widgets": {
@@ -2201,6 +2230,7 @@
             "since": "4.2.0"
         },
         "WP_Customize_Widgets::remove_prepreview_filters": {
+            "deprecated": "4.2.0",
             "since": "3.9.0"
         },
         "WP_Customize_Widgets::render_widget_partial": {
@@ -2225,6 +2255,7 @@
             "since": "4.5.0"
         },
         "WP_Customize_Widgets::setup_widget_addition_previews": {
+            "deprecated": "4.2.0",
             "since": "3.9.0"
         },
         "WP_Customize_Widgets::should_load_block_editor_scripts_and_styles": {
@@ -2357,12 +2388,15 @@
             "since": "6.3.0"
         },
         "WP_Duotone::get_filter_css_property_value_from_preset": {
+            "deprecated": "6.3.0",
             "since": "6.3.0"
         },
         "WP_Duotone::get_filter_id_from_preset": {
+            "deprecated": "6.3.0",
             "since": "6.3.0"
         },
         "WP_Duotone::get_filter_svg_from_preset": {
+            "deprecated": "6.3.0",
             "since": "6.3.0"
         },
         "WP_Duotone::migrate_experimental_duotone_support_flag": {
@@ -2543,12 +2577,14 @@
             "since": "2.5.0"
         },
         "WP_Filesystem_Base::find_base_dir": {
+            "deprecated": "2.7.0",
             "since": "2.5.0"
         },
         "WP_Filesystem_Base::find_folder": {
             "since": "2.7.0"
         },
         "WP_Filesystem_Base::get_base_dir": {
+            "deprecated": "2.7.0",
             "since": "2.5.0"
         },
         "WP_Filesystem_Base::get_contents": {
@@ -3148,6 +3184,9 @@
         "WP_HTML_Processor::create_fragment": {
             "since": "6.4.0"
         },
+        "WP_HTML_Processor::create_fragment_at_current_node": {
+            "since": "6.4.0"
+        },
         "WP_HTML_Processor::create_full_parser": {
             "since": "6.4.0"
         },
@@ -3530,6 +3569,7 @@
             "since": "4.7.0"
         },
         "WP_Http::_get_first_available_transport": {
+            "deprecated": "6.4.0",
             "since": "3.2.0"
         },
         "WP_Http::block_request": {
@@ -3563,6 +3603,7 @@
             "since": "4.6.0"
         },
         "WP_Http::parse_url": {
+            "deprecated": "4.4.0",
             "since": "2.7.0"
         },
         "WP_Http::post": {
@@ -3839,9 +3880,11 @@
             "since": "6.7.0"
         },
         "WP_Interactivity_API::print_client_interactivity_data": {
+            "deprecated": "6.7.0",
             "since": "6.5.0"
         },
         "WP_Interactivity_API::print_router_loading_and_screen_reader_markup": {
+            "deprecated": "6.7.0",
             "since": "6.5.0"
         },
         "WP_Interactivity_API::print_router_markup": {
@@ -3851,6 +3894,7 @@
             "since": "6.5.0"
         },
         "WP_Interactivity_API::register_script_modules": {
+            "deprecated": "6.7.0",
             "since": "6.5.0"
         },
         "WP_Interactivity_API::state": {
@@ -4385,6 +4429,7 @@
             "since": "4.3.0"
         },
         "WP_Media_List_Table::column_desc": {
+            "deprecated": "6.2.0",
             "since": "4.3.0"
         },
         "WP_Media_List_Table::column_parent": {
@@ -4472,12 +4517,14 @@
             "since": "4.5.0"
         },
         "WP_Metadata_Lazyloader::lazyload_comment_meta": {
+            "deprecated": "6.3.0",
             "since": "4.5.0"
         },
         "WP_Metadata_Lazyloader::lazyload_meta_callback": {
             "since": "6.3.0"
         },
         "WP_Metadata_Lazyloader::lazyload_term_meta": {
+            "deprecated": "6.3.0",
             "since": "4.5.0"
         },
         "WP_Metadata_Lazyloader::queue_objects": {
@@ -4607,6 +4654,7 @@
             "since": "2.0.0"
         },
         "WP_Object_Cache::reset": {
+            "deprecated": "3.5.0",
             "since": "3.0.0"
         },
         "WP_Object_Cache::set": {
@@ -5159,6 +5207,7 @@
             "since": "3.1.0"
         },
         "WP_Query::is_comments_popup": {
+            "deprecated": "4.5.0",
             "since": "3.1.0"
         },
         "WP_Query::is_date": {
@@ -5231,9 +5280,11 @@
             "since": "3.1.0"
         },
         "WP_Query::lazyload_comment_meta": {
+            "deprecated": "4.5.0",
             "since": "4.4.0"
         },
         "WP_Query::lazyload_term_meta": {
+            "deprecated": "4.5.0",
             "since": "4.4.0"
         },
         "WP_Query::next_comment": {
@@ -5315,6 +5366,7 @@
             "since": "5.6.0"
         },
         "WP_REST_Application_Passwords_Controller::do_permissions_check": {
+            "deprecated": "5.7.0",
             "since": "5.6.0"
         },
         "WP_REST_Application_Passwords_Controller::get_application_password": {
@@ -6110,6 +6162,7 @@
             "since": "4.7.0"
         },
         "WP_REST_Meta_Fields::default_additional_properties_to_false": {
+            "deprecated": "5.6.0",
             "since": "5.3.0"
         },
         "WP_REST_Meta_Fields::delete_meta_value": {
@@ -6146,6 +6199,7 @@
             "since": "4.7.0"
         },
         "WP_REST_Meta_Fields::register_field": {
+            "deprecated": "5.6.0",
             "since": "4.7.0"
         },
         "WP_REST_Meta_Fields::update_meta_value": {
@@ -6305,6 +6359,7 @@
             "since": "5.0.0"
         },
         "WP_REST_Post_Search_Handler::detect_rest_item_route": {
+            "deprecated": "5.5.0",
             "since": "5.0.0"
         },
         "WP_REST_Post_Search_Handler::prepare_item": {
@@ -6884,6 +6939,7 @@
             "since": "4.7.0"
         },
         "WP_REST_Settings_Controller::set_additional_properties_to_false": {
+            "deprecated": "6.1.0",
             "since": "4.9.0"
         },
         "WP_REST_Settings_Controller::update_item": {
@@ -7232,6 +7288,7 @@
             "since": "5.0.0"
         },
         "WP_REST_Themes_Controller::sanitize_theme_status": {
+            "deprecated": "5.7.0",
             "since": "5.0.0"
         },
         "WP_REST_URL_Details_Controller::__construct": {
@@ -7667,6 +7724,7 @@
             "since": "2.0.0"
         },
         "WP_Roles::_init": {
+            "deprecated": "4.9.0",
             "since": "2.1.0"
         },
         "WP_Roles::add_cap": {
@@ -7697,6 +7755,7 @@
             "since": "2.0.0"
         },
         "WP_Roles::reinit": {
+            "deprecated": "4.7.0",
             "since": "3.5.0"
         },
         "WP_Roles::remove_cap": {
@@ -7871,12 +7930,14 @@
             "since": "3.3.0"
         },
         "WP_Scripts::print_inline_script": {
+            "deprecated": "6.3.0",
             "since": "4.5.0"
         },
         "WP_Scripts::print_scripts": {
             "since": "2.1.0"
         },
         "WP_Scripts::print_scripts_l10n": {
+            "deprecated": "3.3.0",
             "since": "2.1.0"
         },
         "WP_Scripts::print_translations": {
@@ -8141,6 +8202,7 @@
             "since": "4.3.0"
         },
         "WP_Site_Icon::create_attachment_object": {
+            "deprecated": "6.5.0",
             "since": "4.3.0"
         },
         "WP_Site_Icon::delete_attachment_data": {
@@ -8189,6 +8251,7 @@
             "since": "5.5.0"
         },
         "WP_Sitemaps::redirect_sitemapxml": {
+            "deprecated": "6.7.0",
             "since": "5.5.0"
         },
         "WP_Sitemaps::register_rewrites": {
@@ -8906,6 +8969,7 @@
             "since": "5.8.0"
         },
         "WP_Theme_JSON::get_custom_css": {
+            "deprecated": "6.7.0",
             "since": "6.2.0"
         },
         "WP_Theme_JSON::get_custom_templates": {
@@ -9029,9 +9093,11 @@
             "since": "6.6.0"
         },
         "WP_Theme_JSON::set_spacing_sizes": {
+            "deprecated": "6.6.0",
             "since": "6.1.0"
         },
         "WP_Theme_JSON::should_override_preset": {
+            "deprecated": "6.0.0",
             "since": "5.9.0"
         },
         "WP_Theme_JSON::to_ruleset": {
@@ -9059,6 +9125,7 @@
             "since": "5.8.0"
         },
         "WP_Theme_JSON_Resolver::get_fields_to_translate": {
+            "deprecated": "5.9.0",
             "since": "5.8.0"
         },
         "WP_Theme_JSON_Resolver::get_file_path_from_theme": {
@@ -9095,6 +9162,7 @@
             "since": "6.6.0"
         },
         "WP_Theme_JSON_Resolver::theme_has_support": {
+            "deprecated": "6.2.0",
             "since": "5.8.0"
         },
         "WP_Theme_JSON_Resolver::translate": {
@@ -9383,6 +9451,7 @@
             "since": "4.4.0"
         },
         "WP_User::_init_caps": {
+            "deprecated": "4.9.0",
             "since": "2.1.0"
         },
         "WP_User::add_cap": {
@@ -9395,6 +9464,7 @@
             "since": "3.4.0"
         },
         "WP_User::for_blog": {
+            "deprecated": "4.9.0",
             "since": "3.0.0"
         },
         "WP_User::for_site": {
@@ -9596,6 +9666,7 @@
             "since": "3.1.0"
         },
         "WP_Widget::WP_Widget": {
+            "deprecated": "4.3.0",
             "since": "2.8.0"
         },
         "WP_Widget::__construct": {
@@ -9737,6 +9808,7 @@
             "since": "4.8.1"
         },
         "WP_Widget_Factory::WP_Widget_Factory": {
+            "deprecated": "4.3.0",
             "since": "2.8.0"
         },
         "WP_Widget_Factory::__construct": {
@@ -9941,6 +10013,7 @@
             "since": "2.8.0"
         },
         "WP_Widget_Recent_Comments::flush_widget_cache": {
+            "deprecated": "4.4.0",
             "since": "2.8.0"
         },
         "WP_Widget_Recent_Comments::form": {
@@ -10247,6 +10320,7 @@
             "since": "4.8.0"
         },
         "_WP_Editors::wp_fullscreen_html": {
+            "deprecated": "4.3.0",
             "since": "3.2.0"
         },
         "_WP_Editors::wp_link_dialog": {
@@ -10280,9 +10354,11 @@
             "since": "1.5.1"
         },
         "__ngettext": {
+            "deprecated": "2.8.0",
             "since": "1.2.0"
         },
         "__ngettext_noop": {
+            "deprecated": "2.8.0",
             "since": "2.5.0"
         },
         "__return_empty_array": {
@@ -10328,6 +10404,7 @@
             "since": "3.0.0"
         },
         "_admin_bar_bump_cb": {
+            "deprecated": "6.4.0",
             "since": "3.1.0"
         },
         "_admin_notice_post_locked": {
@@ -10367,6 +10444,7 @@
             "since": "5.9.0"
         },
         "_c": {
+            "deprecated": "2.9.0",
             "since": "2.2.0"
         },
         "_canonical_charset": {
@@ -10484,6 +10562,7 @@
             "since": "5.8.0"
         },
         "_excerpt_render_inner_columns_blocks": {
+            "deprecated": "5.8.0",
             "since": "5.2.0"
         },
         "_fetch_remote_file": {
@@ -10499,6 +10578,7 @@
             "since": "6.3.0"
         },
         "_filter_query_attachment_filenames": {
+            "deprecated": "6.0.3",
             "since": "4.7.0"
         },
         "_find_post_by_old_date": {
@@ -10514,6 +10594,7 @@
             "since": "5.9.0"
         },
         "_flip_image_resource": {
+            "deprecated": "3.5.0",
             "since": "2.9.0"
         },
         "_future_post_hook": {
@@ -10568,9 +10649,11 @@
             "since": "2.1.0"
         },
         "_get_path_to_translation": {
+            "deprecated": "6.1.0",
             "since": "4.7.0"
         },
         "_get_path_to_translation_from_lang_dir": {
+            "deprecated": "6.1.0",
             "since": "4.7.0"
         },
         "_get_plugin_data_markup_translate": {
@@ -10580,6 +10663,7 @@
             "since": "5.0.0"
         },
         "_get_post_ancestors": {
+            "deprecated": "3.5.0",
             "since": "2.3.4"
         },
         "_get_random_header_data": {
@@ -10610,6 +10694,7 @@
             "since": "2.9.0"
         },
         "_inject_theme_attribute_in_block_template_content": {
+            "deprecated": "6.4.0",
             "since": "5.9.0"
         },
         "_inject_theme_attribute_in_template_part_block": {
@@ -10691,6 +10776,7 @@
             "since": "4.1.0"
         },
         "_nc": {
+            "deprecated": "3.0.0",
             "since": "2.7.0"
         },
         "_nx": {
@@ -10742,9 +10828,11 @@
             "since": "6.2.0"
         },
         "_preview_theme_stylesheet_filter": {
+            "deprecated": "4.3.0",
             "since": "2.9.0"
         },
         "_preview_theme_template_filter": {
+            "deprecated": "4.3.0",
             "since": "2.9.0"
         },
         "_prime_comment_caches": {
@@ -10799,6 +10887,7 @@
             "since": "2.8.0"
         },
         "_relocate_children": {
+            "deprecated": "3.9.0",
             "since": "2.3.0"
         },
         "_remove_qs_args_if_not_in_url": {
@@ -10808,6 +10897,7 @@
             "since": "6.4.0"
         },
         "_remove_theme_attribute_in_block_template_content": {
+            "deprecated": "6.4.0",
             "since": "5.9.0"
         },
         "_remove_theme_support": {
@@ -10817,6 +10907,7 @@
             "since": "3.7.0"
         },
         "_resolve_home_block_template": {
+            "deprecated": "6.2.0",
             "since": "6.0.0"
         },
         "_resolve_template_for_new_post": {
@@ -10832,18 +10923,21 @@
             "since": "5.0.0"
         },
         "_rotate_image_resource": {
+            "deprecated": "3.5.0",
             "since": "2.9.0"
         },
         "_sanitize_text_fields": {
             "since": "4.7.0"
         },
         "_save_post_hook": {
+            "deprecated": "3.5.0",
             "since": "2.3.0"
         },
         "_scalar_wp_die_handler": {
             "since": "3.4.0"
         },
         "_search_terms_tidy": {
+            "deprecated": "3.7.0",
             "since": "2.9.0"
         },
         "_set_cron_array": {
@@ -10859,6 +10953,7 @@
             "since": "3.1.0"
         },
         "_sort_nav_menu_items": {
+            "deprecated": "4.7.0",
             "since": "3.0.0"
         },
         "_sort_uname_callback": {
@@ -10931,9 +11026,11 @@
             "since": "2.9.0"
         },
         "_usort_terms_by_ID": {
+            "deprecated": "4.7.0",
             "since": "2.3.0"
         },
         "_usort_terms_by_name": {
+            "deprecated": "4.7.0",
             "since": "2.3.0"
         },
         "_validate_cache_id": {
@@ -11147,6 +11244,7 @@
             "since": "4.1.0"
         },
         "_wp_json_prepare_data": {
+            "deprecated": "5.3.0",
             "since": "4.4.0"
         },
         "_wp_json_sanity_check": {
@@ -11183,6 +11281,7 @@
             "since": "4.9.0"
         },
         "_wp_multiple_block_styles": {
+            "deprecated": "6.1.0",
             "since": "5.9.0"
         },
         "_wp_mysql_week": {
@@ -11261,6 +11360,7 @@
             "since": "4.9.6"
         },
         "_wp_privacy_requests_screen_options": {
+            "deprecated": "5.3.0",
             "since": "4.9.8"
         },
         "_wp_privacy_resend_request": {
@@ -11288,6 +11388,7 @@
             "since": "5.5.0"
         },
         "_wp_register_meta_args_whitelist": {
+            "deprecated": "5.5.0",
             "since": "4.6.0"
         },
         "_wp_relative_upload_path": {
@@ -11315,12 +11416,14 @@
             "since": "1.2.2"
         },
         "_wp_theme_json_webfonts_handler": {
+            "deprecated": "6.4.0",
             "since": "6.0.0"
         },
         "_wp_timezone_choice_usort_callback": {
             "since": "2.9.0"
         },
         "_wp_tinycolor_bound_alpha": {
+            "deprecated": "6.3.0",
             "since": "5.9.0"
         },
         "_wp_translate_php_url_constant_to_key": {
@@ -11375,15 +11478,18 @@
             "since": "2.7.0"
         },
         "add_contextual_help": {
+            "deprecated": "3.3.0",
             "since": "2.7.0"
         },
         "add_cssclass": {
             "since": "2.7.0"
         },
         "add_custom_background": {
+            "deprecated": "3.4.0",
             "since": "3.0.0"
         },
         "add_custom_image_header": {
+            "deprecated": "3.4.0",
             "since": "2.1.0"
         },
         "add_dashboard_page": {
@@ -11441,15 +11547,18 @@
             "since": "3.0.0"
         },
         "add_object_page": {
+            "deprecated": "4.5.0",
             "since": "2.7.0"
         },
         "add_option": {
             "since": "1.0.0"
         },
         "add_option_update_handler": {
+            "deprecated": "3.0.0",
             "since": "2.7.0"
         },
         "add_option_whitelist": {
+            "deprecated": "5.5.0",
             "since": "2.7.0"
         },
         "add_options_page": {
@@ -11540,12 +11649,14 @@
             "since": "2.1.3"
         },
         "add_utility_page": {
+            "deprecated": "4.5.0",
             "since": "2.7.0"
         },
         "addslashes_gpc": {
             "since": "0.71"
         },
         "addslashes_strings_only": {
+            "deprecated": "5.6.0",
             "since": "5.3.0"
         },
         "adjacent_image_link": {
@@ -11627,6 +11738,7 @@
             "since": "4.0.0"
         },
         "attribute_escape": {
+            "deprecated": "2.8.0",
             "since": "2.0.6"
         },
         "auth_redirect": {
@@ -11636,6 +11748,7 @@
             "since": "2.9.0"
         },
         "automatic_feed_links": {
+            "deprecated": "3.0.0",
             "since": "2.8.0"
         },
         "avoid_blog_page_permalink_collision": {
@@ -11672,6 +11785,7 @@
             "since": "6.3.0"
         },
         "block_core_file_ensure_interactivity_dependency": {
+            "deprecated": "6.5.0",
             "since": "6.4.0"
         },
         "block_core_gallery_data_id_backcompatibility": {
@@ -11693,6 +11807,7 @@
             "since": "6.0.0"
         },
         "block_core_image_ensure_interactivity_dependency": {
+            "deprecated": "6.5.0",
             "since": "6.4.0"
         },
         "block_core_image_get_lightbox_settings": {
@@ -11732,9 +11847,11 @@
             "since": "6.0.0"
         },
         "block_core_navigation_get_classic_menu_fallback": {
+            "deprecated": "6.3.0",
             "since": "6.2.0"
         },
         "block_core_navigation_get_classic_menu_fallback_blocks": {
+            "deprecated": "6.3.0",
             "since": "6.2.0"
         },
         "block_core_navigation_get_fallback_blocks": {
@@ -11747,6 +11864,7 @@
             "since": "5.9.0"
         },
         "block_core_navigation_get_most_recently_published_navigation": {
+            "deprecated": "6.3.0",
             "since": "6.1.0"
         },
         "block_core_navigation_get_post_ids": {
@@ -11777,12 +11895,14 @@
             "since": "5.9.0"
         },
         "block_core_navigation_maybe_use_classic_menu_fallback": {
+            "deprecated": "6.3.0",
             "since": "6.2.0"
         },
         "block_core_navigation_mock_parsed_block": {
             "since": "6.5.0"
         },
         "block_core_navigation_parse_blocks_from_menu_items": {
+            "deprecated": "6.3.0",
             "since": "5.9.0"
         },
         "block_core_navigation_remove_serialized_parent_block": {
@@ -11798,6 +11918,7 @@
             "since": "5.9.0"
         },
         "block_core_navigation_submenu_build_css_colors": {
+            "deprecated": "6.3.0",
             "since": "5.9.0"
         },
         "block_core_navigation_submenu_build_css_font_sizes": {
@@ -11834,6 +11955,7 @@
             "since": "6.4.0"
         },
         "block_core_query_ensure_interactivity_dependency": {
+            "deprecated": "6.5.0",
             "since": "6.4.0"
         },
         "block_core_social_link_get_color_classes": {
@@ -12002,12 +12124,14 @@
             "since": "2.3.0"
         },
         "clean_page_cache": {
+            "deprecated": "3.4.0",
             "since": "2.0.0"
         },
         "clean_post_cache": {
             "since": "2.0.0"
         },
         "clean_pre": {
+            "deprecated": "3.4.0",
             "since": "1.2.0"
         },
         "clean_site_details_cache": {
@@ -12020,18 +12144,22 @@
             "since": "2.3.0"
         },
         "clean_url": {
+            "deprecated": "3.0.0",
             "since": "1.2.0"
         },
         "clean_user_cache": {
             "since": "3.0.0"
         },
         "clear_global_post_cache": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "codepress_footer_js": {
+            "deprecated": "3.0.0",
             "since": "2.8.0"
         },
         "codepress_get_lang": {
+            "deprecated": "3.0.0",
             "since": "2.8.0"
         },
         "comment_ID": {
@@ -12122,12 +12250,15 @@
             "since": "0.71"
         },
         "comments_popup_script": {
+            "deprecated": "4.5.0",
             "since": "0.71"
         },
         "comments_rss": {
+            "deprecated": "2.2.0",
             "since": "1.5.0"
         },
         "comments_rss_link": {
+            "deprecated": "2.5.0",
             "since": "1.0.1"
         },
         "comments_template": {
@@ -12182,6 +12313,7 @@
             "since": "3.0.0"
         },
         "create_empty_blog": {
+            "deprecated": "4.4.0",
             "since": "3.0.0"
         },
         "create_initial_post_types": {
@@ -12197,6 +12329,7 @@
             "since": "5.5.0"
         },
         "create_user": {
+            "deprecated": "2.0.0",
             "since": "2.0.0"
         },
         "current_action": {
@@ -12209,6 +12342,7 @@
             "since": "2.5.0"
         },
         "current_theme_info": {
+            "deprecated": "3.4.0",
             "since": "2.0.0"
         },
         "current_theme_supports": {
@@ -12221,6 +12355,7 @@
             "since": "2.0.0"
         },
         "current_user_can_for_blog": {
+            "deprecated": "6.7.0",
             "since": "3.0.0"
         },
         "current_user_can_for_site": {
@@ -12251,12 +12386,15 @@
             "since": "2.3.2"
         },
         "debug_fclose": {
+            "deprecated": "3.4.0",
             "since": "0.71"
         },
         "debug_fopen": {
+            "deprecated": "3.4.0",
             "since": "0.71"
         },
         "debug_fwrite": {
+            "deprecated": "3.4.0",
             "since": "0.71"
         },
         "default_password_nag": {
@@ -12272,6 +12410,7 @@
             "since": "2.9.0"
         },
         "default_topic_count_text": {
+            "deprecated": "3.9.0",
             "since": "2.7.0"
         },
         "delete_all_user_settings": {
@@ -12347,6 +12486,7 @@
             "since": "2.7.0"
         },
         "delete_usermeta": {
+            "deprecated": "3.0.0",
             "since": "2.0.0"
         },
         "delete_users_add_js": {
@@ -12488,6 +12628,7 @@
             "since": "2.7.0"
         },
         "documentation_link": {
+            "deprecated": "2.5.0",
             "since": "2.0.0"
         },
         "doing_action": {
@@ -12506,12 +12647,15 @@
             "since": "1.0.1"
         },
         "dropdown_categories": {
+            "deprecated": "2.6.0",
             "since": "0.71"
         },
         "dropdown_cats": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "dropdown_link_categories": {
+            "deprecated": "2.6.0",
             "since": "2.1.0"
         },
         "dynamic_sidebar": {
@@ -12635,6 +12779,7 @@
             "since": "6.7.0"
         },
         "favorite_actions": {
+            "deprecated": "3.2.0",
             "since": "2.7.0"
         },
         "feed_content_type": {
@@ -12710,6 +12855,7 @@
             "since": "2.8.5"
         },
         "force_ssl_login": {
+            "deprecated": "4.4.0",
             "since": "2.6.0"
         },
         "form_option": {
@@ -12725,6 +12871,7 @@
             "since": "0.71"
         },
         "format_to_post": {
+            "deprecated": "3.9.0",
             "since": "0.71"
         },
         "ftp_pure::__construct": {
@@ -12794,15 +12941,18 @@
             "since": "2.5.0"
         },
         "funky_javascript_callback": {
+            "deprecated": "3.0.0",
             "since": "2.8.0"
         },
         "funky_javascript_fix": {
+            "deprecated": "3.0.0",
             "since": "1.5.0"
         },
         "gallery_shortcode": {
             "since": "2.5.0"
         },
         "gd_edit_image_support": {
+            "deprecated": "3.5.0",
             "since": "2.9.0"
         },
         "generate_block_asset_handle": {
@@ -12812,6 +12962,7 @@
             "since": "5.2.0"
         },
         "generate_random_password": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "generic_ping": {
@@ -12845,9 +12996,11 @@
             "since": "3.0.0"
         },
         "get_admin_users_for_domain": {
+            "deprecated": "4.4.0",
             "since": "3.0.0"
         },
         "get_all_category_ids": {
+            "deprecated": "4.0.0",
             "since": "2.0.0"
         },
         "get_all_page_ids": {
@@ -12863,6 +13016,7 @@
             "since": "2.7.0"
         },
         "get_alloptions": {
+            "deprecated": "3.0.0",
             "since": "1.0.0"
         },
         "get_alloptions_110": {
@@ -12881,6 +13035,7 @@
             "since": "2.8.6"
         },
         "get_allowed_themes": {
+            "deprecated": "3.4.0",
             "since": "3.0.0"
         },
         "get_ancestors": {
@@ -12893,6 +13048,7 @@
             "since": "1.5.0"
         },
         "get_archives": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_archives_link": {
@@ -12908,12 +13064,15 @@
             "since": "2.5.0"
         },
         "get_attachment_icon": {
+            "deprecated": "2.5.0",
             "since": "2.0.0"
         },
         "get_attachment_icon_src": {
+            "deprecated": "2.5.0",
             "since": "2.1.0"
         },
         "get_attachment_innerHTML": {
+            "deprecated": "2.5.0",
             "since": "2.0.0"
         },
         "get_attachment_link": {
@@ -12929,21 +13088,25 @@
             "since": "2.5.0"
         },
         "get_author_link": {
+            "deprecated": "2.1.0",
             "since": "1.2.0"
         },
         "get_author_name": {
+            "deprecated": "2.8.0",
             "since": "1.0.0"
         },
         "get_author_posts_url": {
             "since": "2.1.0"
         },
         "get_author_rss_link": {
+            "deprecated": "2.5.0",
             "since": "1.2.0"
         },
         "get_author_template": {
             "since": "1.5.0"
         },
         "get_autotoggle": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_available_languages": {
@@ -13025,6 +13188,7 @@
             "since": "3.0.0"
         },
         "get_blog_list": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "get_blog_option": {
@@ -13040,6 +13204,7 @@
             "since": "3.0.0"
         },
         "get_blogaddress_by_domain": {
+            "deprecated": "3.7.0",
             "since": "3.0.0"
         },
         "get_blogaddress_by_id": {
@@ -13076,9 +13241,11 @@
             "since": "2.8.0"
         },
         "get_boundary_post_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "get_broken_themes": {
+            "deprecated": "3.4.0",
             "since": "1.5.0"
         },
         "get_calendar": {
@@ -13106,6 +13273,7 @@
             "since": "2.3.0"
         },
         "get_category_children": {
+            "deprecated": "2.8.0",
             "since": "1.2.0"
         },
         "get_category_feed_link": {
@@ -13118,6 +13286,7 @@
             "since": "1.2.0"
         },
         "get_category_rss_link": {
+            "deprecated": "2.5.0",
             "since": "1.2.0"
         },
         "get_category_template": {
@@ -13127,6 +13296,7 @@
             "since": "2.0.0"
         },
         "get_catname": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "get_children": {
@@ -13223,6 +13393,7 @@
             "since": "1.5.0"
         },
         "get_commentdata": {
+            "deprecated": "2.7.0",
             "since": "0.71"
         },
         "get_comments": {
@@ -13244,6 +13415,7 @@
             "since": "6.0.0"
         },
         "get_comments_popup_template": {
+            "deprecated": "4.5.0",
             "since": "1.5.0"
         },
         "get_compat_media_markup": {
@@ -13268,15 +13440,18 @@
             "since": "3.0.0"
         },
         "get_current_site_name": {
+            "deprecated": "3.9.0",
             "since": "3.0.0"
         },
         "get_current_theme": {
+            "deprecated": "3.4.0",
             "since": "1.5.0"
         },
         "get_current_user_id": {
             "since": "3.0.0"
         },
         "get_currentuserinfo": {
+            "deprecated": "4.5.0",
             "since": "0.71"
         },
         "get_custom_header": {
@@ -13289,6 +13464,7 @@
             "since": "4.5.0"
         },
         "get_dashboard_blog": {
+            "deprecated": "3.1.0",
             "since": "3.0.0"
         },
         "get_dashboard_url": {
@@ -13322,6 +13498,7 @@
             "since": "2.0.0"
         },
         "get_default_page_to_edit": {
+            "deprecated": "3.5.0",
             "since": "2.5.0"
         },
         "get_default_post_to_edit": {
@@ -13454,6 +13631,7 @@
             "since": "2.0.0"
         },
         "get_index_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "get_index_template": {
@@ -13484,36 +13662,46 @@
             "since": "5.8.0"
         },
         "get_link": {
+            "deprecated": "2.1.0",
             "since": "2.0.0"
         },
         "get_link_to_edit": {
             "since": "2.0.0"
         },
         "get_linkcatname": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_linkobjects": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "get_linkobjectsbyname": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "get_linkrating": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "get_links": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_links_list": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "get_links_withrating": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_linksbyname": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_linksbyname_withrating": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_locale": {
@@ -13562,6 +13750,7 @@
             "since": "1.0.0"
         },
         "get_most_active_blogs": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "get_most_recent_post_of_user": {
@@ -13637,15 +13826,18 @@
             "since": "6.4.0"
         },
         "get_others_unpublished_posts": {
+            "deprecated": "3.1.0",
             "since": "2.3.0"
         },
         "get_page": {
+            "deprecated": "3.5.0",
             "since": "1.5.1"
         },
         "get_page_by_path": {
             "since": "2.1.0"
         },
         "get_page_by_title": {
+            "deprecated": "6.2.0",
             "since": "2.1.0"
         },
         "get_page_children": {
@@ -13676,6 +13868,7 @@
             "since": "1.5.0"
         },
         "get_paged_template": {
+            "deprecated": "4.7.0",
             "since": "1.5.0"
         },
         "get_pagenum_link": {
@@ -13685,6 +13878,7 @@
             "since": "1.5.0"
         },
         "get_parent_post_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "get_parent_theme_file_path": {
@@ -13832,6 +14026,7 @@
             "since": "5.3.0"
         },
         "get_post_to_edit": {
+            "deprecated": "3.5.0",
             "since": "2.0.0"
         },
         "get_post_type": {
@@ -13862,6 +14057,7 @@
             "since": "4.5.0"
         },
         "get_postdata": {
+            "deprecated": "1.5.1",
             "since": "0.71"
         },
         "get_posts": {
@@ -13907,6 +14103,7 @@
             "since": "2.2.0"
         },
         "get_profile": {
+            "deprecated": "3.0.0",
             "since": "1.5.0"
         },
         "get_pung": {
@@ -13934,6 +14131,7 @@
             "since": "3.1.0"
         },
         "get_real_file_to_edit": {
+            "deprecated": "2.9.0",
             "since": "1.5.0"
         },
         "get_registered_meta_keys": {
@@ -13970,6 +14168,7 @@
             "since": "2.5.0"
         },
         "get_screen_icon": {
+            "deprecated": "3.8.0",
             "since": "3.2.0"
         },
         "get_search_comments_feed_link": {
@@ -13994,6 +14193,7 @@
             "since": "5.3.0"
         },
         "get_settings": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "get_settings_errors": {
@@ -14009,6 +14209,7 @@
             "since": "6.3.2"
         },
         "get_shortcut_link": {
+            "deprecated": "4.9.0",
             "since": "2.6.0"
         },
         "get_sidebar": {
@@ -14186,45 +14387,56 @@
             "since": "4.1.0"
         },
         "get_the_attachment_link": {
+            "deprecated": "2.5.0",
             "since": "2.0.0"
         },
         "get_the_author": {
             "since": "1.5.0"
         },
         "get_the_author_ID": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_aim": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_description": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_email": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_firstname": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_icq": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_lastname": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_link": {
             "since": "3.0.0"
         },
         "get_the_author_login": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_meta": {
             "since": "2.8.0"
         },
         "get_the_author_msn": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_nickname": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_posts": {
@@ -14234,9 +14446,11 @@
             "since": "4.4.0"
         },
         "get_the_author_url": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_author_yim": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "get_the_block_template_html": {
@@ -14342,9 +14556,11 @@
             "since": "2.0.0"
         },
         "get_theme": {
+            "deprecated": "3.4.0",
             "since": "1.5.0"
         },
         "get_theme_data": {
+            "deprecated": "3.4.0",
             "since": "1.5.0"
         },
         "get_theme_feature_list": {
@@ -14384,6 +14600,7 @@
             "since": "2.9.0"
         },
         "get_themes": {
+            "deprecated": "3.4.0",
             "since": "1.5.0"
         },
         "get_to_ping": {
@@ -14405,6 +14622,7 @@
             "since": "6.1.0"
         },
         "get_udims": {
+            "deprecated": "3.5.0",
             "since": "2.0.0"
         },
         "get_upload_iframe_src": {
@@ -14426,15 +14644,18 @@
             "since": "2.8.0"
         },
         "get_user_by_email": {
+            "deprecated": "3.3.0",
             "since": "2.5.0"
         },
         "get_user_count": {
             "since": "3.0.0"
         },
         "get_user_details": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "get_user_id_from_string": {
+            "deprecated": "3.6.0",
             "since": "3.0.0"
         },
         "get_user_locale": {
@@ -14444,6 +14665,7 @@
             "since": "3.0.0"
         },
         "get_user_metavalues": {
+            "deprecated": "3.3.0",
             "since": "3.0.0"
         },
         "get_user_option": {
@@ -14459,12 +14681,15 @@
             "since": "0.71"
         },
         "get_userdatabylogin": {
+            "deprecated": "3.3.0",
             "since": "0.71"
         },
         "get_usermeta": {
+            "deprecated": "3.0.0",
             "since": "2.0.0"
         },
         "get_usernumposts": {
+            "deprecated": "3.0.0",
             "since": "0.71"
         },
         "get_users": {
@@ -14474,6 +14699,7 @@
             "since": "2.0.0"
         },
         "get_users_of_blog": {
+            "deprecated": "3.1.0",
             "since": "2.2.0"
         },
         "get_weekstartend": {
@@ -14486,9 +14712,11 @@
             "since": "1.5.0"
         },
         "global_terms": {
+            "deprecated": "6.1.0",
             "since": "3.0.0"
         },
         "global_terms_enabled": {
+            "deprecated": "6.1.0",
             "since": "3.0.0"
         },
         "got_mod_rewrite": {
@@ -14498,6 +14726,7 @@
             "since": "3.7.0"
         },
         "graceful_fail": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "grant_super_admin": {
@@ -14633,6 +14862,7 @@
             "since": "2.5.0"
         },
         "image_attachment_fields_to_save": {
+            "deprecated": "6.0.0",
             "since": "2.5.0"
         },
         "image_constrain_size_for_editor": {
@@ -14660,6 +14890,7 @@
             "since": "2.5.0"
         },
         "image_resize": {
+            "deprecated": "3.5.0",
             "since": "2.5.0"
         },
         "image_resize_dimensions": {
@@ -14681,6 +14912,7 @@
             "since": "2.6.0"
         },
         "index_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "init": {
@@ -14690,6 +14922,7 @@
             "since": "6.5.0"
         },
         "insert_blog": {
+            "deprecated": "5.1.0",
             "since": "3.0.0"
         },
         "insert_hooked_blocks": {
@@ -14705,6 +14938,7 @@
             "since": "1.5.0"
         },
         "install_blog": {
+            "deprecated": "5.1.0",
             "since": "3.0.0"
         },
         "install_blog_defaults": {
@@ -14714,6 +14948,7 @@
             "since": "2.7.0"
         },
         "install_global_terms": {
+            "deprecated": "6.1.0",
             "since": "3.0.0"
         },
         "install_network": {
@@ -14747,6 +14982,7 @@
             "since": "2.8.0"
         },
         "install_themes_feature_list": {
+            "deprecated": "3.1.0",
             "since": "2.8.0"
         },
         "install_themes_upload": {
@@ -14792,6 +15028,7 @@
             "since": "2.1.0"
         },
         "is_blog_user": {
+            "deprecated": "3.3.0",
             "since": "3.0.0"
         },
         "is_category": {
@@ -14804,6 +15041,7 @@
             "since": "3.0.0"
         },
         "is_comments_popup": {
+            "deprecated": "4.5.0",
             "since": "1.5.0"
         },
         "is_customize_preview": {
@@ -14858,6 +15096,7 @@
             "since": "6.1.0"
         },
         "is_main_blog": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "is_main_network": {
@@ -14921,6 +15160,7 @@
             "since": "3.1.0"
         },
         "is_plugin_page": {
+            "deprecated": "3.1.0",
             "since": "1.5.0"
         },
         "is_plugin_paused": {
@@ -14984,6 +15224,7 @@
             "since": "1.5.0"
         },
         "is_site_admin": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "is_site_meta_supported": {
@@ -15008,6 +15249,7 @@
             "since": "2.5.0"
         },
         "is_taxonomy": {
+            "deprecated": "3.0.0",
             "since": "2.3.0"
         },
         "is_taxonomy_hierarchical": {
@@ -15017,6 +15259,7 @@
             "since": "5.1.0"
         },
         "is_term": {
+            "deprecated": "3.0.0",
             "since": "2.3.0"
         },
         "is_term_publicly_viewable": {
@@ -15050,6 +15293,7 @@
             "since": "3.0.0"
         },
         "is_user_option_local": {
+            "deprecated": "4.9.0",
             "since": "3.0.0"
         },
         "is_user_spammy": {
@@ -15074,6 +15318,7 @@
             "since": "1.5.0"
         },
         "js_escape": {
+            "deprecated": "2.8.0",
             "since": "2.0.4"
         },
         "kses_init": {
@@ -15089,6 +15334,7 @@
             "since": "2.1.0"
         },
         "like_escape": {
+            "deprecated": "4.0.0",
             "since": "2.5.0"
         },
         "link_advanced_meta_box": {
@@ -15098,6 +15344,7 @@
             "since": "2.6.0"
         },
         "link_pages": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "link_submit_meta_box": {
@@ -15116,12 +15363,15 @@
             "since": "2.7.0"
         },
         "links_popup_script": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "list_authors": {
+            "deprecated": "2.1.0",
             "since": "1.2.0"
         },
         "list_cats": {
+            "deprecated": "2.1.0",
             "since": "0.71"
         },
         "list_core_update": {
@@ -15182,6 +15432,7 @@
             "since": "2.7.0"
         },
         "logIO": {
+            "deprecated": "3.4.0",
             "since": "1.2.0"
         },
         "login_footer": {
@@ -15221,6 +15472,7 @@
             "since": "1.5.0"
         },
         "make_url_footnote": {
+            "deprecated": "2.9.0",
             "since": "0.71"
         },
         "map_deep": {
@@ -15422,6 +15674,7 @@
             "since": "2.5.0"
         },
         "next_post": {
+            "deprecated": "2.0.0",
             "since": "0.71"
         },
         "next_post_link": {
@@ -15440,6 +15693,7 @@
             "since": "2.0.0"
         },
         "noindex": {
+            "deprecated": "5.7.0",
             "since": "2.1.0"
         },
         "normalize_whitespace": {
@@ -15461,6 +15715,7 @@
             "since": "3.5.0"
         },
         "options_permalink_add_js": {
+            "deprecated": "4.9.0",
             "since": "3.5.0"
         },
         "options_reading_add_js": {
@@ -15485,6 +15740,7 @@
             "since": "1.5.0"
         },
         "parent_post_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "parse_blocks": {
@@ -15506,9 +15762,11 @@
             "since": "0.71"
         },
         "permalink_link": {
+            "deprecated": "1.2.0",
             "since": "0.71"
         },
         "permalink_single_rss": {
+            "deprecated": "2.3.0",
             "since": "0.71"
         },
         "pingback": {
@@ -15578,6 +15836,7 @@
             "since": "5.1.0"
         },
         "popuplinks": {
+            "deprecated": "4.5.0",
             "since": "0.71"
         },
         "post_author_meta_box": {
@@ -15617,6 +15876,7 @@
             "since": "2.0.0"
         },
         "post_form_autocomplete_off": {
+            "deprecated": "4.6.0",
             "since": "4.0.0"
         },
         "post_format_meta_box": {
@@ -15626,6 +15886,7 @@
             "since": "2.7.0"
         },
         "post_permalink": {
+            "deprecated": "4.4.0",
             "since": "1.0.0"
         },
         "post_preview": {
@@ -15680,12 +15941,15 @@
             "since": "2.8.0"
         },
         "preview_theme": {
+            "deprecated": "4.3.0",
             "since": "2.6.0"
         },
         "preview_theme_ob_filter": {
+            "deprecated": "4.3.0",
             "since": "2.6.0"
         },
         "preview_theme_ob_filter_callback": {
+            "deprecated": "4.3.0",
             "since": "2.6.0"
         },
         "previous_comments_link": {
@@ -15695,6 +15959,7 @@
             "since": "2.5.0"
         },
         "previous_post": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "previous_post_link": {
@@ -15725,12 +15990,14 @@
             "since": "4.4.0"
         },
         "print_embed_styles": {
+            "deprecated": "6.4.0",
             "since": "4.4.0"
         },
         "print_emoji_detection_script": {
             "since": "4.2.0"
         },
         "print_emoji_styles": {
+            "deprecated": "6.4.0",
             "since": "4.2.0"
         },
         "print_footer_scripts": {
@@ -15752,6 +16019,7 @@
             "since": "3.4.0"
         },
         "readonly": {
+            "deprecated": "5.9.0",
             "since": "4.9.0"
         },
         "recurse_dirsize": {
@@ -16085,6 +16353,7 @@
             "since": "2.2.0"
         },
         "register_sidebar_widget": {
+            "deprecated": "2.8.0",
             "since": "2.2.0"
         },
         "register_sidebars": {
@@ -16112,6 +16381,7 @@
             "since": "2.8.0"
         },
         "register_widget_control": {
+            "deprecated": "2.8.0",
             "since": "2.2.0"
         },
         "registered_meta_key_exists": {
@@ -16142,9 +16412,11 @@
             "since": "5.5.0"
         },
         "remove_custom_background": {
+            "deprecated": "3.4.0",
             "since": "3.1.0"
         },
         "remove_custom_image_header": {
+            "deprecated": "3.4.0",
             "since": "3.1.0"
         },
         "remove_editor_styles": {
@@ -16163,9 +16435,11 @@
             "since": "2.6.0"
         },
         "remove_option_update_handler": {
+            "deprecated": "3.0.0",
             "since": "2.7.0"
         },
         "remove_option_whitelist": {
+            "deprecated": "5.5.0",
             "since": "2.7.0"
         },
         "remove_permastruct": {
@@ -16679,6 +16953,7 @@
             "since": "1.5.0"
         },
         "rich_edit_exists": {
+            "deprecated": "3.9.0",
             "since": "2.1.0"
         },
         "rsd_link": {
@@ -16781,6 +17056,7 @@
             "since": "2.3.0"
         },
         "sanitize_user_object": {
+            "deprecated": "3.3.0",
             "since": "2.3.0"
         },
         "saveDomDocument": {
@@ -16790,15 +17066,19 @@
             "since": "1.5.0"
         },
         "screen_icon": {
+            "deprecated": "3.8.0",
             "since": "2.7.0"
         },
         "screen_layout": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "screen_meta": {
+            "deprecated": "3.3.0",
             "since": "2.7.0"
         },
         "screen_options": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "script_concat_settings": {
@@ -16847,6 +17127,7 @@
             "since": "3.0.0"
         },
         "set_current_user": {
+            "deprecated": "3.0.0",
             "since": "2.0.1"
         },
         "set_ignored_hooked_blocks_metadata": {
@@ -16982,9 +17263,11 @@
             "since": "0.71"
         },
         "start_post_rel_link": {
+            "deprecated": "3.3.0",
             "since": "2.8.0"
         },
         "start_wp": {
+            "deprecated": "1.5.0",
             "since": "1.0.1"
         },
         "status_header": {
@@ -16994,6 +17277,7 @@
             "since": "2.7.0"
         },
         "sticky_class": {
+            "deprecated": "3.5.0",
             "since": "2.7.0"
         },
         "stream_preview_image": {
@@ -17036,6 +17320,7 @@
             "since": "6.2.0"
         },
         "sync_category_tag_slugs": {
+            "deprecated": "6.1.0",
             "since": "3.0.0"
         },
         "tag_description": {
@@ -17078,45 +17363,56 @@
             "since": "2.0.0"
         },
         "the_attachment_links": {
+            "deprecated": "3.7.0",
             "since": "2.0.0"
         },
         "the_author": {
             "since": "0.71"
         },
         "the_author_ID": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_aim": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_description": {
+            "deprecated": "2.8.0",
             "since": "1.0.0"
         },
         "the_author_email": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_firstname": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_icq": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_lastname": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_link": {
             "since": "2.1.0"
         },
         "the_author_login": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_meta": {
             "since": "2.8.0"
         },
         "the_author_msn": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_nickname": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_posts": {
@@ -17126,9 +17422,11 @@
             "since": "1.2.0"
         },
         "the_author_url": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_author_yim": {
+            "deprecated": "2.8.0",
             "since": "0.71"
         },
         "the_block_editor_meta_box_post_form_hidden_fields": {
@@ -17138,15 +17436,18 @@
             "since": "5.0.0"
         },
         "the_block_template_skip_link": {
+            "deprecated": "6.4.0",
             "since": "5.8.0"
         },
         "the_category": {
             "since": "0.71"
         },
         "the_category_ID": {
+            "deprecated": "0.71",
             "since": "0.71"
         },
         "the_category_head": {
+            "deprecated": "0.71",
             "since": "0.71"
         },
         "the_category_rss": {
@@ -17168,6 +17469,7 @@
             "since": "2.9.0"
         },
         "the_content_rss": {
+            "deprecated": "2.9.0",
             "since": "0.71"
         },
         "the_custom_header_markup": {
@@ -17183,6 +17485,7 @@
             "since": "1.0.0"
         },
         "the_editor": {
+            "deprecated": "3.3.0",
             "since": "2.1.0"
         },
         "the_embed_site_title": {
@@ -17216,6 +17519,7 @@
             "since": "2.5.0"
         },
         "the_meta": {
+            "deprecated": "6.0.2",
             "since": "1.2.0"
         },
         "the_modified_author": {
@@ -17312,6 +17616,7 @@
             "since": "0.71"
         },
         "tinymce_include": {
+            "deprecated": "2.1.0",
             "since": "2.1.0"
         },
         "touch_time": {
@@ -17354,6 +17659,7 @@
             "since": "2.8.0"
         },
         "translate_with_context": {
+            "deprecated": "3.0.0",
             "since": "2.5.0"
         },
         "translate_with_gettext_context": {
@@ -17420,6 +17726,7 @@
             "since": "2.2.0"
         },
         "unregister_sidebar_widget": {
+            "deprecated": "2.8.0",
             "since": "2.2.0"
         },
         "unregister_taxonomy": {
@@ -17435,6 +17742,7 @@
             "since": "2.8.0"
         },
         "unregister_widget_control": {
+            "deprecated": "2.8.0",
             "since": "2.2.0"
         },
         "unstick_post": {
@@ -17465,6 +17773,7 @@
             "since": "3.0.0"
         },
         "update_category_cache": {
+            "deprecated": "3.1.0",
             "since": "1.5.0"
         },
         "update_comment_cache": {
@@ -17522,6 +17831,7 @@
             "since": "3.0.0"
         },
         "update_page_cache": {
+            "deprecated": "3.4.0",
             "since": "1.5.1"
         },
         "update_post_author_caches": {
@@ -17585,9 +17895,11 @@
             "since": "2.0.0"
         },
         "update_user_status": {
+            "deprecated": "5.3.0",
             "since": "3.0.0"
         },
         "update_usermeta": {
+            "deprecated": "3.0.0",
             "since": "2.0.0"
         },
         "upgrade_100": {
@@ -17681,6 +17993,7 @@
             "since": "4.6.0"
         },
         "upgrade_500": {
+            "deprecated": "5.1.0",
             "since": "5.0.0"
         },
         "upgrade_510": {
@@ -17735,6 +18048,7 @@
             "since": "3.0.0"
         },
         "url_is_accessable_via_ssl": {
+            "deprecated": "4.0.0",
             "since": "2.5.0"
         },
         "url_shorten": {
@@ -17756,6 +18070,7 @@
             "since": "5.0.0"
         },
         "use_codepress": {
+            "deprecated": "3.0.0",
             "since": "2.8.0"
         },
         "use_ssl_preference": {
@@ -17771,27 +18086,35 @@
             "since": "1.5.0"
         },
         "user_can_create_draft": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_create_post": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_delete_post": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_delete_post_comments": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_edit_post": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_edit_post_comments": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_edit_post_date": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_edit_user": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_can_for_site": {
@@ -17801,9 +18124,11 @@
             "since": "2.0.0"
         },
         "user_can_set_post_date": {
+            "deprecated": "2.0.0",
             "since": "1.5.0"
         },
         "user_pass_ok": {
+            "deprecated": "3.5.0",
             "since": "0.71"
         },
         "user_trailingslashit": {
@@ -17837,6 +18162,7 @@
             "since": "1.5.0"
         },
         "validate_email": {
+            "deprecated": "3.0.0",
             "since": "3.0.0"
         },
         "validate_file": {
@@ -17894,6 +18220,7 @@
             "since": "2.8.0"
         },
         "wlwmanifest_link": {
+            "deprecated": "6.3.0",
             "since": "2.3.1"
         },
         "wp": {
@@ -17915,6 +18242,7 @@
             "since": "3.6.0"
         },
         "wp_add_iframed_editor_assets_html": {
+            "deprecated": "6.0.0",
             "since": "5.8.0"
         },
         "wp_add_inline_script": {
@@ -17954,6 +18282,7 @@
             "since": "4.3.0"
         },
         "wp_admin_bar_dashboard_view_site_menu": {
+            "deprecated": "3.3.0",
             "since": "3.2.0"
         },
         "wp_admin_bar_edit_menu": {
@@ -17963,6 +18292,7 @@
             "since": "5.9.0"
         },
         "wp_admin_bar_header": {
+            "deprecated": "6.4.0",
             "since": "3.1.0"
         },
         "wp_admin_bar_my_account_item": {
@@ -18134,15 +18464,19 @@
             "since": "3.1.0"
         },
         "wp_ajax_health_check_background_updates": {
+            "deprecated": "5.6.0",
             "since": "5.2.0"
         },
         "wp_ajax_health_check_dotorg_communication": {
+            "deprecated": "5.6.0",
             "since": "5.2.0"
         },
         "wp_ajax_health_check_get_sizes": {
+            "deprecated": "5.6.0",
             "since": "5.2.0"
         },
         "wp_ajax_health_check_loopback_requests": {
+            "deprecated": "5.6.0",
             "since": "5.2.0"
         },
         "wp_ajax_health_check_site_status_result": {
@@ -18206,9 +18540,11 @@
             "since": "4.0.0"
         },
         "wp_ajax_press_this_add_category": {
+            "deprecated": "4.9.0",
             "since": "4.2.0"
         },
         "wp_ajax_press_this_save_post": {
+            "deprecated": "4.9.0",
             "since": "4.2.0"
         },
         "wp_ajax_query_attachments": {
@@ -18299,6 +18635,7 @@
             "since": "3.1.0"
         },
         "wp_ajax_wp_fullscreen_save_post": {
+            "deprecated": "4.3.0",
             "since": "3.1.0"
         },
         "wp_ajax_wp_link_ajax": {
@@ -18404,6 +18741,7 @@
             "since": "3.1.0"
         },
         "wp_blacklist_check": {
+            "deprecated": "5.5.0",
             "since": "1.5.0"
         },
         "wp_block_theme_activate_nonce": {
@@ -18464,6 +18802,7 @@
             "since": "2.0.0"
         },
         "wp_cache_reset": {
+            "deprecated": "3.5.0",
             "since": "3.0.0"
         },
         "wp_cache_set": {
@@ -18602,9 +18941,11 @@
             "since": "2.1.0"
         },
         "wp_clearcookie": {
+            "deprecated": "2.5.0",
             "since": "1.5.0"
         },
         "wp_clone": {
+            "deprecated": "3.2.0",
             "since": "2.7.0"
         },
         "wp_comment_form_unfiltered_html_nonce": {
@@ -18629,6 +18970,7 @@
             "since": "2.5.0"
         },
         "wp_convert_bytes_to_hr": {
+            "deprecated": "3.6.0",
             "since": "2.3.0"
         },
         "wp_convert_hr_to_bytes": {
@@ -18659,6 +19001,7 @@
             "since": "2.3.0"
         },
         "wp_create_block_style_variation_instance_name": {
+            "deprecated": "6.7.0",
             "since": "6.6.0"
         },
         "wp_create_categories": {
@@ -18689,6 +19032,7 @@
             "since": "2.8.0"
         },
         "wp_create_thumbnail": {
+            "deprecated": "3.5.0",
             "since": "1.2.0"
         },
         "wp_create_user": {
@@ -18737,15 +19081,18 @@
             "since": "4.8.0"
         },
         "wp_dashboard_incoming_links": {
+            "deprecated": "3.8.0",
             "since": "2.7.0"
         },
         "wp_dashboard_incoming_links_output": {
+            "deprecated": "3.8.0",
             "since": "2.5.0"
         },
         "wp_dashboard_php_nag": {
             "since": "5.1.0"
         },
         "wp_dashboard_plugins_output": {
+            "deprecated": "4.8.0",
             "since": "2.5.0"
         },
         "wp_dashboard_primary": {
@@ -18758,6 +19105,7 @@
             "since": "3.8.0"
         },
         "wp_dashboard_quick_press_output": {
+            "deprecated": "3.2.0",
             "since": "3.0.0"
         },
         "wp_dashboard_quota": {
@@ -18938,6 +19286,7 @@
             "since": "2.1.0"
         },
         "wp_dropdown_cats": {
+            "deprecated": "3.0.0",
             "since": "1.2.0"
         },
         "wp_dropdown_languages": {
@@ -18980,6 +19329,7 @@
             "since": "3.6.0"
         },
         "wp_embed_handler_googlevideo": {
+            "deprecated": "4.6.0",
             "since": "2.9.0"
         },
         "wp_embed_handler_video": {
@@ -19046,6 +19396,7 @@
             "since": "5.9.0"
         },
         "wp_enqueue_global_styles_custom_css": {
+            "deprecated": "6.7.0",
             "since": "6.2.0"
         },
         "wp_enqueue_media": {
@@ -19079,6 +19430,7 @@
             "since": "2.9.0"
         },
         "wp_explain_nonce": {
+            "deprecated": "3.4.1",
             "since": "2.0.4"
         },
         "wp_ext2type": {
@@ -19088,6 +19440,7 @@
             "since": "3.7.0"
         },
         "wp_favicon_request": {
+            "deprecated": "5.4.0",
             "since": "3.0.0"
         },
         "wp_filesize": {
@@ -19238,6 +19591,7 @@
             "since": "2.1.0"
         },
         "wp_get_attachment_thumb_file": {
+            "deprecated": "6.1.0",
             "since": "2.1.0"
         },
         "wp_get_attachment_thumb_url": {
@@ -19286,6 +19640,7 @@
             "since": "6.1.0"
         },
         "wp_get_cookie_login": {
+            "deprecated": "2.5.0",
             "since": "2.0.3"
         },
         "wp_get_current_commenter": {
@@ -19325,12 +19680,15 @@
             "since": "4.4.0"
         },
         "wp_get_duotone_filter_id": {
+            "deprecated": "6.3.0",
             "since": "5.9.1"
         },
         "wp_get_duotone_filter_property": {
+            "deprecated": "6.3.0",
             "since": "5.9.0"
         },
         "wp_get_duotone_filter_svg": {
+            "deprecated": "6.3.0",
             "since": "5.9.1"
         },
         "wp_get_elements_class_name": {
@@ -19361,15 +19719,18 @@
             "since": "5.9.0"
         },
         "wp_get_global_styles_custom_css": {
+            "deprecated": "6.7.0",
             "since": "6.2.0"
         },
         "wp_get_global_styles_svg_filters": {
+            "deprecated": "6.3.0",
             "since": "5.9.1"
         },
         "wp_get_global_stylesheet": {
             "since": "5.9.0"
         },
         "wp_get_http": {
+            "deprecated": "4.4.0",
             "since": "2.5.0"
         },
         "wp_get_http_headers": {
@@ -19409,15 +19770,18 @@
             "since": "2.1.0"
         },
         "wp_get_links": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "wp_get_linksbyname": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "wp_get_list_item_separator": {
             "since": "6.0.0"
         },
         "wp_get_loading_attr_default": {
+            "deprecated": "6.3.0",
             "since": "5.9.0"
         },
         "wp_get_loading_optimization_attributes": {
@@ -19451,6 +19815,7 @@
             "since": "3.0.0"
         },
         "wp_get_network": {
+            "deprecated": "4.7.0",
             "since": "3.9.0"
         },
         "wp_get_nocache_headers": {
@@ -19493,6 +19858,7 @@
             "since": "2.1.0"
         },
         "wp_get_post_cats": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "wp_get_post_content_block_attributes": {
@@ -19565,12 +19931,14 @@
             "since": "2.2.0"
         },
         "wp_get_single_post": {
+            "deprecated": "3.5.0",
             "since": "1.0.0"
         },
         "wp_get_sitemap_providers": {
             "since": "5.5.0"
         },
         "wp_get_sites": {
+            "deprecated": "4.6.0",
             "since": "3.7.0"
         },
         "wp_get_split_term": {
@@ -19640,6 +20008,7 @@
             "since": "4.9.6"
         },
         "wp_get_user_request_data": {
+            "deprecated": "5.4.0",
             "since": "4.9.6"
         },
         "wp_get_users_with_no_role": {
@@ -19664,6 +20033,7 @@
             "since": "5.7.0"
         },
         "wp_global_styles_render_svg_filters": {
+            "deprecated": "6.3.0",
             "since": "5.9.1"
         },
         "wp_guess_url": {
@@ -19706,6 +20076,7 @@
             "since": "4.2.4"
         },
         "wp_htmledit_pre": {
+            "deprecated": "4.3.0",
             "since": "2.5.0"
         },
         "wp_http_supports": {
@@ -19745,9 +20116,11 @@
             "since": "6.7.0"
         },
         "wp_img_tag_add_decoding_attr": {
+            "deprecated": "6.4.0",
             "since": "6.1.0"
         },
         "wp_img_tag_add_loading_attr": {
+            "deprecated": "6.3.0",
             "since": "5.5.0"
         },
         "wp_img_tag_add_loading_optimization_attrs": {
@@ -19772,6 +20145,7 @@
             "since": "5.9.0"
         },
         "wp_init_targeted_link_rel_filters": {
+            "deprecated": "6.7.0",
             "since": "5.1.0"
         },
         "wp_initial_constants": {
@@ -19844,6 +20218,7 @@
             "since": "6.5.0"
         },
         "wp_interactivity_process_directives_of_interactive_blocks": {
+            "deprecated": "6.6.0",
             "since": "6.5.0"
         },
         "wp_interactivity_state": {
@@ -20033,6 +20408,7 @@
             "since": "1.0.0"
         },
         "wp_kses_js_entities": {
+            "deprecated": "4.7.0",
             "since": "1.0.0"
         },
         "wp_kses_named_entities": {
@@ -20111,6 +20487,7 @@
             "since": "2.1.0"
         },
         "wp_list_cats": {
+            "deprecated": "2.1.0",
             "since": "1.2.0"
         },
         "wp_list_comments": {
@@ -20150,6 +20527,7 @@
             "since": "3.0.0"
         },
         "wp_load_image": {
+            "deprecated": "3.5.0",
             "since": "2.1.0"
         },
         "wp_load_translations_early": {
@@ -20165,6 +20543,7 @@
             "since": "2.2.0"
         },
         "wp_login": {
+            "deprecated": "2.5.0",
             "since": "1.2.2"
         },
         "wp_login_form": {
@@ -20198,6 +20577,7 @@
             "since": "3.0.0"
         },
         "wp_make_content_images_responsive": {
+            "deprecated": "5.5.0",
             "since": "4.4.0"
         },
         "wp_make_link_relative": {
@@ -20318,9 +20698,13 @@
             "since": "3.0.0"
         },
         "wp_nav_menu_locations_meta_box": {
+            "deprecated": "3.6.0",
             "since": "3.0.0"
         },
         "wp_nav_menu_manage_columns": {
+            "since": "3.0.0"
+        },
+        "wp_nav_menu_max_depth": {
             "since": "3.0.0"
         },
         "wp_nav_menu_post_type_meta_boxes": {
@@ -20363,6 +20747,7 @@
             "since": "2.1.0"
         },
         "wp_no_robots": {
+            "deprecated": "5.7.0",
             "since": "3.3.0"
         },
         "wp_nonce_ays": {
@@ -20402,6 +20787,7 @@
             "since": "4.4.0"
         },
         "wp_oembed_add_host_js": {
+            "deprecated": "5.9.0",
             "since": "4.4.0"
         },
         "wp_oembed_add_provider": {
@@ -20639,6 +21025,7 @@
             "since": "2.1.0"
         },
         "wp_queue_comments_for_comment_meta_lazyload": {
+            "deprecated": "6.3.0",
             "since": "4.5.0"
         },
         "wp_queue_posts_for_term_meta_lazyload": {
@@ -20732,6 +21119,7 @@
             "since": "5.9.0"
         },
         "wp_register_duotone_support": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_register_fatal_error_handler": {
@@ -20795,6 +21183,7 @@
             "since": "1.5.0"
         },
         "wp_rel_nofollow_callback": {
+            "deprecated": "5.3.0",
             "since": "2.3.0"
         },
         "wp_rel_ugc": {
@@ -20849,6 +21238,7 @@
             "since": "6.4.0"
         },
         "wp_remove_targeted_link_rel_filters": {
+            "deprecated": "6.7.0",
             "since": "5.1.0"
         },
         "wp_render_background_support": {
@@ -20864,19 +21254,25 @@
             "since": "6.5.0"
         },
         "wp_render_duotone_filter_preset": {
+            "deprecated": "5.9.1",
             "since": "5.9.0"
         },
         "wp_render_duotone_support": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_render_elements_class_name": {
             "since": "6.6.0"
         },
         "wp_render_elements_support": {
+            "deprecated": "6.6.0",
             "since": "5.8.0"
         },
         "wp_render_elements_support_styles": {
             "since": "6.0.0"
+        },
+        "wp_render_empty_block_template_warning": {
+            "since": "6.8.0"
         },
         "wp_render_layout_support_flag": {
             "since": "5.8.0"
@@ -20954,6 +21350,7 @@
             "since": "2.1.0"
         },
         "wp_richedit_pre": {
+            "deprecated": "4.3.0",
             "since": "2.0.0"
         },
         "wp_robots": {
@@ -21077,6 +21474,7 @@
             "since": "4.9.6"
         },
         "wp_sensitive_page_meta": {
+            "deprecated": "5.7.0",
             "since": "5.0.1"
         },
         "wp_set_all_user_settings": {
@@ -21122,6 +21520,7 @@
             "since": "2.1.0"
         },
         "wp_set_post_cats": {
+            "deprecated": "2.1.0",
             "since": "1.0.1"
         },
         "wp_set_post_lock": {
@@ -21149,6 +21548,7 @@
             "since": "3.0.0"
         },
         "wp_setcookie": {
+            "deprecated": "2.5.0",
             "since": "1.5.0"
         },
         "wp_setup_nav_menu_item": {
@@ -21188,6 +21588,7 @@
             "since": "5.5.0"
         },
         "wp_shrink_dimensions": {
+            "deprecated": "3.0.0",
             "since": "2.0.0"
         },
         "wp_sidebar_description": {
@@ -21212,9 +21613,11 @@
             "since": "6.7.0"
         },
         "wp_skip_border_serialization": {
+            "deprecated": "6.0.0",
             "since": "5.8.0"
         },
         "wp_skip_dimensions_serialization": {
+            "deprecated": "6.0.0",
             "since": "5.9.0"
         },
         "wp_skip_paused_plugins": {
@@ -21224,12 +21627,14 @@
             "since": "5.2.0"
         },
         "wp_skip_spacing_serialization": {
+            "deprecated": "6.0.0",
             "since": "5.9.0"
         },
         "wp_slash": {
             "since": "3.6.0"
         },
         "wp_slash_strings_only": {
+            "deprecated": "5.6.0",
             "since": "5.3.0"
         },
         "wp_spaces_regexp": {
@@ -21308,9 +21713,11 @@
             "since": "2.3.0"
         },
         "wp_targeted_link_rel": {
+            "deprecated": "6.7.0",
             "since": "5.1.0"
         },
         "wp_targeted_link_rel_callback": {
+            "deprecated": "6.7.0",
             "since": "5.1.0"
         },
         "wp_templating_constants": {
@@ -21359,24 +21766,31 @@
             "since": "5.3.0"
         },
         "wp_timezone_supported": {
+            "deprecated": "3.2.0",
             "since": "2.9.0"
         },
         "wp_tiny_mce": {
+            "deprecated": "3.3.0",
             "since": "2.7.0"
         },
         "wp_tinycolor_bound01": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_tinycolor_hsl_to_rgb": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_tinycolor_hue_to_rgb": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_tinycolor_rgb_to_rgb": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_tinycolor_string_to_rgb": {
+            "deprecated": "6.3.0",
             "since": "5.8.0"
         },
         "wp_tinymce_inline_scripts": {
@@ -21416,6 +21830,7 @@
             "since": "5.2.0"
         },
         "wp_typography_get_css_variable_inline_style": {
+            "deprecated": "6.1.0",
             "since": "5.8.0"
         },
         "wp_typography_get_preset_inline_style_value": {
@@ -21449,6 +21864,7 @@
             "since": "2.3.0"
         },
         "wp_unregister_GLOBALS": {
+            "deprecated": "5.5.0",
             "since": "2.1.0"
         },
         "wp_unregister_font_collection": {
@@ -21503,12 +21919,14 @@
             "since": "2.5.0"
         },
         "wp_update_core": {
+            "deprecated": "3.7.0",
             "since": "2.7.0"
         },
         "wp_update_custom_css_post": {
             "since": "4.7.0"
         },
         "wp_update_https_detection_errors": {
+            "deprecated": "6.4.0",
             "since": "5.7.0"
         },
         "wp_update_https_migration_required": {
@@ -21539,6 +21957,7 @@
             "since": "5.1.0"
         },
         "wp_update_plugin": {
+            "deprecated": "3.7.0",
             "since": "2.5.0"
         },
         "wp_update_plugins": {
@@ -21560,6 +21979,7 @@
             "since": "2.5.0"
         },
         "wp_update_theme": {
+            "deprecated": "3.7.0",
             "since": "2.7.0"
         },
         "wp_update_themes": {
@@ -21725,6 +22145,7 @@
             "since": "1.5.0"
         },
         "wp_xmlrpc_server::blogger_getTemplate": {
+            "deprecated": "3.5.0",
             "since": "1.5.0"
         },
         "wp_xmlrpc_server::blogger_getUserInfo": {
@@ -21737,6 +22158,7 @@
             "since": "1.5.0"
         },
         "wp_xmlrpc_server::blogger_setTemplate": {
+            "deprecated": "3.5.0",
             "since": "1.5.0"
         },
         "wp_xmlrpc_server::error": {
@@ -21758,6 +22180,7 @@
             "since": "2.8.0"
         },
         "wp_xmlrpc_server::login_pass_ok": {
+            "deprecated": "2.8.0",
             "since": "1.5.0"
         },
         "wp_xmlrpc_server::minimum_args": {
@@ -21998,6 +22421,7 @@
             "since": "2.8.0"
         },
         "wpdb::_weak_escape": {
+            "deprecated": "3.6.0",
             "since": "2.8.0"
         },
         "wpdb::add_placeholder_escape": {
@@ -22040,6 +22464,7 @@
             "since": "4.0.0"
         },
         "wpdb::escape": {
+            "deprecated": "3.6.0",
             "since": "0.71"
         },
         "wpdb::escape_by_ref": {
@@ -22166,6 +22591,7 @@
             "since": "4.2.0"
         },
         "wpdb::supports_collation": {
+            "deprecated": "3.5.0",
             "since": "2.5.0"
         },
         "wpdb::suppress_errors": {
@@ -22190,9 +22616,11 @@
             "since": "3.0.0"
         },
         "wpmu_admin_do_redirect": {
+            "deprecated": "3.3.0",
             "since": "3.0.0"
         },
         "wpmu_admin_redirect_add_updated_param": {
+            "deprecated": "3.3.0",
             "since": "3.0.0"
         },
         "wpmu_create_blog": {
@@ -22202,6 +22630,7 @@
             "since": "3.0.0"
         },
         "wpmu_current_site": {
+            "deprecated": "3.9.0",
             "since": "3.0.0"
         },
         "wpmu_delete_blog": {
