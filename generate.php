@@ -67,20 +67,20 @@ foreach ( $files as $file ) {
 			}
 		}
 
+		// Parse the PHP file
+		$contents = file_get_contents( $file );
+
+		if ( $contents === false ) {
+			throw new \Exception( 'Failed to read file ' . $file );
+		}
+
+		$stmts = $parser->parse( $contents );
+
+		if ( ! is_array( $stmts ) ) {
+			throw new \Exception( 'Failed to parse file ' . $file );
+		}
+
 		try {
-			// Parse the PHP file
-			$contents = file_get_contents( $file );
-
-			if ( $contents === false ) {
-				throw new \Exception( 'Failed to read file ' . $file );
-			}
-
-			$stmts = $parser->parse( $contents );
-
-			if ( ! is_array( $stmts ) ) {
-				throw new \Exception( 'Failed to parse file ' . $file );
-			}
-
 			// Find all function and method nodes
 			// Create a new FindingVisitor instance
 			$visitor = new FindingVisitor(
@@ -171,8 +171,7 @@ foreach ( $files as $file ) {
 			}
 		} catch ( Error $e ) {
 			// Handle parsing errors
-			echo 'Error parsing file: ', $e->getMessage();
-			exit( 1 );
+			throw new \Exception( 'Error parsing file: ' . $e->getMessage() );
 		}
 	}
 }
@@ -188,6 +187,12 @@ $data = array(
 );
 $json = json_encode( $data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 
-file_put_contents( $output_file, $json );
+$written = file_put_contents( $output_file, $json );
 
-echo 'Done.' . PHP_EOL;
+if ( $written === false ) {
+	echo '❌ Failed to write symbols to symbols.json.' . PHP_EOL;
+	exit( 1 );
+}
+
+echo '✅ Symbols written to symbols.json.' . PHP_EOL;
+
