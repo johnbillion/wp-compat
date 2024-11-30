@@ -15,7 +15,7 @@ Version information for functions and methods was last updated for WordPress 6.7
 ## Requirements
 
 * PHPStan 2.0 or higher
-* PHP 7.4 or higher (tested up to PHP 8.3)
+* PHP 7.4 or higher (tested up to PHP 8.4)
 
 ## Installation
 
