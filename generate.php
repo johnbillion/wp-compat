@@ -33,10 +33,12 @@ $results = array();
 // List of directories to exclude
 // @TODO hardcode the @since versions for symbols in these files
 $excluded_paths = array(
+	// wp-content:
 	'wp-content/',
+	// wp-admin:
 	'wp-admin/includes/class-pclzip.php',
 	'wp-admin/includes/noop.php',
-	'wp-includes/class-simplepie.php',
+	// wp-includes directories:
 	'wp-includes/ID3/',
 	'wp-includes/IXR/',
 	'wp-includes/PHPMailer/',
@@ -45,9 +47,15 @@ $excluded_paths = array(
 	'wp-includes/SimplePie/',
 	'wp-includes/Text/',
 	'wp-includes/sodium_compat/',
+	'wp-includes/js/tinymce',
+	// wp-includes files:
+	'wp-includes/class-simplepie.php',
 	'wp-includes/atomlib.php',
 	'wp-includes/class-avif-info.php',
 	'wp-includes/class-json.php',
+	'wp-includes/class-pop3.php',
+	'wp-includes/class-requests.php',
+	'wp-includes/class-snoopy.php',
 	'wp-includes/compat.php',
 );
 
