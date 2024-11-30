@@ -10565,9 +10565,6 @@
             "deprecated": "5.8.0",
             "since": "5.2.0"
         },
-        "_fetch_remote_file": {
-            "since": "1.5.0"
-        },
         "_filter_block_content_callback": {
             "since": "6.2.1"
         },
@@ -10912,9 +10909,6 @@
         },
         "_resolve_template_for_new_post": {
             "since": "5.9.0"
-        },
-        "_response_to_rss": {
-            "since": "1.5.0"
         },
         "_rest_array_intersect_key_recursive": {
             "since": "5.3.0"
@@ -12794,9 +12788,6 @@
         "fetch_feed": {
             "since": "2.8.0"
         },
-        "fetch_rss": {
-            "since": "1.5.0"
-        },
         "file_is_displayable_image": {
             "since": "2.5.0"
         },
@@ -14158,9 +14149,6 @@
         "get_role": {
             "since": "2.0.0"
         },
-        "get_rss": {
-            "since": "1.5.0"
-        },
         "get_sample_permalink": {
             "since": "2.5.0"
         },
@@ -14914,9 +14902,6 @@
         "index_rel_link": {
             "deprecated": "3.3.0",
             "since": "2.8.0"
-        },
-        "init": {
-            "since": "1.5.0"
         },
         "inject_ignored_hooked_blocks_metadata_attributes": {
             "since": "6.5.0"
@@ -21376,9 +21361,6 @@
         },
         "wp_roles": {
             "since": "4.3.0"
-        },
-        "wp_rss": {
-            "since": "1.5.0"
         },
         "wp_safe_redirect": {
             "since": "2.3.0"

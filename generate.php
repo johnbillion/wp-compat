@@ -57,6 +57,7 @@ $excluded_paths = array(
 	'wp-includes/class-requests.php',
 	'wp-includes/class-snoopy.php',
 	'wp-includes/compat.php',
+	'wp-includes/rss.php',
 );
 
 echo 'Scanning and collating symbols...' . PHP_EOL;
