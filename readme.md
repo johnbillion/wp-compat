@@ -92,6 +92,18 @@ composer generate
 
 The JSON schema for the file can be found in [schemas/symbols.json](schemas/symbols.json).
 
+## Sponsors
+
+The time that I spend maintaining this library and others is in part sponsored by:
+
+[![Automattic](https://cdn.jsdelivr.net/gh/johnbillion/johnbillion/assets/sponsors/automattic.png)](https://automattic.com)
+
+Plus all my kind sponsors on GitHub:
+
+[![Sponsors](https://cdn.jsdelivr.net/gh/johnbillion/johnbillion/sponsors.svg)](https://github.com/sponsors/johnbillion)
+
+[Click here to find out about supporting this library and my other WordPress development tools and plugins](https://github.com/sponsors/johnbillion).
+
 ## License
 
 MIT
