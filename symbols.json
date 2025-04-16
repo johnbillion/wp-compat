@@ -516,6 +516,9 @@
         "WP_Application_Passwords::application_name_exists_for_user": {
             "since": "5.7.0"
         },
+        "WP_Application_Passwords::check_password": {
+            "since": "6.8.0"
+        },
         "WP_Application_Passwords::chunk_password": {
             "since": "5.6.0"
         },
@@ -533,6 +536,9 @@
         },
         "WP_Application_Passwords::get_user_application_passwords": {
             "since": "5.6.0"
+        },
+        "WP_Application_Passwords::hash_password": {
+            "since": "6.8.0"
         },
         "WP_Application_Passwords::is_in_use": {
             "since": "5.6.0"
@@ -627,6 +633,12 @@
         "WP_Block::__get": {
             "since": "5.5.0"
         },
+        "WP_Block::refresh_context_dependents": {
+            "since": "6.8.0"
+        },
+        "WP_Block::refresh_parsed_block_dependents": {
+            "since": "6.8.0"
+        },
         "WP_Block::render": {
             "since": "5.5.0"
         },
@@ -695,6 +707,9 @@
         },
         "WP_Block_List::valid": {
             "since": "5.5.0"
+        },
+        "WP_Block_Metadata_Registry::get_collection_block_metadata_files": {
+            "since": "6.8.0"
         },
         "WP_Block_Metadata_Registry::get_metadata": {
             "since": "6.7.0"
@@ -4158,6 +4173,9 @@
         "WP_Locale::get_month_abbrev": {
             "since": "2.1.0"
         },
+        "WP_Locale::get_month_genitive": {
+            "since": "6.8.0"
+        },
         "WP_Locale::get_weekday": {
             "since": "2.1.0"
         },
@@ -4665,6 +4683,12 @@
         },
         "WP_Object_Cache::switch_to_blog": {
             "since": "3.5.0"
+        },
+        "WP_PHPMailer::SetLanguage": {
+            "since": "6.8.0"
+        },
+        "WP_PHPMailer::__construct": {
+            "since": "6.8.0"
         },
         "WP_Paused_Extensions_Storage::__construct": {
             "since": "5.2.0"
@@ -6083,6 +6107,9 @@
         "WP_REST_Menu_Locations_Controller::__construct": {
             "since": "5.9.0"
         },
+        "WP_REST_Menu_Locations_Controller::check_has_read_only_access": {
+            "since": "6.8.0"
+        },
         "WP_REST_Menu_Locations_Controller::get_collection_params": {
             "since": "5.9.0"
         },
@@ -6613,6 +6640,9 @@
         },
         "WP_REST_Request::is_json_content_type": {
             "since": "5.6.0"
+        },
+        "WP_REST_Request::is_method": {
+            "since": "6.8.0"
         },
         "WP_REST_Request::offsetExists": {
             "since": "4.4.0"
@@ -8374,6 +8404,24 @@
         "WP_Sitemaps_Users::get_users_query_args": {
             "since": "5.5.0"
         },
+        "WP_Speculation_Rules::add_rule": {
+            "since": "6.8.0"
+        },
+        "WP_Speculation_Rules::has_rule": {
+            "since": "6.8.0"
+        },
+        "WP_Speculation_Rules::is_valid_eagerness": {
+            "since": "6.8.0"
+        },
+        "WP_Speculation_Rules::is_valid_mode": {
+            "since": "6.8.0"
+        },
+        "WP_Speculation_Rules::is_valid_source": {
+            "since": "6.8.0"
+        },
+        "WP_Speculation_Rules::jsonSerialize": {
+            "since": "6.8.0"
+        },
         "WP_Style_Engine::compile_css": {
             "since": "6.1.0"
         },
@@ -9059,6 +9107,12 @@
         "WP_Theme_JSON::process_blocks_custom_css": {
             "since": "6.2.0"
         },
+        "WP_Theme_JSON::remove_insecure_element_styles": {
+            "since": "6.8.0"
+        },
+        "WP_Theme_JSON::remove_insecure_inner_block_styles": {
+            "since": "6.8.0"
+        },
         "WP_Theme_JSON::remove_insecure_properties": {
             "since": "5.9.0"
         },
@@ -9332,6 +9386,15 @@
         },
         "WP_Translations::translate_plural": {
             "since": "6.5.0"
+        },
+        "WP_URL_Pattern_Prefixer::__construct": {
+            "since": "6.8.0"
+        },
+        "WP_URL_Pattern_Prefixer::get_default_contexts": {
+            "since": "6.8.0"
+        },
+        "WP_URL_Pattern_Prefixer::prefix_path_pattern": {
+            "since": "6.8.0"
         },
         "WP_Upgrader::__construct": {
             "since": "2.8.0"
@@ -10222,6 +10285,9 @@
         },
         "Walker_Comment::start_lvl": {
             "since": "2.7.0"
+        },
+        "Walker_Nav_Menu::__construct": {
+            "since": "6.8.0"
         },
         "Walker_Nav_Menu::build_atts": {
             "since": "6.3.0"
@@ -11213,6 +11279,9 @@
         "_wp_get_presets_class_name": {
             "since": "6.2.0"
         },
+        "_wp_get_site_editor_redirection_url": {
+            "since": "6.8.0"
+        },
         "_wp_get_user_contactmethods": {
             "since": "2.9.0"
         },
@@ -11698,6 +11767,9 @@
         "apply_block_hooks_to_content": {
             "since": "6.6.0"
         },
+        "apply_block_hooks_to_content_from_post_object": {
+            "since": "6.8.0"
+        },
         "apply_filters": {
             "since": "0.71"
         },
@@ -11861,12 +11933,6 @@
         "block_core_navigation_get_post_ids": {
             "since": "6.0.0"
         },
-        "block_core_navigation_insert_hooked_blocks": {
-            "since": "6.5.0"
-        },
-        "block_core_navigation_insert_hooked_blocks_into_rest_response": {
-            "since": "6.5.0"
-        },
         "block_core_navigation_link_build_css_colors": {
             "since": "5.9.0"
         },
@@ -11889,21 +11955,12 @@
             "deprecated": "6.3.0",
             "since": "6.2.0"
         },
-        "block_core_navigation_mock_parsed_block": {
-            "since": "6.5.0"
-        },
         "block_core_navigation_parse_blocks_from_menu_items": {
             "deprecated": "6.3.0",
             "since": "5.9.0"
         },
-        "block_core_navigation_remove_serialized_parent_block": {
-            "since": "6.5.0"
-        },
         "block_core_navigation_render_submenu_icon": {
             "since": "5.9.0"
-        },
-        "block_core_navigation_set_ignored_hooked_blocks_metadata": {
-            "since": "6.5.0"
         },
         "block_core_navigation_sort_menu_items_by_parent_id": {
             "since": "5.9.0"
@@ -11920,9 +11977,6 @@
         },
         "block_core_navigation_typographic_presets_backcompatibility": {
             "since": "5.9.0"
-        },
-        "block_core_navigation_update_ignore_hooked_blocks_meta": {
-            "since": "6.5.0"
         },
         "block_core_page_list_build_css_colors": {
             "since": "5.8.0"
@@ -15148,6 +15202,9 @@
         "is_plugin_paused": {
             "since": "5.2.0"
         },
+        "is_post_embeddable": {
+            "since": "6.8.0"
+        },
         "is_post_publicly_viewable": {
             "since": "5.7.0"
         },
@@ -16208,6 +16265,9 @@
         "register_block_core_query_title": {
             "since": "5.8.0"
         },
+        "register_block_core_query_total": {
+            "since": "6.8.0"
+        },
         "register_block_core_read_more": {
             "since": "6.0.0"
         },
@@ -16618,6 +16678,9 @@
         },
         "render_block_core_query_title": {
             "since": "5.8.0"
+        },
+        "render_block_core_query_total": {
+            "since": "6.8.0"
         },
         "render_block_core_read_more": {
             "since": "6.0.0"
@@ -18212,6 +18275,7 @@
             "since": "2.7.0"
         },
         "wp_add_editor_classic_theme_styles": {
+            "deprecated": "6.8.0",
             "since": "6.1.0"
         },
         "wp_add_footnotes_to_revision": {
@@ -18640,6 +18704,9 @@
         },
         "wp_apply_alignment_support": {
             "since": "5.6.0"
+        },
+        "wp_apply_aria_label_support": {
+            "since": "6.8.0"
         },
         "wp_apply_border_support": {
             "since": "5.8.0"
@@ -19402,6 +19469,9 @@
         "wp_enqueue_style": {
             "since": "2.6.0"
         },
+        "wp_ensure_editable_role": {
+            "since": "6.8.0"
+        },
         "wp_exif_date2ts": {
             "since": "2.5.0"
         },
@@ -19420,6 +19490,9 @@
         },
         "wp_extract_urls": {
             "since": "3.7.0"
+        },
+        "wp_fast_hash": {
+            "since": "6.8.0"
         },
         "wp_favicon_request": {
             "deprecated": "5.4.0",
@@ -19923,6 +19996,12 @@
             "deprecated": "4.6.0",
             "since": "3.7.0"
         },
+        "wp_get_speculation_rules": {
+            "since": "6.8.0"
+        },
+        "wp_get_speculation_rules_configuration": {
+            "since": "6.8.0"
+        },
         "wp_get_split_term": {
             "since": "4.2.0"
         },
@@ -20138,6 +20217,9 @@
         },
         "wp_initialize_site": {
             "since": "5.1.0"
+        },
+        "wp_initialize_site_preview_hooks": {
+            "since": "6.8.0"
         },
         "wp_initialize_theme_preview_hooks": {
             "since": "6.3.2"
@@ -20686,6 +20768,9 @@
         "wp_nav_menu_manage_columns": {
             "since": "3.0.0"
         },
+        "wp_nav_menu_max_depth": {
+            "since": "3.0.0"
+        },
         "wp_nav_menu_post_type_meta_boxes": {
             "since": "3.0.0"
         },
@@ -20832,6 +20917,9 @@
         "wp_password_change_notification": {
             "since": "2.7.0"
         },
+        "wp_password_needs_rehash": {
+            "since": "6.8.0"
+        },
         "wp_playlist_scripts": {
             "since": "3.9.0"
         },
@@ -20955,6 +21043,9 @@
         "wp_print_scripts": {
             "since": "2.1.0"
         },
+        "wp_print_speculation_rules": {
+            "since": "6.8.0"
+        },
         "wp_print_styles": {
             "since": "2.6.0"
         },
@@ -21064,6 +21155,9 @@
         "wp_register_alignment_support": {
             "since": "5.6.0"
         },
+        "wp_register_aria_label_support": {
+            "since": "6.8.0"
+        },
         "wp_register_background_support": {
             "since": "6.4.0"
         },
@@ -21072,6 +21166,9 @@
         },
         "wp_register_block_style_variations_from_theme_json_partials": {
             "since": "6.6.0"
+        },
+        "wp_register_block_types_from_metadata_collection": {
+            "since": "6.8.0"
         },
         "wp_register_border_support": {
             "since": "5.8.0"
@@ -21249,6 +21346,9 @@
         },
         "wp_render_elements_support_styles": {
             "since": "6.0.0"
+        },
+        "wp_render_empty_block_template_warning": {
+            "since": "6.8.0"
         },
         "wp_render_layout_support_flag": {
             "since": "5.8.0"
@@ -21542,6 +21642,9 @@
         "wp_should_add_elements_class_name": {
             "since": "6.6.0"
         },
+        "wp_should_load_block_assets_on_demand": {
+            "since": "6.8.0"
+        },
         "wp_should_load_block_editor_scripts_and_styles": {
             "since": "5.6.0"
         },
@@ -21827,6 +21930,9 @@
         "wp_unique_id": {
             "since": "5.0.3"
         },
+        "wp_unique_id_from_values": {
+            "since": "6.8.0"
+        },
         "wp_unique_post_slug": {
             "since": "2.8.0"
         },
@@ -22014,6 +22120,9 @@
         },
         "wp_validate_user_request_key": {
             "since": "4.9.6"
+        },
+        "wp_verify_fast_hash": {
+            "since": "6.8.0"
         },
         "wp_verify_nonce": {
             "since": "2.0.3"
