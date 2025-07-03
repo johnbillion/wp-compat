@@ -23,5 +23,8 @@
 		<exclude name="WordPress.NamingConventions" />
 		<exclude name="WordPress.WP.AlternativeFunctions" />
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
+
+		<!-- Exclude deprecated sniff: -->
+		<exclude name="Generic.Functions.CallTimePassByReference" />
 	</rule>
 </ruleset>
