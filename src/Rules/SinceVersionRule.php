@@ -3,6 +3,7 @@
 namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -164,7 +165,7 @@ final class SinceVersionRule implements Rule {
 	 */
 	private function processFuncCall( FuncCall $node, Scope $scope ): array {
 		try {
-			$name = self::getFunctionName( $node, $scope );
+			$name = self::getFunctionName( $node );
 		} catch ( \RuntimeException $e ) {
 			return [
 				RuleErrorBuilder::message( $e->getMessage() )->identifier( self::$errorIdentifier )->build(),
@@ -320,33 +321,8 @@ final class SinceVersionRule implements Rule {
 		];
 	}
 
-	/**
-	 * @throws \RuntimeException
-	 */
-	private static function getFunctionName( FuncCall $node, Scope $scope ): ?string {
+	private static function getFunctionName( FuncCall $node ): ?string {
 		if ( $node->name instanceof Name ) {
-			return $node->name->toString();
-		}
-
-		if ( $node->name instanceof Variable ) {
-			return null;
-		}
-
-		throw new \RuntimeException(
-			self::error(
-				'Failed to get function name from %s in %s:%d. Please report this to https://github.com/johnbillion/wp-compat/issues.',
-				$node,
-				$scope,
-			)
-		);
-	}
-
-	/**
-	 * @param MethodCall|StaticCall $node
-	 * @throws \RuntimeException
-	 */
-	private static function getMethodName( CallLike $node ): ?string {
-		if ( $node->name instanceof Identifier ) {
 			return $node->name->toString();
 		}
 
@@ -354,18 +330,14 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @param FuncCall|MethodCall|StaticCall $node
+	 * @param MethodCall|StaticCall $node
 	 */
-	private static function error( string $message, CallLike $node, Scope $scope ): string {
-		$filename = $scope->getFile();
-		$filename = str_replace( getcwd() . '/', '', $filename );
+	private static function getMethodName( CallLike $node ): ?string {
+		if ( $node->name instanceof Identifier ) {
+			return $node->name->toString();
+		}
 
-		return sprintf(
-			$message,
-			get_class( $node->name ),
-			$filename,
-			$node->getStartLine(),
-		);
+		return null;
 	}
 
 	public function getMinVersion(): string {

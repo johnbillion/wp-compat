@@ -15,3 +15,12 @@ mb_substr( 'string', 0, 1 );
 str_contains( 'string', 'substring' );
 str_ends_with( 'string', 'substring' );
 str_starts_with( 'string', 'substring' );
+
+// Array function call test case (should not throw error)
+$arr = [
+	'callableFunc' => function() {
+		return true;
+	}
+];
+
+$arr['callableFunc']();
