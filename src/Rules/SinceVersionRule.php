@@ -101,13 +101,13 @@ final class SinceVersionRule implements Rule {
 				continue;
 			}
 
-			foreach ( $hook['doc']['tags'] as $tag ) {
-				if ( ! isset( $tag['name'], $tag['content'] ) || $tag['name'] !== 'since' ) {
-					continue;
-				}
+			$sinceTag = array_filter(
+				$hook['doc']['tags'],
+				fn( array $tag ): bool => ( isset( $tag['name'], $tag['content'] ) && $tag['name'] === 'since' )
+			);
 
-				$hooks[ $hook['name'] ] = [ 'since' => $tag['content'] ];
-				break;
+			if ( count( $sinceTag ) > 0 ) {
+				$hooks[ $hook['name'] ] = [ 'since' => reset( $sinceTag )['content'] ];
 			}
 		}
 
@@ -222,10 +222,7 @@ final class SinceVersionRule implements Rule {
 
 	private static function sanitizeIdentifier( string $name ): string {
 		$result = preg_replace( '/[^a-zA-Z0-9.]/', '', $name );
-
-		if ( $result === null ) {
-			$result = 'unknown';
-		}
+		$result ??= 'unknown';
 
 		return $result;
 	}
@@ -466,22 +463,14 @@ final class SinceVersionRule implements Rule {
 	}
 
 	private static function getFunctionName( FuncCall $node ): ?string {
-		if ( $node->name instanceof Name ) {
-			return $node->name->toString();
-		}
-
-		return null;
+		return $node->name instanceof Name ? $node->name->toString() : null;
 	}
 
 	/**
 	 * @param MethodCall|StaticCall $node
 	 */
 	private static function getMethodName( CallLike $node ): ?string {
-		if ( $node->name instanceof Identifier ) {
-			return $node->name->toString();
-		}
-
-		return null;
+		return $node->name instanceof Identifier ? $node->name->toString() : null;
 	}
 
 	public function getMinVersion(): string {
