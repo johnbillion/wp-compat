@@ -82,7 +82,7 @@ WP::foo();
 
 ### Actions and filters
 
-There is no concept of checking the existance of an action or filter in WordPress in order to guard its usage. You can still ignore an error for an action or filter using its error identifier, which contains a sanitized version of the hook name.
+There is no concept of checking the existence of an action or filter in WordPress in order to guard its usage. You can still ignore an error for an action or filter using its error identifier, which contains a sanitized version of the hook name.
 
 ```php
 // @phpstan-ignore WPCompat.filterNotAvailable.filtername
