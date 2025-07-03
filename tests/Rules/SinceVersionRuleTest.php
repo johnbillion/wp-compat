@@ -56,6 +56,14 @@ class SinceVersionTest extends \PHPStan\Testing\RuleTestCase {
 					'WP_Date_Query::sanitize_relation() is only available since WordPress version 6.0.3.',
 					42,
 				],
+				[
+					'Filter ajax_term_search_results is only available since WordPress version 6.1.0.',
+					49,
+				],
+				[
+					'Action wp_cache_set_last_changed is only available since WordPress version 6.3.0.',
+					52,
+				],
 			],
 		);
 	}

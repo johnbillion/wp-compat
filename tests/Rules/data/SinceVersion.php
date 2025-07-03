@@ -45,6 +45,12 @@ class Another_Date_Query extends WP_Date_Query {
 $query = new Another_Date_Query( [] );
 $query->foo();
 
+// Filter introduced in a subsequent major (6.1.0)
+add_filter( 'ajax_term_search_results', 'custom_filter_callback' );
+
+// Action introduced in a subsequent major (6.3.0)
+add_action( 'wp_cache_set_last_changed', 'custom_action_callback' );
+
 
 // ============= //
 // Passing usage //
@@ -145,3 +151,16 @@ $test_instance->{"template_args_$foo"}();
 // Closure:
 $my_closure = function() {};
 $my_closure();
+
+// Filter introduced in a prior major (2.1.0)
+add_filter( '_get_page_link', 'custom_page_link_callback' );
+
+// Action introduced in a prior major (2.2.0)
+add_action( '_admin_menu', 'custom_admin_menu_callback' );
+
+// Filter that does not exist
+add_filter( 'non_existent_filter', 'custom_non_existent_callback' );
+
+// Filter with variable name
+$filter_name = $_GET['filter'];
+add_filter( $filter_name, 'custom_filter_callback' );

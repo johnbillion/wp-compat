@@ -3,6 +3,7 @@
 namespace WPCompat\PHPStan\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -10,6 +11,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Reflection\ReflectionProvider;
@@ -23,12 +25,24 @@ use PHPStan\Rules\RuleErrorBuilder;
 final class SinceVersionRule implements Rule {
 	private static string $functionIdentifier = 'WPCompat.functionNotAvailable';
 	private static string $methodIdentifier = 'WPCompat.methodNotAvailable';
+	private static string $filterIdentifier = 'WPCompat.filterNotAvailable';
+	private static string $actionIdentifier = 'WPCompat.actionNotAvailable';
 	private static string $errorIdentifier = 'WPCompat.error';
 
 	/**
 	 * @var array<string, array{since: string}>
 	 */
 	private array $symbols;
+
+	/**
+	 * @var array<string, array{since: string}>
+	 */
+	private array $filters = [];
+
+	/**
+	 * @var array<string, array{since: string}>
+	 */
+	private array $actions = [];
 
 	private string $minVersion;
 
@@ -46,11 +60,57 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException( 'Failed to read symbols.json' );
 		}
 
+		$this->filters = $this->loadHooksData( 'filters' );
+		$this->actions = $this->loadHooksData( 'actions' );
+
 		$minVersion = $requiresAtLeast ?? self::getRequiresAtLeastValue( $pluginFile );
 
 		$this->minVersion = self::normaliseVersion( $minVersion );
 		$this->symbols = json_decode( $contents, true )['symbols'];
 		$this->reflectionProvider = $reflectionProvider;
+	}
+
+	/**
+	 * @param string $type
+	 * @return array<string, array{since: string}>
+	 */
+	private function loadHooksData( string $type ): array {
+		$path = \Composer\InstalledVersions::getInstallPath( 'wp-hooks/wordpress-core' );
+
+		if ( ! is_string( $path ) ) {
+			throw new \RuntimeException( 'Failed to get install path for wp-hooks/wordpress-core' );
+		}
+
+		$filename = $path . '/hooks/' . $type . '.json';
+		$contents = file_get_contents( $filename );
+
+		if ( $contents === false ) {
+			throw new \RuntimeException( "Failed to read {$type}.json" );
+		}
+
+		$data = json_decode( $contents, true );
+
+		if ( ! is_array( $data ) ) {
+			throw new \RuntimeException( "Failed to decode {$type}.json" );
+		}
+
+		$hooks = [];
+		foreach ( $data['hooks'] as $hook ) {
+			if ( ! isset( $hook['doc']['tags'] ) ) {
+				continue;
+			}
+
+			foreach ( $hook['doc']['tags'] as $tag ) {
+				if ( ! isset( $tag['name'], $tag['content'] ) || $tag['name'] !== 'since' ) {
+					continue;
+				}
+
+				$hooks[ $hook['name'] ] = [ 'since' => $tag['content'] ];
+				break;
+			}
+		}
+
+		return $hooks;
 	}
 
 	private static function getRequiresAtLeastValue( ?string $pluginFile ): string {
@@ -175,6 +235,14 @@ final class SinceVersionRule implements Rule {
 			return [];
 		}
 
+		if ( 'add_filter' === $name ) {
+			return $this->processFilterCall( $node );
+		}
+
+		if ( 'add_action' === $name ) {
+			return $this->processActionCall( $node );
+		}
+
 		if ( $scope->isInFunctionExists( $name ) ) {
 			return [];
 		}
@@ -198,6 +266,70 @@ final class SinceVersionRule implements Rule {
 
 		return [
 			RuleErrorBuilder::message( $message )->identifier( self::$functionIdentifier )->build(),
+		];
+	}
+
+	/**
+	 * @return list<IdentifierRuleError>
+	 */
+	private function processFilterCall( FuncCall $node ): array {
+		if ( ! isset( $node->args[0] ) || ! $node->args[0] instanceof Arg || ! $node->args[0]->value instanceof String_ ) {
+			return [];
+		}
+
+		$filterName = $node->args[0]->value->value;
+
+		if ( ! isset( $this->filters[ $filterName ] ) ) {
+			return [];
+		}
+
+		$since = $this->filters[ $filterName ]['since'];
+
+		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
+			return [];
+		}
+
+		$message = sprintf(
+			'Filter %s is only available since %s version %s.',
+			$filterName,
+			'WordPress',
+			$since,
+		);
+
+		return [
+			RuleErrorBuilder::message( $message )->identifier( self::$filterIdentifier )->build(),
+		];
+	}
+
+	/**
+	 * @return list<IdentifierRuleError>
+	 */
+	private function processActionCall( FuncCall $node ): array {
+		if ( ! isset( $node->args[0] ) || ! $node->args[0] instanceof Arg || ! $node->args[0]->value instanceof String_ ) {
+			return [];
+		}
+
+		$actionName = $node->args[0]->value->value;
+
+		if ( ! isset( $this->actions[ $actionName ] ) ) {
+			return [];
+		}
+
+		$since = $this->actions[ $actionName ]['since'];
+
+		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
+			return [];
+		}
+
+		$message = sprintf(
+			'Action %s is only available since %s version %s.',
+			$actionName,
+			'WordPress',
+			$since,
+		);
+
+		return [
+			RuleErrorBuilder::message( $message )->identifier( self::$actionIdentifier )->build(),
 		];
 	}
 
