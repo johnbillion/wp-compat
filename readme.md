@@ -66,9 +66,11 @@ Any version number in `major.minor` or `major.minor.patch` format is accepted.
 
 ## Ignoring errors
 
-If your code is correctly guarded with a valid `function_exists()` or `method_exists()` check then an error won't be triggered.
+You can ignore an error from this extension by using its error identifier. For full information, see [the PHPStan guide to ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
 
-You can ignore an error from this extension by using its error identifiers. For full information, see [the PHPStan guide to ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
+### Functions and methods
+
+If your code is correctly guarded with a valid `function_exists()` or `method_exists()` check then an error won't be triggered.
 
 ```php
 // @phpstan-ignore WPCompat.functionNotAvailable
@@ -76,12 +78,18 @@ wp_foo();
 
 // @phpstan-ignore WPCompat.methodNotAvailable
 WP::foo();
+```
 
-// @phpstan-ignore WPCompat.filterNotAvailable
-add_filter( 'filter', 'callback' );
+### Actions and filters
 
-// @phpstan-ignore WPCompat.actionNotAvailable
-add_action( 'action', 'callback' );
+There is no concept of checking the existance of an action or filter in WordPress in order to guard its usage. You can still ignore an error for an action or filter using its error identifier, which contains a sanitized version of the hook name.
+
+```php
+// @phpstan-ignore WPCompat.filterNotAvailable.filtername
+add_filter( 'filter_name', 'callback' );
+
+// @phpstan-ignore WPCompat.actionNotAvailable.myactionname
+add_action( 'my_action_name', 'callback' );
 ```
 
 ## Technical details

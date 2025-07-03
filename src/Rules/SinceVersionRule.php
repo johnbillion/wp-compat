@@ -220,6 +220,16 @@ final class SinceVersionRule implements Rule {
 		return [];
 	}
 
+	private static function sanitizeIdentifier( string $name ): string {
+		$result = preg_replace( '/[^a-zA-Z0-9.]/', '', $name );
+
+		if ( $result === null ) {
+			$result = 'unknown';
+		}
+
+		return $result;
+	}
+
 	/**
 	 * @return list<IdentifierRuleError>
 	 */
@@ -297,8 +307,9 @@ final class SinceVersionRule implements Rule {
 			$since,
 		);
 
+		$sanitizedFilterName = self::sanitizeIdentifier( $filterName );
 		return [
-			RuleErrorBuilder::message( $message )->identifier( self::$filterIdentifier )->build(),
+			RuleErrorBuilder::message( $message )->identifier( self::$filterIdentifier . '.' . $sanitizedFilterName )->build(),
 		];
 	}
 
@@ -329,8 +340,9 @@ final class SinceVersionRule implements Rule {
 			$since,
 		);
 
+		$sanitizedActionName = self::sanitizeIdentifier( $actionName );
 		return [
-			RuleErrorBuilder::message( $message )->identifier( self::$actionIdentifier )->build(),
+			RuleErrorBuilder::message( $message )->identifier( self::$actionIdentifier . '.' . $sanitizedActionName )->build(),
 		];
 	}
 
