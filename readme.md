@@ -2,15 +2,13 @@
 
 WPCompat is a PHPStan extension which helps verify that your PHP code is compatible with a given version of WordPress. You can use it to help ensure that your plugin or theme remains compatible with its "Requires at least" version.
 
-It works by checking that the declared `@since` version of any WordPress functions or class methods that are in use is lower than or equal to the minimum version of WordPress that your code supports. For example, if your plugin or theme supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
+It works by checking that any WordPress functions, class methods, actions, or filters that are in use were introduced prior to the minimum version of WordPress that your code supports. For example, if your plugin or theme supports WordPress 6.0 or higher but the `get_template_hierarchy()` function is used unconditionally, the extension will trigger an error because that function was only introduced in WordPress 6.1.
 
 If your code is correctly guarded with a valid `function_exists()` or `method_exists()` check then an error won't be triggered.
 
 ## Status
 
-WPCompat is a relatively new extension and may not yet be exhaustive in its checks.
-
-Version information for functions and methods was last updated for WordPress 6.8.
+Version information was last updated for WordPress 6.8.
 
 ## Requirements
 
@@ -68,6 +66,8 @@ Any version number in `major.minor` or `major.minor.patch` format is accepted.
 
 ## Ignoring errors
 
+If your code is correctly guarded with a valid `function_exists()` or `method_exists()` check then an error won't be triggered.
+
 You can ignore an error from this extension by using its error identifiers. For full information, see [the PHPStan guide to ignoring errors](https://phpstan.org/user-guide/ignoring-errors).
 
 ```php
@@ -76,11 +76,19 @@ wp_foo();
 
 // @phpstan-ignore WPCompat.methodNotAvailable
 WP::foo();
+
+// @phpstan-ignore WPCompat.filterNotAvailable
+add_filter( 'filter', 'callback' );
+
+// @phpstan-ignore WPCompat.actionNotAvailable
+add_action( 'action', 'callback' );
 ```
 
 ## Technical details
 
-This extension does not scan your project in order to detect the `@since` versions of WordPress functions and methods. This information is included in the [symbols.json](symbols.json) file that's included in the extension. This approach ensures that your code is always tested against the most up to date and most accurate `@since` documentation, regardless of the version of WordPress that your tests are using.
+This extension does not scan your project in order to detect the `@since` versions of WordPress functions, methods, and hooks. This information is included directly in the extension. This approach ensures that your code is always tested against the most up to date and most accurate `@since` documentation, regardless of the version of WordPress that your tests are using.
+
+### Functions and methods
 
 The [symbols.json](symbols.json) file contains a dictionary of all functions and methods in WordPress along with the version of WordPress in which they were introduced.
 
@@ -91,6 +99,10 @@ composer generate
 ```
 
 The JSON schema for the file can be found in [schemas/symbols.json](schemas/symbols.json).
+
+### Actions and filters
+
+Information about actions and filters is provided by [the `wp-hooks/wordpress-core` package](https://github.com/wp-hooks/wordpress-core-hooks).
 
 ## Sponsors
 
