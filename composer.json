@@ -21,7 +21,7 @@
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"johnbillion/plugin-infrastructure": "dev-trunk",
 		"nikic/php-parser": "^5.1",
-		"php-stubs/wordpress-stubs": "^6.6",
+		"php-stubs/wordpress-stubs": "^6.9",
 		"phpstan/phpstan-phpunit": "2.0.1",
 		"phpstan/phpstan-strict-rules": "2.0.0",
 		"phpstan/phpstan-deprecation-rules": "2.0.0",
