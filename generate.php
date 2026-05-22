@@ -179,9 +179,12 @@ foreach ( $files as $file ) {
 
 				if ( $function instanceof Node\Stmt\ClassMethod ) {
 					$class = $function->getAttribute( 'parent' );
-					if ( ( $class instanceof Node\Stmt\Class_ ) && ( $class->name instanceof Node\Identifier ) ) {
+					if ( ( $class instanceof Node\Stmt\Class_ || $class instanceof Node\Stmt\Interface_ || $class instanceof Node\Stmt\Trait_ ) && ( $class->name instanceof Node\Identifier ) ) {
 						$function_name = $class->name->toString() . '::' . $function_name;
 						$class_doc_comment = $class->getDocComment();
+					} else {
+						// Anonymous class or unexpected parent — skip rather than emit a bare method name.
+						continue;
 					}
 				}
 
