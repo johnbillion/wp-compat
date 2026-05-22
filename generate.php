@@ -44,6 +44,7 @@ $excluded_paths = array(
 	// wp-includes directories:
 	'wp-includes/ID3/',
 	'wp-includes/IXR/',
+	'wp-includes/php-ai-client/src/',
 	'wp-includes/PHPMailer/',
 	'wp-includes/pomo/',
 	'wp-includes/Requests/',

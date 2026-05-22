@@ -15,19 +15,19 @@
 	"require": {
 		"php": ">= 7.4",
 		"phpstan/phpstan": "^2.0",
-		"wp-hooks/wordpress-core": "^1.11"
+		"wp-hooks/wordpress-core": "^1.12"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"johnbillion/plugin-infrastructure": "dev-trunk",
 		"nikic/php-parser": "^5.1",
-		"php-stubs/wordpress-stubs": "^6.9",
+		"php-stubs/wordpress-stubs": "~7.0.0",
 		"phpstan/phpstan-phpunit": "2.0.1",
 		"phpstan/phpstan-strict-rules": "2.0.0",
 		"phpstan/phpstan-deprecation-rules": "2.0.0",
 		"phpunit/phpunit": "^9.0",
 		"roots/wordpress-core-installer": "1.100.0",
-		"roots/wordpress-full": "*",
+		"roots/wordpress-full": "~7.0.0",
 		"wp-coding-standards/wpcs": "3.1.0"
 	},
 	"license": "MIT",
