@@ -9,13 +9,18 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     name: ${{ matrix.label }}
-    uses: johnbillion/plugin-infrastructure/.github/workflows/reusable-coding-standards.yml@trunk
+    uses: johnbillion/plugin-infrastructure/.github/workflows/reusable-coding-standards.yml@cc47e37177c694e00b901a5dc89fda5644bc550f # 2.9.1
+    permissions:
+      contents: read
     strategy:
       matrix:
         label:

@@ -8,6 +8,12 @@ on:
     branches:
       - trunk
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test / PHP ${{ matrix.php }}
@@ -25,10 +31,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # 2.37.1
         with:
           php-version: ${{ matrix.php }}
           tools: composer:v2
@@ -49,7 +57,7 @@ jobs:
           echo dir="$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
 
       - name: Composer cache
-        uses: actions/cache@v4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
