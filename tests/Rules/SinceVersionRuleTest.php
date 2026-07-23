@@ -14,7 +14,7 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 		return new SinceVersionRule(
 			'6.0',
 			null,
-			self::createReflectionProvider(),
+			self::createReflectionProvider()
 		);
 	}
 
@@ -64,7 +64,7 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'Action wp_cache_set_last_changed is only available since WordPress version 6.3.0.',
 					52,
 				],
-			],
+			]
 		);
 	}
 
