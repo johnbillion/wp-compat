@@ -14,12 +14,12 @@ final class MethodExistsVisitor extends NodeVisitorAbstract {
 	/**
 	 * @var array<int, list<array{Node\Expr, Node\Scalar\String_}>>
 	 */
-	private array $inMethodExists = [];
+	private $inMethodExists = [];
 
 	/**
 	 * @var list<Node\Stmt\If_>
 	 */
-	private array $ifStack = [];
+	private $ifStack = [];
 
 	public function enterNode( Node $node ): ?Node {
 		if ( $node instanceof Node\Stmt\If_ ) {
@@ -40,7 +40,7 @@ final class MethodExistsVisitor extends NodeVisitorAbstract {
 					$this->inMethodExists[ count( $this->ifStack ) ][] = [ $args[0]->value, $args[1]->value ];
 				}
 			}
-		} elseif ( $node instanceof Node\Expr\CallLike && count( $this->inMethodExists ) > 0 ) {
+		} elseif ( $node instanceof Node\Expr\CallLike && isset( $this->inMethodExists[ count( $this->ifStack ) ] ) ) {
 			$node->setAttribute( self::ATTRIBUTE_NAME, $this->inMethodExists[ count( $this->ifStack ) ] );
 		}
 

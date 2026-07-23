@@ -28,7 +28,17 @@ if ( isset( $argv[1] ) ) {
 $output_file = __DIR__ . '/symbols.json';
 
 // Create a new parser instance
-$parser = ( new ParserFactory() )->createForNewestSupportedVersion();
+$factory = new ParserFactory();
+// @phpstan-ignore-next-line
+if ( method_exists( $factory, 'createForNewestSupportedVersion' ) ) {
+	$parser = $factory->createForNewestSupportedVersion();
+} else {
+	/** @var callable $createMethod */
+	$createMethod = array( $factory, 'create' );
+	/** @var int $kind */
+	$kind   = defined( 'PhpParser\ParserFactory::PREFER_PHP7' ) ? (int) constant( 'PhpParser\ParserFactory::PREFER_PHP7' ) : 1;
+	$parser = call_user_func( $createMethod, $kind );
+}
 
 // Initialize an array to store the results
 $results = array();
@@ -137,7 +147,7 @@ foreach ( $files as $file ) {
 
 		// Check if the file is in an excluded directory
 		foreach ( $excluded_paths as $excluded_path ) {
-			if ( str_starts_with( $relative_path, $excluded_path ) ) {
+			if ( 0 === strpos( $relative_path, $excluded_path ) ) {
 				continue 2;
 			}
 		}
@@ -159,7 +169,9 @@ foreach ( $files as $file ) {
 			// Find all function and method nodes
 			// Create a new FindingVisitor instance
 			$visitor = new FindingVisitor(
-				fn ( Node $node ) => ( $node instanceof Node\Stmt\Function_ || $node instanceof Node\Stmt\ClassMethod )
+				function ( Node $node ): bool {
+					return $node instanceof Node\Stmt\Function_ || $node instanceof Node\Stmt\ClassMethod;
+				}
 			);
 
 			// Traverse the AST and find all function and method nodes
@@ -200,7 +212,7 @@ foreach ( $files as $file ) {
 				}
 
 				// These are all stubs now.
-				if ( str_starts_with( $function_name, 'WP_Internal_Pointers::pointer_wp' ) ) {
+				if ( 0 === strpos( $function_name, 'WP_Internal_Pointers::pointer_wp' ) ) {
 					continue;
 				}
 
