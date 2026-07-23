@@ -177,7 +177,7 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException(
 				sprintf(
 					'Failed to read file %s',
-					$pluginFile,
+					$pluginFile
 				)
 			);
 		}
@@ -198,7 +198,7 @@ final class SinceVersionRule implements Rule {
 		throw new \RuntimeException(
 			sprintf(
 				'Could not read "Requires at least" value from file %s',
-				$pluginFile,
+				$pluginFile
 			)
 		);
 	}
@@ -296,7 +296,7 @@ final class SinceVersionRule implements Rule {
 			'%s() is only available since %s version %s.',
 			$name,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		return [
@@ -328,7 +328,7 @@ final class SinceVersionRule implements Rule {
 			'Filter %s is only available since %s version %s.',
 			$filterName,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		$sanitizedFilterName = self::sanitizeIdentifier( $filterName );
@@ -361,7 +361,7 @@ final class SinceVersionRule implements Rule {
 			'Action %s is only available since %s version %s.',
 			$actionName,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		$sanitizedActionName = self::sanitizeIdentifier( $actionName );
@@ -457,7 +457,7 @@ final class SinceVersionRule implements Rule {
 			$name = sprintf(
 				'%s::%s',
 				$className,
-				$methodName,
+				$methodName
 			);
 
 			if ( isset( $this->symbols[ $name ] ) ) {
@@ -483,7 +483,7 @@ final class SinceVersionRule implements Rule {
 			'%s() is only available since %s version %s.',
 			$name,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		return [
