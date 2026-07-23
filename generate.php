@@ -17,10 +17,11 @@ use WPCompat\PHPStan\Generator\InvalidTagException;
 require 'vendor/autoload.php';
 
 // Directory to scan
-if ( isset( $argv[1] ) ) {
+if ( isset( $argv[1] ) && is_dir( $argv[1] ) ) {
 	$directory = rtrim( $argv[1], '/' );
 } else {
-	echo 'No directory name provided. Exiting...' . PHP_EOL;
+	echo 'Error: Please provide a valid directory path to a WordPress installation.' . PHP_EOL;
+	echo 'Usage: composer generate /path/to/wordpress' . PHP_EOL;
 	exit( 1 );
 }
 
