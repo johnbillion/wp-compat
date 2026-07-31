@@ -64,6 +64,18 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'Action wp_cache_set_last_changed is only available since WordPress version 6.3.0.',
 					52,
 				],
+				[
+					'Parameter $locale of load_textdomain() is only available since WordPress version 6.1.0.',
+					55,
+				],
+				[
+					'Parameter $valid_variations of WP_Theme_JSON::sanitize() is only available since WordPress version 6.3.0.',
+					59,
+				],
+				[
+					'Parameter $locale of load_textdomain() is only available since WordPress version 6.1.0.',
+					62,
+				],
 			],
 		);
 	}

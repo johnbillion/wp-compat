@@ -28,10 +28,11 @@ final class SinceVersionRule implements Rule {
 	private static string $methodIdentifier = 'WPCompat.methodNotAvailable';
 	private static string $filterIdentifier = 'WPCompat.filterNotAvailable';
 	private static string $actionIdentifier = 'WPCompat.actionNotAvailable';
+	private static string $parameterIdentifier = 'WPCompat.parameterNotAvailable';
 	private static string $errorIdentifier = 'WPCompat.error';
 
 	/**
-	 * @var array<string, array{since: string}>
+	 * @var array<string, array{since: string, parameters?: array<string, array{since: string}>}>
 	 */
 	private array $symbols;
 
@@ -262,7 +263,7 @@ final class SinceVersionRule implements Rule {
 		$since = $this->symbols[ $name ]['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return [];
+			return $this->processParameterVersions( $name, $this->symbols[ $name ], $node, $scope );
 		}
 
 		$message = sprintf(
@@ -432,7 +433,7 @@ final class SinceVersionRule implements Rule {
 			);
 
 			if ( isset( $this->symbols[ $name ] ) ) {
-				return $this->processMethodVersion( $name, $this->symbols[ $name ] );
+				return $this->processMethodVersion( $name, $this->symbols[ $name ], $node, $scope );
 			}
 		}
 
@@ -440,14 +441,14 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @param array{since: string} $symbol
+	 * @param array{since: string, parameters?: array<string, array{since: string}>} $symbol
 	 * @return list<IdentifierRuleError>
 	 */
-	private function processMethodVersion( string $name, array $symbol ): array {
+	private function processMethodVersion( string $name, array $symbol, CallLike $node, Scope $scope ): array {
 		$since = $symbol['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return [];
+			return $this->processParameterVersions( $name, $symbol, $node, $scope );
 		}
 
 		$message = sprintf(
@@ -460,6 +461,91 @@ final class SinceVersionRule implements Rule {
 		return [
 			RuleErrorBuilder::message( $message )->identifier( self::$methodIdentifier )->build(),
 		];
+	}
+
+	/**
+	 * @param array{since: string, parameters?: array<string, array{since: string}>} $symbol
+	 * @return list<IdentifierRuleError>
+	 */
+	private function processParameterVersions( string $name, array $symbol, CallLike $node, Scope $scope ): array {
+		if ( ! isset( $symbol['parameters'] ) || count( $node->getArgs() ) === 0 ) {
+			return [];
+		}
+
+		$paramReflections = $this->getParameterReflections( $node, $scope );
+		$errors = [];
+
+		foreach ( $node->getArgs() as $index => $arg ) {
+			$paramName = null;
+
+			if ( $arg->name instanceof Identifier ) {
+				$paramName = $arg->name->toString();
+			} elseif ( isset( $paramReflections[ $index ] ) ) {
+				$paramName = $paramReflections[ $index ]->getName();
+			}
+
+			if ( ! is_string( $paramName ) || ! isset( $symbol['parameters'][ $paramName ] ) ) {
+				continue;
+			}
+
+			$paramSince = $symbol['parameters'][ $paramName ]['since'];
+
+			if ( version_compare( $paramSince, $this->minVersion, '<=' ) ) {
+				continue;
+			}
+
+			$message = sprintf(
+				'Parameter $%s of %s() is only available since %s version %s.',
+				$paramName,
+				$name,
+				'WordPress',
+				$paramSince,
+			);
+
+			$errors[] = RuleErrorBuilder::message( $message )->identifier( self::$parameterIdentifier )->build();
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * @return list<\PHPStan\Reflection\ParameterReflection>
+	 */
+	private function getParameterReflections( CallLike $node, Scope $scope ): array {
+		try {
+			if ( $node instanceof FuncCall ) {
+				$funcName = self::getFunctionName( $node );
+				if ( is_string( $funcName ) && $this->reflectionProvider->hasFunction( new Name( $funcName ), $scope ) ) {
+					$reflection = $this->reflectionProvider->getFunction( new Name( $funcName ), $scope );
+					return $reflection->getVariants()[0]->getParameters();
+				}
+			} elseif ( $node instanceof MethodCall ) {
+				$methodName = self::getMethodName( $node );
+				if ( is_string( $methodName ) ) {
+					$type = $scope->getType( $node->var );
+					if ( $type->hasMethod( $methodName )->yes() ) {
+						$reflection = $type->getMethod( $methodName, $scope );
+						return $reflection->getVariants()[0]->getParameters();
+					}
+				}
+			} elseif ( $node instanceof StaticCall ) {
+				$methodName = self::getMethodName( $node );
+				if ( is_string( $methodName ) && $node->class instanceof Name ) {
+					$className = $node->class->toString();
+					if ( $this->reflectionProvider->hasClass( $className ) ) {
+						$classReflection = $this->reflectionProvider->getClass( $className );
+						if ( $classReflection->hasMethod( $methodName ) ) {
+							$reflection = $classReflection->getMethod( $methodName, $scope );
+							return $reflection->getVariants()[0]->getParameters();
+						}
+					}
+				}
+			}
+		} catch ( \Throwable $e ) {
+			return [];
+		}
+
+		return [];
 	}
 
 	private static function getFunctionName( FuncCall $node ): ?string {

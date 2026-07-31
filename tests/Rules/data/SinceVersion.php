@@ -51,6 +51,16 @@ add_filter( 'ajax_term_search_results', 'custom_filter_callback' );
 // Action introduced in a subsequent major (6.3.0)
 add_action( 'wp_cache_set_last_changed', 'custom_action_callback' );
 
+// Parameter introduced in a subsequent major (6.1.0)
+load_textdomain( 'domain', '/path/to/file', 'en_US' );
+
+// Method parameter introduced in a subsequent major (6.3.0)
+$theme_json = new WP_Theme_JSON();
+$theme_json->sanitize( [], [], [], [] );
+
+// Named parameter introduced in a subsequent major (6.1.0)
+load_textdomain( 'domain', '/path/to/file', locale: 'en_US' );
+
 
 // ============= //
 // Passing usage //
@@ -164,3 +174,10 @@ add_filter( 'non_existent_filter', 'custom_non_existent_callback' );
 // Filter with variable name
 $filter_name = $_GET['filter'];
 add_filter( $filter_name, 'custom_filter_callback' );
+
+// Function call without using parameter introduced in a subsequent major (6.1.0)
+load_textdomain( 'domain', '/path/to/file' );
+
+// Method call without using parameter introduced in a subsequent major (6.3.0)
+$theme_json = new WP_Theme_JSON();
+$theme_json->sanitize( [] );
