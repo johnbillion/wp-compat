@@ -14,7 +14,7 @@ class CompatTest extends \PHPStan\Testing\RuleTestCase {
 		return new SinceVersionRule(
 			'1.0',
 			null,
-			self::createReflectionProvider(),
+			self::createReflectionProvider()
 		);
 	}
 
@@ -23,7 +23,7 @@ class CompatTest extends \PHPStan\Testing\RuleTestCase {
 			[
 				__DIR__ . '/data/Compat.php',
 			],
-			[],
+			[]
 		);
 	}
 

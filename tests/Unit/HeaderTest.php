@@ -9,7 +9,10 @@ use PHPStan\Testing\PHPStanTestCase;
 use WPCompat\PHPStan\Rules\SinceVersionRule;
 
 class HeaderTest extends PHPStanTestCase {
-	private static ReflectionProvider $reflectionProvider;
+	/**
+	 * @var ReflectionProvider
+	 */
+	private static $reflectionProvider;
 
 	public static function setUpBeforeClass(): void {
 		self::$reflectionProvider = self::createReflectionProvider();
@@ -22,7 +25,7 @@ class HeaderTest extends PHPStanTestCase {
 		$since = new SinceVersionRule(
 			$requiresAtLeast,
 			$pluginFile,
-			self::$reflectionProvider,
+			self::$reflectionProvider
 		);
 
 		self::assertSame( $expected, $since->getMinVersion() );

@@ -24,31 +24,60 @@ use PHPStan\Rules\RuleErrorBuilder;
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Expr\CallLike>
  */
 final class SinceVersionRule implements Rule {
-	private static string $functionIdentifier = 'WPCompat.functionNotAvailable';
-	private static string $methodIdentifier = 'WPCompat.methodNotAvailable';
-	private static string $filterIdentifier = 'WPCompat.filterNotAvailable';
-	private static string $actionIdentifier = 'WPCompat.actionNotAvailable';
-	private static string $parameterIdentifier = 'WPCompat.parameterNotAvailable';
-	private static string $errorIdentifier = 'WPCompat.error';
+	/**
+	 * @var string
+	 */
+	private static $functionIdentifier = 'WPCompat.functionNotAvailable';
+
+	/**
+	 * @var string
+	 */
+	private static $methodIdentifier = 'WPCompat.methodNotAvailable';
+
+	/**
+	 * @var string
+	 */
+	private static $filterIdentifier = 'WPCompat.filterNotAvailable';
+
+	/**
+	 * @var string
+	 */
+	private static $actionIdentifier = 'WPCompat.actionNotAvailable';
+
+	/**
+	 * @var string
+	 */
+	private static $parameterIdentifier = 'WPCompat.parameterNotAvailable';
+
+	/**
+	 * @var string
+	 */
+	private static $errorIdentifier = 'WPCompat.error';
 
 	/**
 	 * @var array<string, array{since: string, parameters?: array<string, array{since: string}>}>
 	 */
-	private array $symbols;
+	private $symbols;
 
 	/**
 	 * @var array<string, array{since: string, parameters?: array<int, array{name: string, since: string}>}>
 	 */
-	private array $filters = [];
+	private $filters = [];
 
 	/**
 	 * @var array<string, array{since: string, parameters?: array<int, array{name: string, since: string}>}>
 	 */
-	private array $actions = [];
+	private $actions = [];
 
-	private string $minVersion;
+	/**
+	 * @var string
+	 */
+	private $minVersion;
 
-	private ReflectionProvider $reflectionProvider;
+	/**
+	 * @var ReflectionProvider
+	 */
+	private $reflectionProvider;
 
 	public function __construct(
 		?string $requiresAtLeast,
@@ -104,7 +133,9 @@ final class SinceVersionRule implements Rule {
 
 			$sinceTags = array_filter(
 				$hook['doc']['tags'],
-				fn( array $tag ): bool => ( isset( $tag['name'], $tag['content'] ) && $tag['name'] === 'since' )
+				function ( array $tag ): bool {
+					return isset( $tag['name'], $tag['content'] ) && $tag['name'] === 'since';
+				}
 			);
 			$sinceTags = array_values( $sinceTags );
 
@@ -204,7 +235,7 @@ final class SinceVersionRule implements Rule {
 			throw new \RuntimeException(
 				sprintf(
 					'Failed to read file %s',
-					$pluginFile,
+					$pluginFile
 				)
 			);
 		}
@@ -225,7 +256,7 @@ final class SinceVersionRule implements Rule {
 		throw new \RuntimeException(
 			sprintf(
 				'Could not read "Requires at least" value from file %s',
-				$pluginFile,
+				$pluginFile
 			)
 		);
 	}
@@ -276,7 +307,7 @@ final class SinceVersionRule implements Rule {
 
 	private static function sanitizeIdentifier( string $name ): string {
 		$result = preg_replace( '/[^a-zA-Z0-9.]/', '', $name );
-		$result ??= 'unknown';
+		$result = $result ?? 'unknown';
 
 		return $result;
 	}
@@ -323,7 +354,7 @@ final class SinceVersionRule implements Rule {
 			'%s() is only available since %s version %s.',
 			$name,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		return [
@@ -355,7 +386,7 @@ final class SinceVersionRule implements Rule {
 			'Filter %s is only available since %s version %s.',
 			$filterName,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		$sanitizedFilterName = self::sanitizeIdentifier( $filterName );
@@ -388,7 +419,7 @@ final class SinceVersionRule implements Rule {
 			'Action %s is only available since %s version %s.',
 			$actionName,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		$sanitizedActionName = self::sanitizeIdentifier( $actionName );
@@ -448,6 +479,10 @@ final class SinceVersionRule implements Rule {
 		$methodName = self::getMethodName( $node );
 
 		$inMethodExists = $node->getAttribute( MethodExistsVisitor::ATTRIBUTE_NAME, [] );
+		if ( ! is_array( $inMethodExists ) ) {
+			return false;
+		}
+
 		foreach ( $inMethodExists as [$objectOrClass, $method] ) {
 			if ( $methodName !== $method->value ) {
 				continue;
@@ -498,14 +533,12 @@ final class SinceVersionRule implements Rule {
 
 		// determine the names of all the classes that this class extends from:
 		foreach ( $classNames as $className ) {
-			try {
-				$classReflection = $this->reflectionProvider->getClass( $className );
-			} catch ( ClassNotFoundException $e ) {
-				// ?
+			if ( ! $this->reflectionProvider->hasClass( $className ) ) {
 				continue;
 			}
 
-			$allClassNames = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
+			$classReflection = $this->reflectionProvider->getClass( $className );
+			$allClassNames   = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
 		$methodName = self::getMethodName( $node );
@@ -525,7 +558,7 @@ final class SinceVersionRule implements Rule {
 			$name = sprintf(
 				'%s::%s',
 				$className,
-				$methodName,
+				$methodName
 			);
 
 			if ( isset( $this->symbols[ $name ] ) ) {
@@ -551,7 +584,7 @@ final class SinceVersionRule implements Rule {
 			'%s() is only available since %s version %s.',
 			$name,
 			'WordPress',
-			$since,
+			$since
 		);
 
 		return [

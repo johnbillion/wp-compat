@@ -13,21 +13,18 @@
 		"wordpress"
 	],
 	"require": {
-		"php": ">= 7.4",
-		"phpstan/phpstan": "^2.0",
+		"php": ">= 7.2.24",
+		"phpstan/phpstan": "^1.12 || ^2.0",
 		"wp-hooks/wordpress-core": "^1.12"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-		"johnbillion/plugin-infrastructure": "dev-trunk",
-		"nikic/php-parser": "^5.1",
-		"php-stubs/wordpress-stubs": "~7.0.0",
-		"phpstan/phpstan-phpunit": "2.0.1",
-		"phpstan/phpstan-strict-rules": "2.0.0",
-		"phpstan/phpstan-deprecation-rules": "2.0.0",
-		"phpunit/phpunit": "^9.0",
-		"roots/wordpress-core-installer": "1.100.0",
-		"roots/wordpress-full": "~7.0.0",
+		"nikic/php-parser": "^4.18 || ^5.1",
+		"php-stubs/wordpress-stubs": "^6.7",
+		"phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
+		"phpstan/phpstan-phpunit": "^1.0 || ^2.0",
+		"phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
+		"phpunit/phpunit": "^8.5 || ^9.0",
 		"wp-coding-standards/wpcs": "3.1.0"
 	},
 	"license": "MIT",
@@ -42,7 +39,6 @@
 		]
 	},
 	"extra": {
-		"wordpress-install-dir": "vendor/wordpress/wordpress",
 		"phpstan": {
 			"includes": [
 				"extension.neon"
@@ -54,8 +50,7 @@
 		"preferred-install": "dist",
 		"allow-plugins": {
 			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"roots/wordpress-core-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
 	"scripts": {
@@ -77,7 +72,7 @@
 		"test:phpstan": [
 			"phpstan analyze -v --memory-limit=1024M"
 		],
-		"generate": "@php generate.php vendor/wordpress/wordpress"
+		"generate": "@php generate.php"
 	},
 	"suggest": {
 		"phpstan/phpstan-deprecation-rules": "PHPStan rules for detecting usage of deprecated symbols",

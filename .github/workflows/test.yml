@@ -27,6 +27,7 @@ jobs:
         php:
           - "8.4"
           - "7.4"
+          - "7.2"
       fail-fast: false
 
     steps:

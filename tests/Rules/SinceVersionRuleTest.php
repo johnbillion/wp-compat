@@ -14,7 +14,7 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 		return new SinceVersionRule(
 			'6.0',
 			null,
-			self::createReflectionProvider(),
+			self::createReflectionProvider()
 		);
 	}
 
@@ -84,7 +84,7 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'Parameter $post_id of action _wp_put_post_revision is only available since WordPress version 6.4.0.',
 					68,
 				],
-			],
+			]
 		);
 	}
 
