@@ -37,12 +37,12 @@ final class SinceVersionRule implements Rule {
 	private array $symbols;
 
 	/**
-	 * @var array<string, array{since: string}>
+	 * @var array<string, array{since: string, parameters?: array<int, array{name: string, since: string}>}>
 	 */
 	private array $filters = [];
 
 	/**
-	 * @var array<string, array{since: string}>
+	 * @var array<string, array{since: string, parameters?: array<int, array{name: string, since: string}>}>
 	 */
 	private array $actions = [];
 
@@ -74,7 +74,7 @@ final class SinceVersionRule implements Rule {
 
 	/**
 	 * @param string $type
-	 * @return array<string, array{since: string}>
+	 * @return array<string, array{since: string, parameters?: array<int, array{name: string, since: string}>}>
 	 */
 	private function loadHooksData( string $type ): array {
 		$path = \Composer\InstalledVersions::getInstallPath( 'wp-hooks/wordpress-core' );
@@ -98,18 +98,71 @@ final class SinceVersionRule implements Rule {
 
 		$hooks = [];
 		foreach ( $data['hooks'] as $hook ) {
-			if ( ! isset( $hook['doc']['tags'] ) ) {
+			if ( ! isset( $hook['doc']['tags'] ) || ! is_array( $hook['doc']['tags'] ) ) {
 				continue;
 			}
 
-			$sinceTag = array_filter(
+			$sinceTags = array_filter(
 				$hook['doc']['tags'],
 				fn( array $tag ): bool => ( isset( $tag['name'], $tag['content'] ) && $tag['name'] === 'since' )
 			);
+			$sinceTags = array_values( $sinceTags );
 
-			if ( count( $sinceTag ) > 0 ) {
-				$hooks[ $hook['name'] ] = [ 'since' => reset( $sinceTag )['content'] ];
+			if ( count( $sinceTags ) === 0 ) {
+				continue;
 			}
+
+			$hookSince = $sinceTags[0]['content'];
+			$hookData = [ 'since' => $hookSince ];
+
+			$sinceTagsCount = count( $sinceTags );
+			if ( $sinceTagsCount > 1 ) {
+				$paramTags = array_filter(
+					$hook['doc']['tags'],
+					fn( array $tag ): bool => ( isset( $tag['name'] ) && $tag['name'] === 'param' )
+				);
+				$paramTags = array_values( $paramTags );
+
+				$paramVars = [];
+				foreach ( $paramTags as $idx => $ptag ) {
+					$var = $ptag['variable'] ?? '';
+					if ( is_string( $var ) && $var !== '' ) {
+						$paramVars[ $idx + 1 ] = ltrim( $var, '$' );
+					}
+				}
+
+				$parameters = [];
+				for ( $i = 1; $i < $sinceTagsCount; $i++ ) {
+					$ver = $sinceTags[ $i ]['content'];
+					$desc = $sinceTags[ $i ]['description'] ?? '';
+
+					if ( ! is_string( $desc ) || $desc === '' || version_compare( $ver, $hookSince, '<=' ) ) {
+						continue;
+					}
+
+					foreach ( $paramVars as $pos => $pvar ) {
+						$escapedVar = preg_quote( $pvar, '/' );
+						if (
+							preg_match( '/(?:Added|Introduced|Formalized|added)\s+.*(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`|\b' . $escapedVar . '\b).*(?:parameter|argument)/i', $desc ) === 1 ||
+							preg_match( '/(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`|\b' . $escapedVar . '\b).*(?:parameter|argument).*(?:added|introduced)/i', $desc ) === 1 ||
+							preg_match( '/(?:The\s+)?(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`).*(?:parameter|argument)?\s+was\s+added/i', $desc ) === 1
+						) {
+							if ( ! isset( $parameters[ $pos ] ) || version_compare( $ver, $parameters[ $pos ]['since'], '<' ) ) {
+								$parameters[ $pos ] = [
+									'name'  => $pvar,
+									'since' => $ver,
+								];
+							}
+						}
+					}
+				}
+
+				if ( $parameters !== [] ) {
+					$hookData['parameters'] = $parameters;
+				}
+			}
+
+			$hooks[ $hook['name'] ] = $hookData;
 		}
 
 		return $hooks;
@@ -295,7 +348,7 @@ final class SinceVersionRule implements Rule {
 		$since = $this->filters[ $filterName ]['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return [];
+			return $this->processHookParameters( 'Filter', self::$filterIdentifier, $filterName, $this->filters[ $filterName ], $node );
 		}
 
 		$message = sprintf(
@@ -328,7 +381,7 @@ final class SinceVersionRule implements Rule {
 		$since = $this->actions[ $actionName ]['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return [];
+			return $this->processHookParameters( 'Action', self::$actionIdentifier, $actionName, $this->actions[ $actionName ], $node );
 		}
 
 		$message = sprintf(
@@ -342,6 +395,49 @@ final class SinceVersionRule implements Rule {
 		return [
 			RuleErrorBuilder::message( $message )->identifier( self::$actionIdentifier . '.' . $sanitizedActionName )->build(),
 		];
+	}
+
+	/**
+	 * @param array{since: string, parameters?: array<int, array{name: string, since: string}>} $hookData
+	 * @return list<IdentifierRuleError>
+	 */
+	private function processHookParameters( string $type, string $identifierPrefix, string $hookName, array $hookData, FuncCall $node ): array {
+		if ( ! isset( $hookData['parameters'] ) ) {
+			return [];
+		}
+
+		$acceptedArgs = 1;
+		if ( isset( $node->args[3] ) && $node->args[3] instanceof Arg && $node->args[3]->value instanceof Node\Scalar\LNumber ) {
+			$acceptedArgs = $node->args[3]->value->value;
+		}
+
+		$errors = [];
+		foreach ( $hookData['parameters'] as $pos => $paramInfo ) {
+			if ( $acceptedArgs < $pos ) {
+				continue;
+			}
+
+			if ( version_compare( $paramInfo['since'], $this->minVersion, '<=' ) ) {
+				continue;
+			}
+
+			$message = sprintf(
+				'Parameter $%s of %s %s is only available since %s version %s.',
+				$paramInfo['name'],
+				strtolower( $type ),
+				$hookName,
+				'WordPress',
+				$paramInfo['since'],
+			);
+
+			$sanitizedHookName = self::sanitizeIdentifier( $hookName );
+			$sanitizedParamName = self::sanitizeIdentifier( $paramInfo['name'] );
+			$errors[] = RuleErrorBuilder::message( $message )
+				->identifier( $identifierPrefix . '.' . $sanitizedHookName . '.' . $sanitizedParamName )
+				->build();
+		}
+
+		return $errors;
 	}
 
 	private function isInMethodExists( CallLike $node, Scope $scope ): bool {

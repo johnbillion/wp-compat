@@ -76,6 +76,14 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					'Parameter $locale of load_textdomain() is only available since WordPress version 6.1.0.',
 					62,
 				],
+				[
+					'Parameter $previous_status of filter pre_trash_post is only available since WordPress version 6.3.0.',
+					65,
+				],
+				[
+					'Parameter $post_id of action _wp_put_post_revision is only available since WordPress version 6.4.0.',
+					68,
+				],
 			],
 		);
 	}

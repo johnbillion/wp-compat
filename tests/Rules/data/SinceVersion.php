@@ -61,6 +61,12 @@ $theme_json->sanitize( [], [], [], [] );
 // Named parameter introduced in a subsequent major (6.1.0)
 load_textdomain( 'domain', '/path/to/file', locale: 'en_US' );
 
+// Filter parameter introduced in a subsequent major (6.3.0)
+add_filter( 'pre_trash_post', 'custom_filter_callback', 10, 3 );
+
+// Action parameter introduced in a subsequent major (6.4.0)
+add_action( '_wp_put_post_revision', 'custom_action_callback', 10, 2 );
+
 
 // ============= //
 // Passing usage //
@@ -181,3 +187,9 @@ load_textdomain( 'domain', '/path/to/file' );
 // Method call without using parameter introduced in a subsequent major (6.3.0)
 $theme_json = new WP_Theme_JSON();
 $theme_json->sanitize( [] );
+
+// Filter call without using parameter introduced in a subsequent major (6.3.0)
+add_filter( 'pre_trash_post', 'custom_filter_callback', 10, 1 );
+
+// Action call without using parameter introduced in a subsequent major (6.4.0)
+add_action( '_wp_put_post_revision', 'custom_action_callback', 10, 1 );
