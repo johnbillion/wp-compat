@@ -150,7 +150,9 @@ final class SinceVersionRule implements Rule {
 			if ( $sinceTagsCount > 1 ) {
 				$paramTags = array_filter(
 					$hook['doc']['tags'],
-					fn( array $tag ): bool => ( isset( $tag['name'] ) && $tag['name'] === 'param' )
+					function ( array $tag ): bool {
+						return isset( $tag['name'] ) && $tag['name'] === 'param';
+					}
 				);
 				$paramTags = array_values( $paramTags );
 
