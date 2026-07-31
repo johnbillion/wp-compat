@@ -128,6 +128,67 @@ function getDeprecatedFromDoc( ?Doc $doc ): string {
 	return $since[0];
 }
 
+/**
+ * @param list<string> $param_names
+ * @return array<string, array{since: string}>
+ */
+function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
+	if ( ! $doc instanceof Doc || $param_names === [] ) {
+		return [];
+	}
+
+	$comment_text = $doc->getText();
+
+	if ( ! str_contains( $comment_text, '@since' ) ) {
+		return [];
+	}
+
+	if ( preg_match_all( '/@since\s+([\w.-]+)(?:[ \t]+([^\r\n]+))?/', $comment_text, $matches, PREG_SET_ORDER ) === 0 ) {
+		return [];
+	}
+
+	$parameters = [];
+
+	foreach ( $matches as $match ) {
+		$version = $match[1];
+
+		if ( $version === 'MU' ) {
+			$version = '3.0.0';
+		}
+
+		if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $version ) !== 1 ) {
+			continue;
+		}
+
+		if ( version_compare( $version, $symbol_since, '<=' ) ) {
+			continue;
+		}
+
+		$description = $match[2] ?? '';
+
+		if ( $description === '' ) {
+			continue;
+		}
+
+		foreach ( $param_names as $pname ) {
+			$escaped_pname = preg_quote( $pname, '/' );
+			if (
+				preg_match( '/(?:Added|Introduced|Formalized|added)\s+.*(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument)/i', $description ) === 1 ||
+				preg_match( '/(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument).*(?:added|introduced)/i', $description ) === 1 ||
+				preg_match( '/(?:The\s+)?(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`).*(?:parameter|argument)?\s+was\s+added/i', $description ) === 1
+			) {
+				if ( ! isset( $parameters[ $pname ] ) || version_compare( $version, $parameters[ $pname ]['since'], '<' ) ) {
+					$parameters[ $pname ] = [ 'since' => $version ];
+				}
+			}
+		}
+	}
+
+	ksort( $parameters );
+
+	return $parameters;
+}
+
 // Iterate each PHP file in the directory
 $files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $directory ) );
 foreach ( $files as $file ) {
@@ -234,6 +295,15 @@ foreach ( $files as $file ) {
 					continue;
 				}
 
+				$param_names = [];
+				foreach ( $function->params as $param ) {
+					if ( $param->var instanceof Node\Expr\Variable && is_string( $param->var->name ) ) {
+						$param_names[] = $param->var->name;
+					}
+				}
+
+				$parameters = getParametersSinceFromDoc( $doc_comment, $param_names, $since );
+
 				$result = [];
 
 				if ( $deprecated !== null ) {
@@ -241,6 +311,11 @@ foreach ( $files as $file ) {
 				}
 
 				$result['since'] = $since;
+
+				if ( $parameters !== [] ) {
+					$result['parameters'] = $parameters;
+				}
+
 				$results[ $function_name ] = $result;
 			}
 		} catch ( Error $e ) {

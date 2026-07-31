@@ -23,6 +23,21 @@
 					},
 					"since": {
 						"type": "string"
+					},
+					"parameters": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "object",
+							"required": [
+								"since"
+							],
+							"properties": {
+								"since": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false
+						}
 					}
 				},
 				"additionalProperties": false
