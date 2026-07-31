@@ -67,25 +67,50 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 				[
 					'Parameter $locale of load_textdomain() is only available since WordPress version 6.1.0.',
 					55,
+					null,
+					'WPCompat.parameterNotAvailable.loadtextdomain.locale',
 				],
 				[
 					'Parameter $valid_variations of WP_Theme_JSON::sanitize() is only available since WordPress version 6.3.0.',
 					59,
+					null,
+					'WPCompat.parameterNotAvailable.WPThemeJSONsanitize.validvariations',
 				],
 				[
 					'Parameter $locale of load_textdomain() is only available since WordPress version 6.1.0.',
 					62,
+					null,
+					'WPCompat.parameterNotAvailable.loadtextdomain.locale',
 				],
 				[
 					'Parameter $previous_status of filter pre_trash_post is only available since WordPress version 6.3.0.',
 					65,
+					null,
+					'WPCompat.parameterNotAvailable.filter.pretrashpost.previousstatus',
 				],
 				[
 					'Parameter $post_id of action _wp_put_post_revision is only available since WordPress version 6.4.0.',
 					68,
+					null,
+					'WPCompat.parameterNotAvailable.action.wpputpostrevision.postid',
 				],
 			]
 		);
+	}
+
+	public function testRuleErrorIdentifiers(): void {
+		$errors = $this->gatherAnalyserErrors( [ __DIR__ . '/data/SinceVersion.php' ] );
+		$identifiers = array_map(
+			static function ( \PHPStan\Analyser\Error $error ): ?string {
+				return $error->getIdentifier();
+			},
+			$errors
+		);
+
+		$this->assertContains( 'WPCompat.parameterNotAvailable.loadtextdomain.locale', $identifiers );
+		$this->assertContains( 'WPCompat.parameterNotAvailable.WPThemeJSONsanitize.validvariations', $identifiers );
+		$this->assertContains( 'WPCompat.parameterNotAvailable.filter.pretrashpost.previousstatus', $identifiers );
+		$this->assertContains( 'WPCompat.parameterNotAvailable.action.wpputpostrevision.postid', $identifiers );
 	}
 
 	/**

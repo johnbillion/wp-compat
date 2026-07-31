@@ -381,7 +381,7 @@ final class SinceVersionRule implements Rule {
 		$since = $this->filters[ $filterName ]['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return $this->processHookParameters( 'Filter', self::$filterIdentifier, $filterName, $this->filters[ $filterName ], $node );
+			return $this->processHookParameters( 'Filter', $filterName, $this->filters[ $filterName ], $node );
 		}
 
 		$message = sprintf(
@@ -414,7 +414,7 @@ final class SinceVersionRule implements Rule {
 		$since = $this->actions[ $actionName ]['since'];
 
 		if ( version_compare( $since, $this->minVersion, '<=' ) ) {
-			return $this->processHookParameters( 'Action', self::$actionIdentifier, $actionName, $this->actions[ $actionName ], $node );
+			return $this->processHookParameters( 'Action', $actionName, $this->actions[ $actionName ], $node );
 		}
 
 		$message = sprintf(
@@ -434,7 +434,7 @@ final class SinceVersionRule implements Rule {
 	 * @param array{since: string, parameters?: array<int, array{name: string, since: string}>} $hookData
 	 * @return list<IdentifierRuleError>
 	 */
-	private function processHookParameters( string $type, string $identifierPrefix, string $hookName, array $hookData, FuncCall $node ): array {
+	private function processHookParameters( string $type, string $hookName, array $hookData, FuncCall $node ): array {
 		if ( ! isset( $hookData['parameters'] ) ) {
 			return [];
 		}
@@ -463,10 +463,17 @@ final class SinceVersionRule implements Rule {
 				$paramInfo['since']
 			);
 
-			$sanitizedHookName = self::sanitizeIdentifier( $hookName );
+			$sanitizedHookName  = self::sanitizeIdentifier( $hookName );
 			$sanitizedParamName = self::sanitizeIdentifier( $paramInfo['name'] );
-			$errors[] = RuleErrorBuilder::message( $message )
-				->identifier( $identifierPrefix . '.' . $sanitizedHookName . '.' . $sanitizedParamName )
+			$identifier         = sprintf(
+				'%s.%s.%s.%s',
+				self::$parameterIdentifier,
+				strtolower( $type ),
+				$sanitizedHookName,
+				$sanitizedParamName
+			);
+			$errors[]           = RuleErrorBuilder::message( $message )
+				->identifier( $identifier )
 				->build();
 		}
 
@@ -633,7 +640,16 @@ final class SinceVersionRule implements Rule {
 				$paramSince
 			);
 
-			$errors[] = RuleErrorBuilder::message( $message )->identifier( self::$parameterIdentifier )->build();
+			$sanitizedSymbolName = self::sanitizeIdentifier( $name );
+			$sanitizedParamName  = self::sanitizeIdentifier( $paramName );
+			$identifier          = sprintf(
+				'%s.%s.%s',
+				self::$parameterIdentifier,
+				$sanitizedSymbolName,
+				$sanitizedParamName
+			);
+
+			$errors[] = RuleErrorBuilder::message( $message )->identifier( $identifier )->build();
 		}
 
 		return $errors;
