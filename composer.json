@@ -25,7 +25,7 @@
 		"phpstan/phpstan-phpunit": "^1.0 || ^2.0",
 		"phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
 		"phpunit/phpunit": "^8.5 || ^9.0",
-		"wp-coding-standards/wpcs": "^3.4"
+		"wp-coding-standards/wpcs": "3.4.1"
 	},
 	"license": "MIT",
 	"autoload": {
