@@ -460,7 +460,7 @@ final class SinceVersionRule implements Rule {
 				strtolower( $type ),
 				$hookName,
 				'WordPress',
-				$paramInfo['since'],
+				$paramInfo['since']
 			);
 
 			$sanitizedHookName = self::sanitizeIdentifier( $hookName );
@@ -630,7 +630,7 @@ final class SinceVersionRule implements Rule {
 				$paramName,
 				$name,
 				'WordPress',
-				$paramSince,
+				$paramSince
 			);
 
 			$errors[] = RuleErrorBuilder::message( $message )->identifier( self::$parameterIdentifier )->build();
