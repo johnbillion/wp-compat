@@ -15,12 +15,12 @@
 	"require": {
 		"php": ">= 7.2.24",
 		"phpstan/phpstan": "^1.12 || ^2.0",
-		"wp-hooks/wordpress-core": "^1.12"
+		"wp-hooks/wordpress-core": "^1.13"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"nikic/php-parser": "^4.18 || ^5.1",
-		"php-stubs/wordpress-stubs": "^6.7",
+		"roots/wordpress": "^7.1",
 		"phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
 		"phpstan/phpstan-phpunit": "^1.0 || ^2.0",
 		"phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
@@ -43,14 +43,16 @@
 			"includes": [
 				"extension.neon"
 			]
-		}
+		},
+		"wordpress-install-dir": "vendor/wordpress/wordpress"
 	},
 	"config": {
 		"sort-packages": true,
 		"preferred-install": "dist",
 		"allow-plugins": {
 			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"roots/wordpress-core-installer": true
 		}
 	},
 	"scripts": {
