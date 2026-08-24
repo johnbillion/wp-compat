@@ -1,7 +1,6 @@
 parameters:
 	scanDirectories:
-		- ../vendor/wordpress/wordpress/wp-admin
-		- ../vendor/wordpress/wordpress/wp-includes
+		- ../vendor/wordpress/wordpress
 
 services:
 	# PHPStan's TestCase.neon swaps in a source locator that ignores scanDirectories,
