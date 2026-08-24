@@ -1,8 +1,15 @@
 parameters:
-	bootstrapFiles:
-		- ../vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+	scanDirectories:
+		- ../vendor/wordpress/wordpress/wp-admin
+		- ../vendor/wordpress/wordpress/wp-includes
 
 services:
+	# PHPStan's TestCase.neon swaps in a source locator that ignores scanDirectories,
+	# so restore the real one in order to reflect the WordPress source.
+	betterReflectionSourceLocator:
+		factory: @PHPStan\Reflection\BetterReflection\BetterReflectionSourceLocatorFactory::create
+		autowired: false
+
 	-
 		class: WPCompat\PHPStan\Rules\MethodExistsVisitor
 		tags:
