@@ -13,7 +13,7 @@ Version information was last updated for WordPress 7.1.
 ## Requirements
 
 * PHPStan 1.x or 2.x
-* PHP 7.4 or higher (tested up to PHP 8.5)
+* PHP 7.2 or higher (tested up to PHP 8.5)
 
 ## Installation
 
