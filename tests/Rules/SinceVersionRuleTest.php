@@ -94,6 +94,30 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 					null,
 					'WPCompat.parameterNotAvailable.action.wpputpostrevision.postid',
 				],
+				[
+					"Key \$args['label'] of register_meta() is only available since WordPress version 6.7.0.",
+					71,
+					null,
+					'WPCompat.parameterKeyNotAvailable.registermeta.args.label',
+				],
+				[
+					"Key \$attr['decoding'] of wp_get_attachment_image() is only available since WordPress version 6.1.0.",
+					74,
+					null,
+					'WPCompat.parameterKeyNotAvailable.wpgetattachmentimage.attr.decoding',
+				],
+				[
+					"Key \$options['skip_root_layout_styles'] of WP_Theme_JSON::get_stylesheet() is only available since WordPress version 6.6.0.",
+					78,
+					null,
+					'WPCompat.parameterKeyNotAvailable.WPThemeJSONgetstylesheet.options.skiprootlayoutstyles',
+				],
+				[
+					"Key \$args['label'] of register_meta() is only available since WordPress version 6.7.0.",
+					83,
+					null,
+					'WPCompat.parameterKeyNotAvailable.registermeta.args.label',
+				],
 			]
 		);
 	}
@@ -111,6 +135,8 @@ class SinceVersionRuleTest extends \PHPStan\Testing\RuleTestCase {
 		$this->assertContains( 'WPCompat.parameterNotAvailable.WPThemeJSONsanitize.validvariations', $identifiers );
 		$this->assertContains( 'WPCompat.parameterNotAvailable.filter.pretrashpost.previousstatus', $identifiers );
 		$this->assertContains( 'WPCompat.parameterNotAvailable.action.wpputpostrevision.postid', $identifiers );
+		$this->assertContains( 'WPCompat.parameterKeyNotAvailable.registermeta.args.label', $identifiers );
+		$this->assertContains( 'WPCompat.parameterKeyNotAvailable.WPThemeJSONgetstylesheet.options.skiprootlayoutstyles', $identifiers );
 	}
 
 	/**
