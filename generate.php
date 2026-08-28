@@ -140,11 +140,16 @@ function getDeprecatedFromDoc( ?Doc $doc ): string {
 }
 
 /**
- * @param list<string> $param_names
- * @return array<string, array{since: string}>
+ * Extracts the version and description of each changelog entry in a docblock.
+ *
+ * Only the entries which postdate the symbol are returned, since those are the ones which describe
+ * a change to it rather than its introduction. Entries without a description are skipped too, as
+ * there's nothing in them to attribute a change to.
+ *
+ * @return list<array{version: string, description: string}>
  */
-function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
-	if ( ! $doc instanceof Doc || $param_names === [] ) {
+function getSinceEntriesFromDoc( ?Doc $doc, string $symbol_since ): array {
+	if ( ! $doc instanceof Doc ) {
 		return [];
 	}
 
@@ -158,7 +163,7 @@ function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbo
 		return [];
 	}
 
-	$parameters = [];
+	$entries = [];
 
 	foreach ( $matches as $match ) {
 		$version = $match[1];
@@ -180,6 +185,30 @@ function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbo
 		if ( $description === '' ) {
 			continue;
 		}
+
+		$entries[] = [
+			'version'     => $version,
+			'description' => $description,
+		];
+	}
+
+	return $entries;
+}
+
+/**
+ * @param list<string> $param_names
+ * @return array<string, array{since: string}>
+ */
+function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
+	if ( $param_names === [] ) {
+		return [];
+	}
+
+	$parameters = [];
+
+	foreach ( getSinceEntriesFromDoc( $doc, $symbol_since ) as $entry ) {
+		$version = $entry['version'];
+		$description = $entry['description'];
 
 		foreach ( $param_names as $pname ) {
 			$escaped_pname = preg_quote( $pname, '/' );
@@ -273,17 +302,7 @@ function getHashNotationKeys( ?Doc $doc ): array {
  * @return array<string, array<string, array{since: string}>> Array of key paths and their versions, keyed by parameter name.
  */
 function getParameterKeysSinceFromDoc( ?Doc $doc, array $parameter_keys, array $param_names, string $symbol_since ): array {
-	if ( ! $doc instanceof Doc || $parameter_keys === [] ) {
-		return [];
-	}
-
-	$comment_text = $doc->getText();
-
-	if ( ! str_contains( $comment_text, '@since' ) ) {
-		return [];
-	}
-
-	if ( preg_match_all( '/@since\s+([\w.-]+)(?:[ \t]+([^\r\n]+))?/', $comment_text, $matches, PREG_SET_ORDER ) === 0 ) {
+	if ( $parameter_keys === [] ) {
 		return [];
 	}
 
@@ -300,30 +319,12 @@ function getParameterKeysSinceFromDoc( ?Doc $doc, array $parameter_keys, array $
 
 	$keys = [];
 
-	foreach ( $matches as $match ) {
-		$version = $match[1];
-
-		if ( $version === 'MU' ) {
-			$version = '3.0.0';
-		}
-
-		if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $version ) !== 1 ) {
-			continue;
-		}
-
-		if ( version_compare( $version, $symbol_since, '<=' ) ) {
-			continue;
-		}
-
-		$description = $match[2] ?? '';
-
-		if ( $description === '' ) {
-			continue;
-		}
+	foreach ( getSinceEntriesFromDoc( $doc, $symbol_since ) as $entry ) {
+		$version = $entry['version'];
 
 		// A changelog entry often describes several unrelated changes, so each sentence is
 		// considered on its own.
-		$sentences = preg_split( '/(?<=[.;])\s+/', $description );
+		$sentences = preg_split( '/(?<=[.;])\s+/', $entry['description'] );
 
 		if ( ! is_array( $sentences ) ) {
 			continue;
