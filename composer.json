@@ -12,6 +12,20 @@
 		"phpstan",
 		"wordpress"
 	],
+	"repositories": [
+		{
+			"comment": "Provided in place of a package such as roots/wordpress so its PHP version requirement doesn't prevent installation on older versions of PHP. WordPress core is used here only as a source of symbols for the tests, it's never executed.",
+			"type": "package",
+			"package": {
+				"name": "wordpress/wordpress",
+				"version": "7.1",
+				"dist": {
+					"type": "zip",
+					"url": "https://downloads.wordpress.org/release/wordpress-7.1-no-content.zip"
+				}
+			}
+		}
+	],
 	"require": {
 		"php": ">= 7.2.24",
 		"phpstan/phpstan": "^1.12 || ^2.0",
@@ -20,11 +34,11 @@
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"nikic/php-parser": "^4.18 || ^5.1",
-		"roots/wordpress": "*",
 		"phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
 		"phpstan/phpstan-phpunit": "^1.0 || ^2.0",
 		"phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
 		"phpunit/phpunit": "^8.5 || ^9.0",
+		"wordpress/wordpress": "7.1",
 		"wp-coding-standards/wpcs": "3.4.1"
 	},
 	"license": "MIT",
@@ -46,16 +60,14 @@
 			"includes": [
 				"extension.neon"
 			]
-		},
-		"wordpress-install-dir": "vendor/wordpress/wordpress"
+		}
 	},
 	"config": {
 		"sort-packages": true,
 		"preferred-install": "dist",
 		"allow-plugins": {
 			"composer/installers": true,
-			"dealerdirect/phpcodesniffer-composer-installer": true,
-			"roots/wordpress-core-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
 	"scripts": {
