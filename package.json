@@ -14,10 +14,9 @@
 		"node": ">=24"
 	},
 	"devDependencies": {
-		"ajv-cli": "^5.0",
-		"ajv-formats": "^3.0"
+		"ajv-cli": "^5.0"
 	},
 	"scripts": {
-		"test:schema": "ajv validate --spec=draft7 --strict --strict-schema=false --strict-required=false -c ajv-formats -s schemas/symbols.json -d symbols.json"
+		"test:schema": "ajv validate --spec=draft7 --strict --strict-schema=false --strict-required=false -s schemas/symbols.json -d symbols.json"
 	}
 }
