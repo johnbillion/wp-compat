@@ -19,6 +19,8 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\Type;
 use WPCompat\PHPStan\ParameterAdditionMatcher;
 
 /**
@@ -53,10 +55,15 @@ final class SinceVersionRule implements Rule {
 	/**
 	 * @var string
 	 */
+	private static $parameterKeyIdentifier = 'WPCompat.parameterKeyNotAvailable';
+
+	/**
+	 * @var string
+	 */
 	private static $errorIdentifier = 'WPCompat.error';
 
 	/**
-	 * @var array<string, array{since: string, parameters?: array<string, array{since: string}>}>
+	 * @var array<string, array{since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>}>
 	 */
 	private $symbols;
 
@@ -577,7 +584,7 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @param array{since: string, parameters?: array<string, array{since: string}>} $symbol
+	 * @param array{since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>} $symbol
 	 * @return list<IdentifierRuleError>
 	 */
 	private function processMethodVersion( string $name, array $symbol, CallLike $node, Scope $scope ): array {
@@ -600,7 +607,7 @@ final class SinceVersionRule implements Rule {
 	}
 
 	/**
-	 * @param array{since: string, parameters?: array<string, array{since: string}>} $symbol
+	 * @param array{since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>} $symbol
 	 * @return list<IdentifierRuleError>
 	 */
 	private function processParameterVersions( string $name, array $symbol, CallLike $node, Scope $scope ): array {
@@ -624,33 +631,117 @@ final class SinceVersionRule implements Rule {
 				continue;
 			}
 
-			$paramSince = $symbol['parameters'][ $paramName ]['since'];
+			$parameter = $symbol['parameters'][ $paramName ];
 
-			if ( version_compare( $paramSince, $this->minVersion, '<=' ) ) {
+			if ( isset( $parameter['since'] ) && version_compare( $parameter['since'], $this->minVersion, '>' ) ) {
+				$message = sprintf(
+					'Parameter $%s of %s() is only available since %s version %s.',
+					$paramName,
+					$name,
+					'WordPress',
+					$parameter['since']
+				);
+
+				$sanitizedSymbolName = self::sanitizeIdentifier( $name );
+				$sanitizedParamName  = self::sanitizeIdentifier( $paramName );
+				$identifier          = sprintf(
+					'%s.%s.%s',
+					self::$parameterIdentifier,
+					$sanitizedSymbolName,
+					$sanitizedParamName
+				);
+
+				$errors[] = RuleErrorBuilder::message( $message )->identifier( $identifier )->build();
+
+				// There's no point in reporting the keys of a parameter that isn't available yet.
+				continue;
+			}
+
+			if ( ! isset( $parameter['keys'] ) ) {
+				continue;
+			}
+
+			foreach ( $this->processParameterKeyVersions( $name, $paramName, $parameter['keys'], $arg, $scope ) as $error ) {
+				$errors[] = $error;
+			}
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Reports the keys of an array shaped argument that were introduced too recently.
+	 *
+	 * @param array<string, array{since: string}> $keys
+	 * @return list<IdentifierRuleError>
+	 */
+	private function processParameterKeyVersions( string $name, string $paramName, array $keys, Arg $arg, Scope $scope ): array {
+		$type = $scope->getType( $arg->value );
+
+		if ( ! $type->isArray()->yes() ) {
+			return [];
+		}
+
+		$errors = [];
+
+		foreach ( $keys as $key => $keyInfo ) {
+			if ( version_compare( $keyInfo['since'], $this->minVersion, '<=' ) ) {
+				continue;
+			}
+
+			$path = explode( '.', $key );
+
+			if ( ! self::hasArrayKeyPath( $type, $path ) ) {
 				continue;
 			}
 
 			$message = sprintf(
-				'Parameter $%s of %s() is only available since %s version %s.',
+				'Key $%s%s of %s() is only available since %s version %s.',
 				$paramName,
+				"['" . implode( "']['", $path ) . "']",
 				$name,
 				'WordPress',
-				$paramSince
+				$keyInfo['since']
 			);
 
-			$sanitizedSymbolName = self::sanitizeIdentifier( $name );
-			$sanitizedParamName  = self::sanitizeIdentifier( $paramName );
-			$identifier          = sprintf(
-				'%s.%s.%s',
-				self::$parameterIdentifier,
-				$sanitizedSymbolName,
-				$sanitizedParamName
+			$identifier = sprintf(
+				'%s.%s.%s.%s',
+				self::$parameterKeyIdentifier,
+				self::sanitizeIdentifier( $name ),
+				self::sanitizeIdentifier( $paramName ),
+				self::sanitizeIdentifier( $key )
 			);
 
 			$errors[] = RuleErrorBuilder::message( $message )->identifier( $identifier )->build();
 		}
 
 		return $errors;
+	}
+
+	/**
+	 * Determines whether an array is known to contain the given key path.
+	 *
+	 * Only keys that are statically known are reported, which means that an array that's assembled
+	 * conditionally doesn't trigger an error.
+	 *
+	 * @param list<string> $path
+	 */
+	private static function hasArrayKeyPath( Type $type, array $path ): bool {
+		foreach ( $path as $key ) {
+			if ( ! $type->isArray()->yes() ) {
+				return false;
+			}
+
+			$offset = new ConstantStringType( $key );
+
+			if ( ! $type->hasOffsetValueType( $offset )->yes() ) {
+				return false;
+			}
+
+			$type = $type->getOffsetValueType( $offset );
+		}
+
+		return true;
 	}
 
 	/**

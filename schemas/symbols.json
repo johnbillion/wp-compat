@@ -27,12 +27,36 @@
 						"type": "object",
 						"additionalProperties": {
 							"type": "object",
-							"required": [
-								"since"
+							"anyOf": [
+								{
+									"required": [
+										"since"
+									]
+								},
+								{
+									"required": [
+										"keys"
+									]
+								}
 							],
 							"properties": {
 								"since": {
 									"type": "string"
+								},
+								"keys": {
+									"type": "object",
+									"additionalProperties": {
+										"type": "object",
+										"required": [
+											"since"
+										],
+										"properties": {
+											"since": {
+												"type": "string"
+											}
+										},
+										"additionalProperties": false
+									}
 								}
 							},
 							"additionalProperties": false

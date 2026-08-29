@@ -67,6 +67,21 @@ add_filter( 'pre_trash_post', 'custom_filter_callback', 10, 3 );
 // Action parameter introduced in a subsequent major (6.4.0)
 add_action( '_wp_put_post_revision', 'custom_action_callback', 10, 2 );
 
+// Key of an array parameter introduced in a subsequent major (6.7.0)
+register_meta( 'post', 'my_meta_key', [ 'label' => 'My meta key' ] );
+
+// Key of a named array parameter introduced in a subsequent major (6.1.0)
+wp_get_attachment_image( 1, 'thumbnail', false, attr: [ 'decoding' => 'async' ] );
+
+// Key of an array parameter of a method introduced in a subsequent major (6.6.0)
+$theme_json = new WP_Theme_JSON();
+$theme_json->get_stylesheet( [], null, [ 'skip_root_layout_styles' => true ] );
+
+// Key introduced in a subsequent major (6.7.0) added to the array before it's passed
+$meta_args = [ 'type' => 'string' ];
+$meta_args['label'] = 'My meta key';
+register_meta( 'post', 'my_meta_key', $meta_args );
+
 
 // ============= //
 // Passing usage //
@@ -144,6 +159,16 @@ function beep(): void {
 	}
 }
 beep();
+
+// Key of an array parameter introduced in a prior major (5.9.0)
+register_post_type( 'my_post_type', [ 'rest_namespace' => 'my-plugin/v1' ] );
+
+// Key introduced in a subsequent major (6.7.0) which is only conditionally present
+$conditional_meta_args = [ 'type' => 'string' ];
+if ( wp_rand() ) {
+	$conditional_meta_args['label'] = 'My meta key';
+}
+register_meta( 'post', 'my_meta_key', $conditional_meta_args );
 
 // Variable function name:
 $function_name = $_GET['foo'];

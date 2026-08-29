@@ -53,7 +53,7 @@ final class SymbolExtractor {
 	 *
 	 * @param string $code      The PHP code to extract symbols from.
 	 * @param string $file_path The path of the file that the code came from, used in notices.
-	 * @return array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since: string}>}>
+	 * @return array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>}>
 	 */
 	public function extract( string $code, string $file_path = '' ): array {
 		$this->notices = [];
@@ -104,7 +104,7 @@ final class SymbolExtractor {
 
 	/**
 	 * @param Node\Stmt\Function_|Node\Stmt\ClassMethod $node
-	 * @return array{string, array{deprecated?: string, since: string, parameters?: array<string, array{since: string}>}}|null
+	 * @return array{string, array{deprecated?: string, since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>}}|null
 	 */
 	private function getSymbol( Node $node, string $file_path ): ?array {
 		$doc_comment = $node->getDocComment();
@@ -175,6 +175,33 @@ final class SymbolExtractor {
 		}
 
 		$parameters = self::getParametersSinceFromDoc( $doc_comment, $param_names, $since );
+		$parameter_keys = self::getParameterKeysSinceFromDoc( $doc_comment, self::getHashNotationKeys( $doc_comment ), $param_names, $since );
+
+		foreach ( $parameter_keys as $parameter_name => $keys ) {
+			// The hash notation is also used for documenting things other than parameters.
+			if ( ! in_array( $parameter_name, $param_names, true ) ) {
+				continue;
+			}
+
+			// A key is only worth recording when it postdates the parameter that holds it.
+			if ( isset( $parameters[ $parameter_name ]['since'] ) ) {
+				$parameter_since = $parameters[ $parameter_name ]['since'];
+				$keys = array_filter(
+					$keys,
+					function ( array $key ) use ( $parameter_since ): bool {
+						return version_compare( $key['since'], $parameter_since, '>' );
+					}
+				);
+			}
+
+			if ( $keys === [] ) {
+				continue;
+			}
+
+			$parameters[ $parameter_name ]['keys'] = $keys;
+		}
+
+		ksort( $parameters );
 
 		$result = [];
 
@@ -254,11 +281,16 @@ final class SymbolExtractor {
 	}
 
 	/**
-	 * @param list<string> $param_names
-	 * @return array<string, array{since: string}>
+	 * Extracts the version and description of each changelog entry in a docblock.
+	 *
+	 * Only the entries which postdate the symbol are returned, since those are the ones which
+	 * describe a change to it rather than its introduction. Entries without a description are
+	 * skipped too, as there's nothing in them to attribute a change to.
+	 *
+	 * @return list<array{version: string, description: string}>
 	 */
-	public static function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
-		if ( ! $doc instanceof Doc || $param_names === [] ) {
+	public static function getSinceEntriesFromDoc( ?Doc $doc, string $symbol_since ): array {
+		if ( ! $doc instanceof Doc ) {
 			return [];
 		}
 
@@ -268,14 +300,10 @@ final class SymbolExtractor {
 			return [];
 		}
 
-		if ( preg_match_all( '/@since\s+([\w.-]+)(?:[ \t]+([^\r\n]+))?/', $comment_text, $matches, PREG_SET_ORDER ) === 0 ) {
-			return [];
-		}
+		$entries = [];
 
-		$parameters = [];
-
-		foreach ( $matches as $match ) {
-			$version = $match[1];
+		foreach ( self::getSinceTagsFromText( $comment_text ) as $tag ) {
+			$version = $tag['version'];
 
 			if ( $version === 'MU' ) {
 				$version = '3.0.0';
@@ -289,19 +317,106 @@ final class SymbolExtractor {
 				continue;
 			}
 
-			$description = $match[2] ?? '';
-
-			if ( $description === '' ) {
+			if ( $tag['description'] === '' ) {
 				continue;
 			}
 
+			$entries[] = [
+				'version'     => $version,
+				'description' => $tag['description'],
+			];
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Reads every `@since` tag out of a docblock, without regard for the symbol's own version.
+	 *
+	 * A description which doesn't fit on one line is continued on the lines beneath it, so those
+	 * are joined back onto the tag they belong to. Anything else would truncate the description
+	 * part way through, and WordPress often names the argument that was added on the second line.
+	 *
+	 * @return list<array{version: string, description: string}>
+	 */
+	private static function getSinceTagsFromText( string $comment_text ): array {
+		$lines = preg_split( '/\R/', $comment_text );
+
+		if ( ! is_array( $lines ) ) {
+			return [];
+		}
+
+		$tags = [];
+		$version = null;
+		$description = '';
+
+		foreach ( $lines as $line ) {
+			// Strip the leading whitespace and the docblock asterisk.
+			$line = trim( (string) preg_replace( '#^\s*(?:/\*\*|\*/|\*)#', '', $line ) );
+
+			if ( preg_match( '/^@since\s+([\w.-]+)(?:[ \t]+(.*))?$/', $line, $matches ) === 1 ) {
+				if ( $version !== null ) {
+					$tags[] = [
+						'version'     => $version,
+						'description' => $description,
+					];
+				}
+
+				$version = $matches[1];
+				$description = trim( $matches[2] ?? '' );
+
+				continue;
+			}
+
+			if ( $version === null ) {
+				continue;
+			}
+
+			// A blank line or the start of another tag ends the description.
+			if ( $line === '' || strpos( $line, '@' ) === 0 ) {
+				$tags[] = [
+					'version'     => $version,
+					'description' => $description,
+				];
+
+				$version = null;
+				$description = '';
+
+				continue;
+			}
+
+			$description = trim( $description . ' ' . $line );
+		}
+
+		if ( $version !== null ) {
+			$tags[] = [
+				'version'     => $version,
+				'description' => $description,
+			];
+		}
+
+		return $tags;
+	}
+
+	/**
+	 * @param list<string> $param_names
+	 * @return array<string, array{since: string}>
+	 */
+	public static function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
+		if ( $param_names === [] ) {
+			return [];
+		}
+
+		$parameters = [];
+
+		foreach ( self::getSinceEntriesFromDoc( $doc, $symbol_since ) as $entry ) {
 			foreach ( $param_names as $pname ) {
-				if ( ! ParameterAdditionMatcher::matches( $description, $pname ) ) {
+				if ( ! ParameterAdditionMatcher::matches( $entry['description'], $pname ) ) {
 					continue;
 				}
 
-				if ( ! isset( $parameters[ $pname ] ) || version_compare( $version, $parameters[ $pname ]['since'], '<' ) ) {
-					$parameters[ $pname ] = [ 'since' => $version ];
+				if ( ! isset( $parameters[ $pname ] ) || version_compare( $entry['version'], $parameters[ $pname ]['since'], '<' ) ) {
+					$parameters[ $pname ] = [ 'since' => $entry['version'] ];
 				}
 			}
 		}
@@ -309,5 +424,159 @@ final class SymbolExtractor {
 		ksort( $parameters );
 
 		return $parameters;
+	}
+
+	/**
+	 * Extracts the array keys that are documented for each array shaped parameter.
+	 *
+	 * WordPress documents the elements of an array parameter with the hash notation, in which the
+	 * parameter description is followed by a list of `@type` tags wrapped in braces. Nested arrays
+	 * are documented with a nested hash, so keys are returned as dot delimited paths.
+	 *
+	 * @see https://developer.wordpress.org/coding-standards/inline-documentation-standards/php/#1-1-parameters-that-are-arrays
+	 *
+	 * @return array<string, list<string>> Array of key paths keyed by parameter name.
+	 */
+	public static function getHashNotationKeys( ?Doc $doc ): array {
+		if ( ! $doc instanceof Doc ) {
+			return [];
+		}
+
+		$lines = preg_split( '/\R/', $doc->getText() );
+
+		if ( ! is_array( $lines ) ) {
+			return [];
+		}
+
+		$keys = [];
+		$parameter = null;
+		$path = [];
+
+		foreach ( $lines as $line ) {
+			// Strip the leading whitespace and the docblock asterisk.
+			$line = trim( (string) preg_replace( '#^\s*(?:/\*\*|\*/|\*)#', '', $line ) );
+
+			if ( $parameter === null ) {
+				if ( preg_match( '/^@param\s+.+?\s+\$([A-Za-z_][A-Za-z0-9_]*)\s*\{$/', $line, $matches ) === 1 ) {
+					$parameter = $matches[1];
+					$path = [];
+				}
+
+				continue;
+			}
+
+			if ( $line === '}' ) {
+				if ( $path === [] ) {
+					$parameter = null;
+				} else {
+					array_pop( $path );
+				}
+
+				continue;
+			}
+
+			if ( preg_match( '/^@type\s+.+?\s+\$([A-Za-z_][A-Za-z0-9_-]*)(?:\s|$)/', $line, $matches ) !== 1 ) {
+				continue;
+			}
+
+			$key = $matches[1];
+			$keys[ $parameter ][] = implode( '.', array_merge( $path, [ $key ] ) );
+
+			// A trailing brace means this key is documented with a nested hash of its own.
+			if ( substr( $line, -1 ) === '{' ) {
+				$path[] = $key;
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Determines which of the documented array keys were introduced after the symbol itself.
+	 *
+	 * @param array<string, list<string>> $parameter_keys Array of key paths keyed by parameter name.
+	 * @param list<string> $param_names
+	 * @return array<string, array<string, array{since: string}>> Array of key paths and their versions, keyed by parameter name.
+	 */
+	public static function getParameterKeysSinceFromDoc( ?Doc $doc, array $parameter_keys, array $param_names, string $symbol_since ): array {
+		if ( $parameter_keys === [] ) {
+			return [];
+		}
+
+		// Index every documented key by its own name so that a changelog entry which mentions
+		// "the `name` argument" can be resolved to the `before.name` key path.
+		$candidates = [];
+
+		foreach ( $parameter_keys as $parameter => $paths ) {
+			foreach ( $paths as $path ) {
+				$parts = explode( '.', $path );
+				$candidates[ end( $parts ) ][] = [ $parameter, $path ];
+			}
+		}
+
+		$keys = [];
+
+		foreach ( self::getSinceEntriesFromDoc( $doc, $symbol_since ) as $entry ) {
+			foreach ( $candidates as $key => $paths ) {
+				// A key that shares its name with a parameter is left to getParametersSinceFromDoc().
+				if ( in_array( $key, $param_names, true ) ) {
+					continue;
+				}
+
+				if ( ! ParameterKeyAdditionMatcher::matches( $entry['description'], $key ) ) {
+					continue;
+				}
+
+				$resolved = self::resolveKeyPath( $paths );
+
+				if ( $resolved === null ) {
+					continue;
+				}
+
+				list( $parameter, $path ) = $resolved;
+
+				if ( ! isset( $keys[ $parameter ][ $path ] ) || version_compare( $entry['version'], $keys[ $parameter ][ $path ]['since'], '<' ) ) {
+					$keys[ $parameter ][ $path ] = [ 'since' => $entry['version'] ];
+				}
+			}
+		}
+
+		foreach ( $keys as $parameter => $paths ) {
+			ksort( $paths );
+			$keys[ $parameter ] = $paths;
+		}
+
+		ksort( $keys );
+
+		return $keys;
+	}
+
+	/**
+	 * Picks the key path that a changelog entry refers to.
+	 *
+	 * The same key name can be documented more than once, for example as both a top level key and
+	 * a key of a nested array. The shallowest one wins, and nothing is returned when that is
+	 * ambiguous.
+	 *
+	 * @param list<array{0: string, 1: string}> $paths
+	 * @return array{0: string, 1: string}|null
+	 */
+	private static function resolveKeyPath( array $paths ): ?array {
+		if ( count( $paths ) === 1 ) {
+			return $paths[0];
+		}
+
+		usort(
+			$paths,
+			function ( array $a, array $b ): int {
+				return substr_count( $a[1], '.' ) <=> substr_count( $b[1], '.' );
+			}
+		);
+
+		if ( substr_count( $paths[0][1], '.' ) === substr_count( $paths[1][1], '.' ) ) {
+			return null;
+		}
+
+		return $paths[0];
 	}
 }
