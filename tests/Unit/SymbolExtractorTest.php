@@ -9,7 +9,7 @@ use WPCompat\PHPStan\Generator\SymbolExtractor;
 
 class SymbolExtractorTest extends TestCase {
 	/**
-	 * @param array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since: string}>}> $expected
+	 * @param array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>}> $expected
 	 *
 	 * @dataProvider dataSymbols
 	 */
@@ -28,7 +28,7 @@ class SymbolExtractorTest extends TestCase {
 	/**
 	 * @phpstan-return array<string, array{
 	 *   string,
-	 *   array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since: string}>}>,
+	 *   array<string, array{deprecated?: string, since: string, parameters?: array<string, array{since?: string, keys?: array<string, array{since: string}>}>}>,
 	 * }>
 	 */
 	public function dataSymbols(): array {
@@ -59,12 +59,25 @@ class SymbolExtractorTest extends TestCase {
 			],
 			// The later @since tags describe args added to the `$args` array, not the addition
 			// of the `$args` parameter itself. Its introduction in 2.8.0 (as `$in_footer`) isn't
-			// documented, so no parameter data should be recorded.
+			// documented, so it's recorded with its keys but without a version of its own. The
+			// overloading of `$in_footer` in 6.3.0 isn't the addition of that key.
 			'a function whose @since tags describe additions to an array parameter' => [
 				'wp-enqueue-script.php',
 				[
 					'wp_enqueue_script' => [
 						'since' => '2.1.0',
+						'parameters' => [
+							'args' => [
+								'keys' => [
+									'fetchpriority' => [
+										'since' => '6.9.0',
+									],
+									'module_dependencies' => [
+										'since' => '7.0.0',
+									],
+								],
+							],
+						],
 					],
 				],
 			],
@@ -78,12 +91,22 @@ class SymbolExtractorTest extends TestCase {
 					],
 				],
 			],
-			// As above, for a method that inherits its @since from its class docblock.
+			// As above, for a method that inherits its @since from its class docblock. What was
+			// added is the `host_only` key of `$data`.
 			'a method whose @since tag describes an addition to a parameter' => [
 				'wp-http-cookie.php',
 				[
 					'WP_Http_Cookie::__construct' => [
 						'since' => '2.8.0',
+						'parameters' => [
+							'data' => [
+								'keys' => [
+									'host_only' => [
+										'since' => '5.2.0',
+									],
+								],
+							],
+						],
 					],
 				],
 			],
@@ -141,12 +164,133 @@ class SymbolExtractorTest extends TestCase {
 				],
 			],
 			// The first sentence mentions `$comment` and the second mentions an argument, but
-			// neither says that `$comment` was added.
+			// neither says that `$comment` was added. The `$cpage` argument of the second
+			// sentence is a key of `$args`.
 			'a function whose @since tag contains two sentences' => [
 				'get-comment-link.php',
 				[
 					'get_comment_link' => [
 						'since' => '1.5.0',
+						'parameters' => [
+							'args' => [
+								'keys' => [
+									'cpage' => [
+										'since' => '4.4.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// Each of these attributes is a key of the `$attr` parameter, which itself has no
+			// documented introduction.
+			'a function whose @since tags describe additions to its array of attributes' => [
+				'wp-get-attachment-image.php',
+				[
+					'wp_get_attachment_image' => [
+						'since' => '2.5.0',
+						'parameters' => [
+							'attr' => [
+								'keys' => [
+									'decoding' => [
+										'since' => '6.1.0',
+									],
+									'loading' => [
+										'since' => '5.5.0',
+									],
+									'sizes' => [
+										'since' => '4.4.0',
+									],
+									'srcset' => [
+										'since' => '4.4.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// The `$default` and `$label` keys are referred to in their dollar prefixed and bare
+			// backticked forms respectively.
+			'a function with several array keys added over time' => [
+				'register-meta.php',
+				[
+					'register_meta' => [
+						'since' => '3.3.0',
+						'parameters' => [
+							'args' => [
+								'keys' => [
+									'default' => [
+										'since' => '5.5.0',
+									],
+									'label' => [
+										'since' => '6.7.0',
+									],
+									'object_subtype' => [
+										'since' => '4.9.8',
+									],
+									'revisions_enabled' => [
+										'since' => '6.4.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// `$flavour` arrived with the `$args` parameter that holds it, so only `$topping` is
+			// worth recording as a key.
+			'a function with an array parameter and a key added after it' => [
+				'wpcompat-parameter-with-keys.php',
+				[
+					'wpcompat_test_parameter_with_keys' => [
+						'since' => '1.0.0',
+						'parameters' => [
+							'args' => [
+								'since' => '2.0.0',
+								'keys' => [
+									'topping' => [
+										'since' => '3.0.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// `label` is documented as a key of both `$before` and `$after`, so the changelog
+			// entry can't be attributed to either. `name` is documented once, so it can.
+			'a function with a nested hash notation' => [
+				'wpcompat-nested-hash.php',
+				[
+					'wpcompat_test_nested_hash' => [
+						'since' => '1.0.0',
+						'parameters' => [
+							'args' => [
+								'keys' => [
+									'before.name' => [
+										'since' => '2.0.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// A key which shares its name with a parameter is left to the parameter handling, and
+			// support for an argument, an argument becoming optional, and a rename all describe
+			// changes to an argument that already existed.
+			'a function whose @since tags do not describe key additions' => [
+				'wpcompat-key-non-additions.php',
+				[
+					'wpcompat_test_key_non_additions' => [
+						'since' => '1.0.0',
+						'parameters' => [
+							'context' => [
+								'since' => '2.0.0',
+							],
+						],
 					],
 				],
 			],

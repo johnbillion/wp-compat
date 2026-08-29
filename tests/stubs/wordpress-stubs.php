@@ -13,6 +13,8 @@ class WP_Date_Query {
 
 class WP_Theme_JSON {
 	public function sanitize( $input = array(), $valid_block_names = array(), $valid_element_names = array(), $valid_variations = array() ) {}
+
+	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = null, $options = array() ) {}
 }
 
 function load_textdomain( $domain, $mofile, $locale = null ) {}
