@@ -300,14 +300,10 @@ final class SymbolExtractor {
 			return [];
 		}
 
-		if ( preg_match_all( '/@since\s+([\w.-]+)(?:[ \t]+([^\r\n]+))?/', $comment_text, $matches, PREG_SET_ORDER ) === 0 ) {
-			return [];
-		}
-
 		$entries = [];
 
-		foreach ( $matches as $match ) {
-			$version = $match[1];
+		foreach ( self::getSinceTagsFromText( $comment_text ) as $tag ) {
+			$version = $tag['version'];
 
 			if ( $version === 'MU' ) {
 				$version = '3.0.0';
@@ -321,19 +317,85 @@ final class SymbolExtractor {
 				continue;
 			}
 
-			$description = $match[2] ?? '';
-
-			if ( $description === '' ) {
+			if ( $tag['description'] === '' ) {
 				continue;
 			}
 
 			$entries[] = [
 				'version'     => $version,
-				'description' => $description,
+				'description' => $tag['description'],
 			];
 		}
 
 		return $entries;
+	}
+
+	/**
+	 * Reads every `@since` tag out of a docblock, without regard for the symbol's own version.
+	 *
+	 * A description which doesn't fit on one line is continued on the lines beneath it, so those
+	 * are joined back onto the tag they belong to. Anything else would truncate the description
+	 * part way through, and WordPress often names the argument that was added on the second line.
+	 *
+	 * @return list<array{version: string, description: string}>
+	 */
+	private static function getSinceTagsFromText( string $comment_text ): array {
+		$lines = preg_split( '/\R/', $comment_text );
+
+		if ( ! is_array( $lines ) ) {
+			return [];
+		}
+
+		$tags = [];
+		$version = null;
+		$description = '';
+
+		foreach ( $lines as $line ) {
+			// Strip the leading whitespace and the docblock asterisk.
+			$line = trim( (string) preg_replace( '#^\s*(?:/\*\*|\*/|\*)#', '', $line ) );
+
+			if ( preg_match( '/^@since\s+([\w.-]+)(?:[ \t]+(.*))?$/', $line, $matches ) === 1 ) {
+				if ( $version !== null ) {
+					$tags[] = [
+						'version'     => $version,
+						'description' => $description,
+					];
+				}
+
+				$version = $matches[1];
+				$description = trim( $matches[2] ?? '' );
+
+				continue;
+			}
+
+			if ( $version === null ) {
+				continue;
+			}
+
+			// A blank line or the start of another tag ends the description.
+			if ( $line === '' || strpos( $line, '@' ) === 0 ) {
+				$tags[] = [
+					'version'     => $version,
+					'description' => $description,
+				];
+
+				$version = null;
+				$description = '';
+
+				continue;
+			}
+
+			$description = trim( $description . ' ' . $line );
+		}
+
+		if ( $version !== null ) {
+			$tags[] = [
+				'version'     => $version,
+				'description' => $description,
+			];
+		}
+
+		return $tags;
 	}
 
 	/**

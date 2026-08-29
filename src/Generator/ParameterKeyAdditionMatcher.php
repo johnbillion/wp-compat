@@ -15,9 +15,10 @@ final class ParameterKeyAdditionMatcher {
 		$mention = '(?:`\$?' . $escaped . '`|\$' . $escaped . ')(?![A-Za-z0-9_])';
 
 		foreach ( self::getSentences( $description ) as $sentence ) {
-			// Sentences such as "Added support for `$operator`" or "Added the ability to order by
-			// the `include` value" describe a change to an existing key rather than a new one.
-			if ( preg_match( '/\b(?:support for|ability to|order(?:ing)? by|no longer|renamed|removed|deprecated|(?:is|are|now) (?:now|accepts?|supports?|defaults?))\b/i', $sentence ) === 1 ) {
+			// Sentences such as "Added support for `$operator`", "Added the ability to order by
+			// the `include` value" or "Introduced `RAND(x)` syntax for `$orderby`" describe a
+			// change to an existing key rather than a new one.
+			if ( preg_match( '/\b(?:support for|syntax for|ability to|order(?:ing)? by|no longer|renamed|removed|deprecated|(?:is|are|now) (?:now|accepts?|supports?|defaults?))\b/i', $sentence ) === 1 ) {
 				continue;
 			}
 
@@ -37,12 +38,14 @@ final class ParameterKeyAdditionMatcher {
 	 * key name in another.
 	 *
 	 * Changelog entries often use a semicolon to separate several unrelated changes, so those are
-	 * treated as sentence boundaries too.
+	 * treated as sentence boundaries too. So is a trailing relative clause, which tends to refer
+	 * to an existing key rather than the one being introduced, as in "Introduced `$type_key`,
+	 * which enables the `$key` to be cast to a new data type".
 	 *
 	 * @return list<string>
 	 */
 	private static function getSentences( string $description ): array {
-		$sentences = preg_split( '/(?<=[.;])\s+/', $description );
+		$sentences = preg_split( '/(?<=[.;])\s+|,\s+(?=which\b)/', $description );
 
 		if ( $sentences === false ) {
 			return [ $description ];

@@ -1189,10 +1189,22 @@
                         "editor_script_handles": {
                             "since": "6.1.0"
                         },
+                        "editor_style_handles": {
+                            "since": "6.1.0"
+                        },
+                        "example": {
+                            "since": "5.5.0"
+                        },
                         "icon": {
                             "since": "5.5.0"
                         },
+                        "keywords": {
+                            "since": "5.5.0"
+                        },
                         "parent": {
+                            "since": "5.5.0"
+                        },
+                        "provides_context": {
                             "since": "5.5.0"
                         },
                         "script_handles": {
@@ -1201,7 +1213,22 @@
                         "selectors": {
                             "since": "6.3.0"
                         },
+                        "style_handles": {
+                            "since": "6.1.0"
+                        },
+                        "styles": {
+                            "since": "5.5.0"
+                        },
+                        "supports": {
+                            "since": "5.5.0"
+                        },
+                        "textdomain": {
+                            "since": "5.5.0"
+                        },
                         "title": {
+                            "since": "5.5.0"
+                        },
+                        "uses_context": {
                             "since": "5.5.0"
                         },
                         "variation_callback": {
@@ -1315,11 +1342,17 @@
                         "cache_domain": {
                             "since": "4.6.0"
                         },
+                        "hierarchical": {
+                            "since": "4.4.0"
+                        },
                         "meta_compare_key": {
                             "since": "5.1.0"
                         },
                         "meta_type_key": {
                             "since": "5.3.0"
+                        },
+                        "no_found_rows": {
+                            "since": "4.4.0"
                         },
                         "paged": {
                             "since": "4.9.0"
@@ -1328,6 +1361,12 @@
                             "since": "4.4.0"
                         },
                         "parent__not_in": {
+                            "since": "4.4.0"
+                        },
+                        "update_comment_meta_cache": {
+                            "since": "4.4.0"
+                        },
+                        "update_comment_post_cache": {
                             "since": "4.4.0"
                         }
                     }
@@ -5976,6 +6015,9 @@
                         "comment_count": {
                             "since": "4.9.0"
                         },
+                        "comment_status": {
+                            "since": "4.5.0"
+                        },
                         "lazy_load_term_meta": {
                             "since": "4.6.0"
                         },
@@ -5984,6 +6026,9 @@
                         },
                         "meta_type_key": {
                             "since": "5.3.0"
+                        },
+                        "ping_status": {
+                            "since": "4.5.0"
                         },
                         "post_name__in": {
                             "since": "4.4.0"
@@ -10333,7 +10378,12 @@
             }
         },
         "WP_Theme_JSON_Resolver::get_merged_data": {
-            "since": "5.8.0"
+            "since": "5.8.0",
+            "parameters": {
+                "origin": {
+                    "since": "5.9.0"
+                }
+            }
         },
         "WP_Theme_JSON_Resolver::get_resolved_theme_uris": {
             "since": "6.6.0"

@@ -58,9 +58,10 @@ class SymbolExtractorTest extends TestCase {
 				],
 			],
 			// The later @since tags describe args added to the `$args` array, not the addition
-			// of the `$args` parameter itself. Its introduction in 2.8.0 (as `$in_footer`) isn't
-			// documented, so it's recorded with its keys but without a version of its own. The
-			// overloading of `$in_footer` in 6.3.0 isn't the addition of that key.
+			// of the `$args` parameter itself, so it's recorded with its keys but without a
+			// version of its own. The 6.3.0 entry describes `$in_footer` being overloaded into
+			// `$args` rather than an argument being added, so neither the `in_footer` nor the
+			// `strategy` key is recorded, even though both only work as keys from 6.3.0.
 			'a function whose @since tags describe additions to an array parameter' => [
 				'wp-enqueue-script.php',
 				[
@@ -184,7 +185,8 @@ class SymbolExtractorTest extends TestCase {
 				],
 			],
 			// Each of these attributes is a key of the `$attr` parameter, which itself has no
-			// documented introduction.
+			// documented introduction. The `fetchpriority` key has no @since entry of its own
+			// in WordPress, so it isn't recorded either.
 			'a function whose @since tags describe additions to its array of attributes' => [
 				'wp-get-attachment-image.php',
 				[
@@ -289,6 +291,58 @@ class SymbolExtractorTest extends TestCase {
 						'parameters' => [
 							'context' => [
 								'since' => '2.0.0',
+							],
+						],
+					],
+				],
+			],
+			// `$sprinkles` is named on the second line of its entry, so the description has to be
+			// joined back together before it can be seen. The `cone` and `order` keys aren't
+			// added by their entries, they're deprecated and given a new syntax respectively.
+			'a function whose @since descriptions span several lines' => [
+				'wpcompat-multiline-since.php',
+				[
+					'wpcompat_test_multiline_since' => [
+						'since' => '1.0.0',
+						'parameters' => [
+							'args' => [
+								'keys' => [
+									'flavour' => [
+										'since' => '2.0.0',
+									],
+									'sauce' => [
+										'since' => '3.0.0',
+									],
+									'sprinkles' => [
+										'since' => '2.0.0',
+									],
+									'topping' => [
+										'since' => '2.0.0',
+									],
+								],
+							],
+						],
+					],
+				],
+			],
+			// The 5.3.0 entry continues onto a second line with "which enables the `$key` to be
+			// cast to a new data type". That names an existing key in passing rather than adding
+			// it, so only `$type_key` is recorded.
+			'a method whose @since description continues into a relative clause' => [
+				'wp-meta-query.php',
+				[
+					'WP_Meta_Query::__construct' => [
+						'since' => '3.2.0',
+						'parameters' => [
+							'meta_query' => [
+								'keys' => [
+									'compare_key' => [
+										'since' => '5.1.0',
+									],
+									'type_key' => [
+										'since' => '5.3.0',
+									],
+								],
 							],
 						],
 					],
