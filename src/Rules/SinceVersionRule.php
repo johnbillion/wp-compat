@@ -19,6 +19,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use WPCompat\PHPStan\ParameterAdditionMatcher;
 
 /**
  * @implements \PHPStan\Rules\Rule<\PhpParser\Node\Expr\CallLike>
@@ -174,18 +175,15 @@ final class SinceVersionRule implements Rule {
 					}
 
 					foreach ( $paramVars as $pos => $pvar ) {
-						$escapedVar = preg_quote( $pvar, '/' );
-						if (
-							preg_match( '/(?:Added|Introduced|Formalized|added)\s+.*(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`|\b' . $escapedVar . '\b).*(?:parameter|argument)/i', $desc ) === 1 ||
-							preg_match( '/(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`|\b' . $escapedVar . '\b).*(?:parameter|argument).*(?:added|introduced)/i', $desc ) === 1 ||
-							preg_match( '/(?:The\s+)?(?:\$' . $escapedVar . '|`\$?' . $escapedVar . '`).*(?:parameter|argument)?\s+was\s+added/i', $desc ) === 1
-						) {
-							if ( ! isset( $parameters[ $pos ] ) || version_compare( $ver, $parameters[ $pos ]['since'], '<' ) ) {
-								$parameters[ $pos ] = [
-									'name'  => $pvar,
-									'since' => $ver,
-								];
-							}
+						if ( ! ParameterAdditionMatcher::matches( $desc, $pvar ) ) {
+							continue;
+						}
+
+						if ( ! isset( $parameters[ $pos ] ) || version_compare( $ver, $parameters[ $pos ]['since'], '<' ) ) {
+							$parameters[ $pos ] = [
+								'name'  => $pvar,
+								'since' => $ver,
+							];
 						}
 					}
 				}

@@ -9,6 +9,7 @@ use PhpParser\NodeVisitor\FindingVisitor;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use WPCompat\PHPStan\ParameterAdditionMatcher;
 
 /**
  * Extracts the symbol version data that gets written to symbols.json.
@@ -295,15 +296,12 @@ final class SymbolExtractor {
 			}
 
 			foreach ( $param_names as $pname ) {
-				$escaped_pname = preg_quote( $pname, '/' );
-				if (
-					preg_match( '/(?:Added|Introduced|Formalized|added)\s+.*(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument)/i', $description ) === 1 ||
-					preg_match( '/(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument).*(?:added|introduced)/i', $description ) === 1 ||
-					preg_match( '/(?:The\s+)?(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`).*(?:parameter|argument)?\s+was\s+added/i', $description ) === 1
-				) {
-					if ( ! isset( $parameters[ $pname ] ) || version_compare( $version, $parameters[ $pname ]['since'], '<' ) ) {
-						$parameters[ $pname ] = [ 'since' => $version ];
-					}
+				if ( ! ParameterAdditionMatcher::matches( $description, $pname ) ) {
+					continue;
+				}
+
+				if ( ! isset( $parameters[ $pname ] ) || version_compare( $version, $parameters[ $pname ]['since'], '<' ) ) {
+					$parameters[ $pname ] = [ 'since' => $version ];
 				}
 			}
 		}

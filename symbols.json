@@ -4043,12 +4043,7 @@
             "since": "4.7.5"
         },
         "WP_Http_Cookie::__construct": {
-            "since": "2.8.0",
-            "parameters": {
-                "data": {
-                    "since": "5.2.0"
-                }
-            }
+            "since": "2.8.0"
         },
         "WP_Http_Cookie::getFullHeader": {
             "since": "2.8.0"
@@ -8436,12 +8431,7 @@
             "since": "1.5.0"
         },
         "WP_Rewrite::add_rule": {
-            "since": "2.1.0",
-            "parameters": {
-                "query": {
-                    "since": "4.4.0"
-                }
-            }
+            "since": "2.1.0"
         },
         "WP_Rewrite::flush_rules": {
             "since": "2.0.1"
@@ -9781,9 +9771,6 @@
         "WP_Theme::get_page_templates": {
             "since": "3.4.0",
             "parameters": {
-                "post": {
-                    "since": "4.7.0"
-                },
                 "post_type": {
                     "since": "4.7.0"
                 }
@@ -10571,12 +10558,7 @@
             "since": "3.3.0"
         },
         "WP_User::get_data_by": {
-            "since": "3.3.0",
-            "parameters": {
-                "field": {
-                    "since": "4.4.0"
-                }
-            }
+            "since": "3.3.0"
         },
         "WP_User::get_role_caps": {
             "since": "2.0.0"
@@ -12990,12 +12972,7 @@
             "since": "2.1.0"
         },
         "add_rewrite_rule": {
-            "since": "2.1.0",
-            "parameters": {
-                "query": {
-                    "since": "4.4.0"
-                }
-            }
+            "since": "2.1.0"
         },
         "add_rewrite_tag": {
             "since": "2.1.0"
@@ -15032,12 +15009,7 @@
             "since": "3.0.0"
         },
         "get_comment_link": {
-            "since": "1.5.0",
-            "parameters": {
-                "comment": {
-                    "since": "4.4.0"
-                }
-            }
+            "since": "1.5.0"
         },
         "get_comment_meta": {
             "since": "2.9.0"
@@ -15585,9 +15557,6 @@
         "get_page_templates": {
             "since": "1.5.0",
             "parameters": {
-                "post": {
-                    "since": "4.7.0"
-                },
                 "post_type": {
                     "since": "4.7.0"
                 }
@@ -16109,12 +16078,7 @@
             "since": "2.3.0"
         },
         "get_term_by": {
-            "since": "2.3.0",
-            "parameters": {
-                "field": {
-                    "since": "5.5.0"
-                }
-            }
+            "since": "2.3.0"
         },
         "get_term_children": {
             "since": "2.3.0"
@@ -16447,12 +16411,7 @@
             "since": "6.7.0"
         },
         "get_user_by": {
-            "since": "2.8.0",
-            "parameters": {
-                "field": {
-                    "since": "4.4.0"
-                }
-            }
+            "since": "2.8.0"
         },
         "get_user_by_email": {
             "deprecated": "3.3.0",
@@ -17941,9 +17900,6 @@
         "recurse_dirsize": {
             "since": "3.0.0",
             "parameters": {
-                "directory": {
-                    "since": "5.6.0"
-                },
                 "directory_cache": {
                     "since": "5.6.0"
                 },
@@ -21690,12 +21646,7 @@
             "since": "5.0.0"
         },
         "wp_enqueue_script": {
-            "since": "2.1.0",
-            "parameters": {
-                "args": {
-                    "since": "6.9.0"
-                }
-            }
+            "since": "2.1.0"
         },
         "wp_enqueue_script_module": {
             "since": "6.5.0",
@@ -21822,12 +21773,7 @@
             "since": "5.3.0"
         },
         "wp_generate_attachment_metadata": {
-            "since": "2.1.0",
-            "parameters": {
-                "file": {
-                    "since": "6.0.0"
-                }
-            }
+            "since": "2.1.0"
         },
         "wp_generate_auth_cookie": {
             "since": "2.5.0",
@@ -23781,12 +23727,7 @@
             "since": "6.2.0"
         },
         "wp_register_script": {
-            "since": "2.1.0",
-            "parameters": {
-                "args": {
-                    "since": "6.9.0"
-                }
-            }
+            "since": "2.1.0"
         },
         "wp_register_script_module": {
             "since": "6.5.0",

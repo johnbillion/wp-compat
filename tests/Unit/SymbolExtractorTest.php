@@ -57,6 +57,99 @@ class SymbolExtractorTest extends TestCase {
 					],
 				],
 			],
+			// The later @since tags describe args added to the `$args` array, not the addition
+			// of the `$args` parameter itself. Its introduction in 2.8.0 (as `$in_footer`) isn't
+			// documented, so no parameter data should be recorded.
+			'a function whose @since tags describe additions to an array parameter' => [
+				'wp-enqueue-script.php',
+				[
+					'wp_enqueue_script' => [
+						'since' => '2.1.0',
+					],
+				],
+			],
+			// "Array support was added to the `$query` parameter" describes a change to an
+			// existing parameter, not its addition.
+			'a function whose @since tag describes a change to a parameter' => [
+				'add-rewrite-rule.php',
+				[
+					'add_rewrite_rule' => [
+						'since' => '2.1.0',
+					],
+				],
+			],
+			// As above, for a method that inherits its @since from its class docblock.
+			'a method whose @since tag describes an addition to a parameter' => [
+				'wp-http-cookie.php',
+				[
+					'WP_Http_Cookie::__construct' => [
+						'since' => '2.8.0',
+					],
+				],
+			],
+			// "Added 'ID' as an alias of 'id' for the `$field` parameter" describes a new
+			// accepted value, not a new parameter.
+			'a function whose @since tag describes a new accepted value' => [
+				'get-user-by.php',
+				[
+					'get_user_by' => [
+						'since' => '2.8.0',
+					],
+				],
+			],
+			// `$post_type` was added in 4.7.0, `$post` was not.
+			'a function with a parameter whose name is a prefix of another' => [
+				'get-page-templates.php',
+				[
+					'get_page_templates' => [
+						'since' => '1.5.0',
+						'parameters' => [
+							'post_type' => [
+								'since' => '4.7.0',
+							],
+						],
+					],
+				],
+			],
+			// As above, where the prefixed parameter has genuine additions of its own.
+			'a function with several parameters added over time' => [
+				'recurse-dirsize.php',
+				[
+					'recurse_dirsize' => [
+						'since' => '3.0.0',
+						'parameters' => [
+							'directory_cache' => [
+								'since' => '5.6.0',
+							],
+							'exclude' => [
+								'since' => '4.3.0',
+							],
+							'max_execution_time' => [
+								'since' => '5.2.0',
+							],
+						],
+					],
+				],
+			],
+			// `$filesize` is a value in the returned array, not the `$file` parameter.
+			'a function whose @since tag describes a change to its return value' => [
+				'wp-generate-attachment-metadata.php',
+				[
+					'wp_generate_attachment_metadata' => [
+						'since' => '2.1.0',
+					],
+				],
+			],
+			// The first sentence mentions `$comment` and the second mentions an argument, but
+			// neither says that `$comment` was added.
+			'a function whose @since tag contains two sentences' => [
+				'get-comment-link.php',
+				[
+					'get_comment_link' => [
+						'since' => '1.5.0',
+					],
+				],
+			],
 		];
 	}
 }
