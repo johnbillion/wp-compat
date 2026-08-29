@@ -3,16 +3,8 @@
 
 namespace WPCompat\PHPStan;
 
-use PhpParser\Comment\Doc;
 use PhpParser\Error;
-use PhpParser\Node;
-use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\FindingVisitor;
-use PhpParser\NodeVisitor\ParentConnectingVisitor;
-use PhpParser\ParserFactory;
-use WPCompat\PHPStan\Generator\MissingDocException;
-use WPCompat\PHPStan\Generator\MissingTagException;
-use WPCompat\PHPStan\Generator\InvalidTagException;
+use WPCompat\PHPStan\Generator\SymbolExtractor;
 
 require 'vendor/autoload.php';
 
@@ -28,18 +20,7 @@ if ( isset( $argv[1] ) && is_dir( $argv[1] ) ) {
 // Output file path
 $output_file = __DIR__ . '/symbols.json';
 
-// Create a new parser instance
-$factory = new ParserFactory();
-// @phpstan-ignore-next-line
-if ( method_exists( $factory, 'createForNewestSupportedVersion' ) ) {
-	$parser = $factory->createForNewestSupportedVersion();
-} else {
-	/** @var callable $createMethod */
-	$createMethod = array( $factory, 'create' );
-	/** @var int $kind */
-	$kind   = defined( 'PhpParser\ParserFactory::PREFER_PHP7' ) ? (int) constant( 'PhpParser\ParserFactory::PREFER_PHP7' ) : 1;
-	$parser = call_user_func( $createMethod, $kind );
-}
+$extractor = new SymbolExtractor();
 
 // Initialize an array to store the results
 $results = array();
@@ -77,129 +58,6 @@ $excluded_paths = array(
 
 echo 'Scanning and collating symbols...' . PHP_EOL;
 
-function getSinceFromDocs( ?Doc $class_doc, ?Doc $symbol_doc ): string {
-	try {
-		$class_since = getSinceFromDoc( $class_doc );
-	} catch ( \Exception $e ) {
-		$class_since = null;
-	}
-
-	try {
-		$symbol_since = getSinceFromDoc( $symbol_doc );
-	} catch ( \Exception $e ) {
-		if ( is_string( $class_since ) ) {
-			return $class_since;
-		}
-
-		throw $e;
-	}
-
-	return $symbol_since;
-}
-
-function getSinceFromDoc( ?Doc $doc ): string {
-	if ( ! $doc instanceof Doc ) {
-		throw new MissingDocException();
-	}
-
-	$comment_text = $doc->getText();
-
-	if ( preg_match( '/@since\s+([\w.-]+)/', $comment_text, $matches ) !== 1 ) {
-		throw new MissingTagException();
-	}
-
-	$since = $matches[1];
-
-	if ( $since === 'MU' ) {
-		$since = '3.0.0';
-	}
-
-	if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $since ) !== 1 ) {
-		throw new InvalidTagException();
-	}
-
-	return $since;
-}
-
-function getDeprecatedFromDoc( ?Doc $doc ): string {
-	if ( ! $doc instanceof Doc ) {
-		throw new MissingDocException();
-	}
-
-	$comment_text = $doc->getText();
-
-	if ( preg_match( '/@deprecated\s+([\w.-]+)/', $comment_text, $matches ) !== 1 ) {
-		throw new MissingTagException();
-	}
-
-	if ( preg_match( '/^\d+\.\d+(\.\d+)?/', $matches[1], $since ) !== 1 ) {
-		throw new InvalidTagException();
-	}
-
-	return $since[0];
-}
-
-/**
- * @param list<string> $param_names
- * @return array<string, array{since: string}>
- */
-function getParametersSinceFromDoc( ?Doc $doc, array $param_names, string $symbol_since ): array {
-	if ( ! $doc instanceof Doc || $param_names === [] ) {
-		return [];
-	}
-
-	$comment_text = $doc->getText();
-
-	if ( ! str_contains( $comment_text, '@since' ) ) {
-		return [];
-	}
-
-	if ( preg_match_all( '/@since\s+([\w.-]+)(?:[ \t]+([^\r\n]+))?/', $comment_text, $matches, PREG_SET_ORDER ) === 0 ) {
-		return [];
-	}
-
-	$parameters = [];
-
-	foreach ( $matches as $match ) {
-		$version = $match[1];
-
-		if ( $version === 'MU' ) {
-			$version = '3.0.0';
-		}
-
-		if ( preg_match( '/^\d+\.\d+(\.\d+)?$/', $version ) !== 1 ) {
-			continue;
-		}
-
-		if ( version_compare( $version, $symbol_since, '<=' ) ) {
-			continue;
-		}
-
-		$description = $match[2] ?? '';
-
-		if ( $description === '' ) {
-			continue;
-		}
-
-		foreach ( $param_names as $pname ) {
-			$escaped_pname = preg_quote( $pname, '/' );
-			if (
-				preg_match( '/(?:Added|Introduced|Formalized|added)\s+.*(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument)/i', $description ) === 1 ||
-				preg_match( '/(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`|\b' . $escaped_pname . '\b).*(?:parameter|argument).*(?:added|introduced)/i', $description ) === 1 ||
-				preg_match( '/(?:The\s+)?(?:\$' . $escaped_pname . '|`\$?' . $escaped_pname . '`).*(?:parameter|argument)?\s+was\s+added/i', $description ) === 1
-			) {
-				if ( ! isset( $parameters[ $pname ] ) || version_compare( $version, $parameters[ $pname ]['since'], '<' ) ) {
-					$parameters[ $pname ] = [ 'since' => $version ];
-				}
-			}
-		}
-	}
-
-	ksort( $parameters );
-
-	return $parameters;
-}
-
 // Iterate each PHP file in the directory
 $files = new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $directory ) );
 foreach ( $files as $file ) {
@@ -221,119 +79,15 @@ foreach ( $files as $file ) {
 			throw new \Exception( 'Failed to read file ' . $file );
 		}
 
-		$stmts = $parser->parse( $contents );
-
-		if ( ! is_array( $stmts ) ) {
-			throw new \Exception( 'Failed to parse file ' . $file );
-		}
-
 		try {
-			// Find all function and method nodes
-			// Create a new FindingVisitor instance
-			$visitor = new FindingVisitor(
-				function ( Node $node ): bool {
-					return $node instanceof Node\Stmt\Function_ || $node instanceof Node\Stmt\ClassMethod;
-				}
-			);
-
-			// Traverse the AST and find all function and method nodes
-			$traverser = new NodeTraverser();
-			$traverser->addVisitor( $visitor );
-			$traverser->addVisitor( new ParentConnectingVisitor() );
-			$traverser->traverse( $stmts );
-
-			// Get the found functions and methods
-			/** @var list<Node\Stmt\Function_|Node\Stmt\ClassMethod> $functions */
-			$functions = $visitor->getFoundNodes();
-
-			// Extract the function and method names along with their @since values
-			foreach ( $functions as $function ) {
-				$doc_comment = $function->getDocComment();
-				$function_name = $function->name->toString();
-				$class_doc_comment = null;
-
-				if ( $function instanceof Node\Stmt\ClassMethod ) {
-					$class = $function->getAttribute( 'parent' );
-					if ( ( $class instanceof Node\Stmt\Class_ || $class instanceof Node\Stmt\Interface_ || $class instanceof Node\Stmt\Trait_ ) && ( $class->name instanceof Node\Identifier ) ) {
-						$function_name = $class->name->toString() . '::' . $function_name;
-						$class_doc_comment = $class->getDocComment();
-					} else {
-						// Anonymous class or unexpected parent — skip rather than emit a bare method name.
-						continue;
-					}
-				}
-
-				// Ignore private methods.
-				if ( $function instanceof Node\Stmt\ClassMethod && $function->isPrivate() ) {
-					continue;
-				}
-
-				// This is a function defined within a function and is just plain messed up.
-				if ( $function_name === 'wp_handle_upload_error' ) {
-					continue;
-				}
-
-				// These are all stubs now.
-				if ( 0 === strpos( $function_name, 'WP_Internal_Pointers::pointer_wp' ) ) {
-					continue;
-				}
-
-				try {
-					$deprecated = getDeprecatedFromDoc( $doc_comment );
-				} catch ( \Exception $e ) {
-					$deprecated = null;
-				}
-
-				try {
-					$since = getSinceFromDocs( $class_doc_comment, $doc_comment );
-				} catch ( MissingDocException | MissingTagException $e ) {
-					if ( $deprecated === null ) {
-						printf(
-							'ℹ️ @since tag missing for %s() in %s:%d' . PHP_EOL,
-							$function_name,
-							$file_path,
-							$function->getStartLine(),
-						);
-					}
-					continue;
-				} catch ( InvalidTagException $e ) {
-					if ( $deprecated === null ) {
-						printf(
-							'ℹ️ Invalid @since value for %s() in %s:%d' . PHP_EOL,
-							$function_name,
-							$file_path,
-							$function->getStartLine(),
-						);
-					}
-					continue;
-				}
-
-				$param_names = [];
-				foreach ( $function->params as $param ) {
-					if ( $param->var instanceof Node\Expr\Variable && is_string( $param->var->name ) ) {
-						$param_names[] = $param->var->name;
-					}
-				}
-
-				$parameters = getParametersSinceFromDoc( $doc_comment, $param_names, $since );
-
-				$result = [];
-
-				if ( $deprecated !== null ) {
-					$result['deprecated'] = $deprecated;
-				}
-
-				$result['since'] = $since;
-
-				if ( $parameters !== [] ) {
-					$result['parameters'] = $parameters;
-				}
-
-				$results[ $function_name ] = $result;
-			}
+			$results = array_merge( $results, $extractor->extract( $contents, $file_path ) );
 		} catch ( Error $e ) {
 			// Handle parsing errors
 			throw new \Exception( 'Error parsing file: ' . $e->getMessage() );
+		}
+
+		foreach ( $extractor->getNotices() as $notice ) {
+			echo $notice . PHP_EOL;
 		}
 	}
 }
