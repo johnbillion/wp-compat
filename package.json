@@ -1,0 +1,23 @@
+{
+	"name": "wp-compat",
+	"private": true,
+	"description": "PHPStan extension to help verify that your PHP code is compatible with a given version of WordPress",
+	"homepage": "https://github.com/johnbillion/wp-compat",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/johnbillion/wp-compat"
+	},
+	"funding": "https://github.com/sponsors/johnbillion",
+	"author": "John Blackbourn",
+	"license": "MIT",
+	"engines": {
+		"node": ">=24"
+	},
+	"devDependencies": {
+		"ajv-cli": "^5.0",
+		"ajv-formats": "^3.0"
+	},
+	"scripts": {
+		"test:schema": "ajv validate --spec=draft7 --strict --strict-schema=false --strict-required=false -c ajv-formats -s schemas/symbols.json -d symbols.json"
+	}
+}
