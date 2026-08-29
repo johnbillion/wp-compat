@@ -1,14 +1,11 @@
 parameters:
-	scanDirectories:
-		- ../vendor/wordpress/wordpress
+	# Loaded as a bootstrap file because PHPStan's test case replaces the source locator
+	# that scanFiles and scanDirectories feed into. PHPStan 1.x loads its own config after
+	# this one, so overriding that service back only works on PHPStan 2.x.
+	bootstrapFiles:
+		- stubs/wordpress-stubs.php
 
 services:
-	# PHPStan's TestCase.neon swaps in a source locator that ignores scanDirectories,
-	# so restore the real one in order to reflect the WordPress source.
-	betterReflectionSourceLocator:
-		factory: @PHPStan\Reflection\BetterReflection\BetterReflectionSourceLocatorFactory::create
-		autowired: false
-
 	-
 		class: WPCompat\PHPStan\Rules\MethodExistsVisitor
 		tags:
