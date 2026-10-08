@@ -9,3 +9,10 @@ composer generate vendor/wordpress/wordpress
 ```
 
 Note that the version of WordPress that gets installed depends on the version of PHP in use, so generate the symbols using the most recent version of PHP.
+
+## Validating the symbols
+
+```
+npm install
+npm run test:schema
+```

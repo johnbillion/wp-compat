@@ -33,10 +33,12 @@ $excluded_paths = array(
 	// wp-admin:
 	'wp-admin/includes/class-pclzip.php',
 	'wp-admin/includes/noop.php',
+	'wp-admin/includes/class-ftp.php',
 	// wp-includes directories:
 	'wp-includes/ID3/',
 	'wp-includes/IXR/',
 	'wp-includes/php-ai-client/src/',
+	'wp-includes/php-ai-client/third-party',
 	'wp-includes/PHPMailer/',
 	'wp-includes/pomo/',
 	'wp-includes/Requests/',
