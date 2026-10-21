@@ -57,4 +57,43 @@ class HeaderTest extends PHPStanTestCase {
 			],
 		];
 	}
+
+	public function testPluginFileIsFoundWhenDirectoryNameDoesNotMatch(): void {
+		$since = $this->createRuleInDirectory( __DIR__ . '/data/worktree' );
+
+		self::assertSame( '5.5.0', $since->getMinVersion() );
+	}
+
+	public function testMissingPluginFileThrowsHelpfulException(): void {
+		$this->expectException( \RuntimeException::class );
+		$this->expectExceptionMessage( 'Set the WPCompat.pluginFile or WPCompat.requiresAtLeast parameter' );
+
+		$this->createRuleInDirectory( __DIR__ . '/data/no-plugin' );
+	}
+
+	public function testMissingConfiguredPluginFileThrowsHelpfulException(): void {
+		$this->expectException( \RuntimeException::class );
+		$this->expectExceptionMessage( 'The plugin file "does-not-exist.php" set in the WPCompat.pluginFile parameter was not found' );
+
+		new SinceVersionRule(
+			null,
+			'does-not-exist.php',
+			self::$reflectionProvider
+		);
+	}
+
+	private function createRuleInDirectory( string $dir ): SinceVersionRule {
+		$cwd = (string) getcwd();
+		chdir( $dir );
+
+		try {
+			return new SinceVersionRule(
+				null,
+				null,
+				self::$reflectionProvider
+			);
+		} finally {
+			chdir( $cwd );
+		}
+	}
 }
