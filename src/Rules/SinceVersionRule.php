@@ -229,7 +229,60 @@ final class SinceVersionRule implements Rule {
 			return self::getRequiresAtLeastHeader( $path );
 		}
 
-		throw new \RuntimeException( 'No plugin or theme file found' );
+		if ( is_string( $pluginFile ) ) {
+			throw new \RuntimeException(
+				sprintf(
+					'WPCompat: The plugin file "%s" set in the WPCompat.pluginFile parameter was not found.',
+					$pluginFile
+				)
+			);
+		}
+
+		// The directory name doesn't always match the main plugin file name, for example
+		// in a git worktree, so fall back to the same discovery that WordPress uses.
+		if ( is_string( $cwd ) ) {
+			$path = self::findPluginFile( $cwd );
+
+			if ( is_string( $path ) ) {
+				return self::getRequiresAtLeastHeader( $path );
+			}
+		}
+
+		throw new \RuntimeException(
+			sprintf(
+				'WPCompat: Could not find a plugin or theme file in %s. Set the WPCompat.pluginFile or WPCompat.requiresAtLeast parameter in your PHPStan config file.',
+				is_string( $cwd ) ? $cwd : 'the current directory'
+			)
+		);
+	}
+
+	/**
+	 * The logic in this method matches the logic in WordPress core's get_plugins() function.
+	 */
+	private static function findPluginFile( string $dir ): ?string {
+		$files = glob( "{$dir}/*.php" );
+
+		if ( ! is_array( $files ) ) {
+			return null;
+		}
+
+		sort( $files );
+
+		foreach ( $files as $file ) {
+			$contents = file_get_contents( $file, false, null, 0, 8 * 1024 );
+
+			if ( ! is_string( $contents ) ) {
+				continue;
+			}
+
+			$contents = str_replace( "\r", "\n", $contents );
+
+			if ( preg_match( '/^[ \t\/*#@]*Plugin Name:(.*)$/mi', $contents, $match ) === 1 && trim( $match[1] ) !== '' ) {
+				return $file;
+			}
+		}
+
+		return null;
 	}
 
 	/**

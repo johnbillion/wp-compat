@@ -1,0 +1,4 @@
+<?php
+/**
+ * Not a plugin.
+ */
