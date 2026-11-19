@@ -608,7 +608,6 @@ final class SinceVersionRule implements Rule {
 			$allClassNames   = array_merge( $allClassNames, $classReflection->getParentClassesNames() );
 		}
 
-		$methodName = self::getMethodName( $node );
 		foreach ( $allClassNames as $className ) {
 			try {
 				$methodName = self::getMethodName( $node );

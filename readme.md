@@ -8,7 +8,7 @@ If your code is correctly guarded with a valid `function_exists()` or `method_ex
 
 ## Status
 
-Version information was last updated for WordPress 7.1.
+Version information was last updated for WordPress 7.2 RC2.
 
 ## Requirements
 
